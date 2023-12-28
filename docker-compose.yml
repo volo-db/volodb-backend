@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: test1234
+      MYSQL_DATABASE: volo_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test4321
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-mysql-network
+
+#   api:
+#     image: your-spring-boot-image:latest
+#     container_name: spring_boot_app
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/your_database_name
+#       SPRING_DATASOURCE_USERNAME: your_database_user
+#       SPRING_DATASOURCE_PASSWORD: your_database_password
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - db
+#     networks:
+#       - spring-mysql-network
+
+networks:
+  spring-mysql-network:
+    driver: bridge
+
+volumes:
+  db-data: $(pwd)/mysql
