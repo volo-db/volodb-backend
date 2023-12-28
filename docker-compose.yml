@@ -6,13 +6,13 @@ services:
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: test1234
+      MYSQL_USER: volodb
+      MYSQL_PASSWORD: Sonne1234
       MYSQL_DATABASE: volo_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: test4321
     volumes:
-      - db-data:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - spring-mysql-network
 
@@ -33,6 +33,3 @@ services:
 networks:
   spring-mysql-network:
     driver: bridge
-
-volumes:
-  db-data: $(pwd)/mysql
