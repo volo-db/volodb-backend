@@ -1,0 +1,16 @@
+#
+# JDBC properties
+#
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/volo_db"
+    username: root
+    password: test1234
+
+  jpa:
+    hibernate:
+      naming-strategy: "org.hibernate.cfg.EJB3NamingStrategy"
+
+security:
+  jwt:
+    secret-key: dasisteinsehrlangerabersinnlosersecretkeydenmannichterratensoll
