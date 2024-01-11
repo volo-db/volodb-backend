@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -20,6 +20,11 @@ public class UserRestController {
   @GetMapping("/user")
   public List<User> getUser() {
       return userService.findAll();
+  }
+  
+  @GetMapping("/user/{username}")
+  public User getUserByUsername(@PathVariable String username) {
+      return userService.findByUsername(username);
   }
   
 }

@@ -27,15 +27,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findByUsername(String theUsername) {
-    
     return userDAO.findByUsername(theUsername);
     
-    // // TODO: Move this to a database
-    // if (! EXISTING_USERNAME.equalsIgnoreCase(theUsername)) return Optional.empty();
-
-    // var user = new User();
-    // user.setId(1L);
-    // us
   }
 
   @Transactional

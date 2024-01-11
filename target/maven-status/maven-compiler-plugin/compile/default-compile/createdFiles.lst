@@ -27,6 +27,7 @@ dev/urner/volodb/entity/Volunteer.class
 dev/urner/volodb/entity/Country.class
 dev/urner/volodb/security/JwtToPrincipalConverter.class
 dev/urner/volodb/service/VolunteerService.class
+dev/urner/volodb/security/CustomUserDetailService.class
 dev/urner/volodb/rest/VolunteerErrorResponse.class
 dev/urner/volodb/security/UserPrincipalAuthenticationToken.class
 dev/urner/volodb/entity/Person.class

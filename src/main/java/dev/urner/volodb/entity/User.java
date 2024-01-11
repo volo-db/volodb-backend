@@ -16,19 +16,14 @@ import lombok.Setter;
 @Setter
 public class User {
   
-  //define fields
+  //Username
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private int id;
+  @Column(name = "username")
+  private String username;
 
   @OneToOne
   @JoinColumn(name = "person") //FK
   private Person person;
-
-  //Username
-  @Column(name = "username")
-  private String username;
 
   //Secret
   @JsonIgnore

@@ -53,12 +53,11 @@ CREATE TABLE `contact_type` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `person` INT NOT NULL,
   `username` VARCHAR(50) NOT NULL,
+  `person` INT NOT NULL,
   `secret` VARCHAR(100) NOT NULL,
   `organisational_role` VARCHAR(50),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `user_role`;
@@ -70,9 +69,9 @@ CREATE TABLE `user_role` (
 
 DROP TABLE IF EXISTS `user_role_mapping`;
 CREATE TABLE `user_role_mapping` (
-  `user` INT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
   `user_role` INT NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `legal_guardian`;
 CREATE TABLE `legal_guardian` (
@@ -110,7 +109,7 @@ CREATE TABLE `editing_history` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `editing_type` INT NOT NULL,
   `timestamp` DATETIME NOT NULL,
-  `user` INT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
   `volunteer` INT NOT NULL,
   `field` VARCHAR(50) NOT NULL,
   `former_value` VARCHAR(50) NOT NULL,
@@ -291,7 +290,7 @@ CREATE TABLE `project_role_mapping` (
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
-ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`id`);
+ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
 
 ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user_role`) REFERENCES `user_role` (`id`);
 
@@ -323,7 +322,7 @@ ALTER TABLE `volunteer` ADD FOREIGN KEY (`religion`) REFERENCES `religion` (`id`
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
-ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`id`);
+ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`editing_type`) REFERENCES `editing_type` (`id`);
 
@@ -682,9 +681,9 @@ VALUES
 
 INSERT INTO user (person, username, secret, organisational_role)
 VALUES
-  (6, 'magdalena.wiesinger', '$2a$10$thXk5TqZ5g/LublALMANUekIo3yRxTqY/ZfLROije/5GB7L3lNeh2', 'Fachreferentin für Freiwilligendienste'),
-  (7, 'jakob.bopp', '$2a$10$MREa44E3Ie51o9PkQeXmOefdVpRCLvR8X76oAQ6j5sV7HHR3kK9ze', 'Fachreferent für Freiwilligendienste'),
-  (8, 'fabian.urner', '$2a$10$UmM3Yd3Usjmnb6sHgpiS5uRByJmh4W3p5bTmvOBnaY3GnvYSfVv4S', 'Fachreferent für Freiwilligendienste');
+  (6, 'magdalena.wiesinger', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferentin für Freiwilligendienste'),
+  (7, 'jakob.bopp', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste'),
+  (8, 'fabian.urner', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste');
 
 INSERT INTO user_role (name)
 VALUES
@@ -695,13 +694,13 @@ VALUES
 
 INSERT INTO user_role_mapping (user, user_role)
 VALUES
-  (1, 2),
-  (1, 4),
-  (2, 2),
-  (2, 3),
-  (3, 1),
-  (3, 2),
-  (3, 3);
+  ('magdalena.wiesinger', 2),
+  ('magdalena.wiesinger', 4),
+  ('jakob.bopp', 2),
+  ('jakob.bopp', 3),
+  ('fabian.urner', 1),
+  ('fabian.urner', 2),
+  ('fabian.urner', 3);
 
 INSERT INTO legal_guardian (person)
 VALUES
@@ -885,9 +884,9 @@ VALUES
 
 INSERT INTO editing_history (editing_type, timestamp, user, volunteer, field, former_value)
 VALUES
-  (2, '2023-09-01 09:12:45.293', 2, 1, 'email', 'die-hubers@t-online.de'),
-  (1, '2023-09-02 10:37:11.628', 3, 2, 'mobil', '+49 (0) 152 / 089782451'),
-  (3, '2023-09-05 08:21:58.144', 1, 3, 'email', 'krieger-koenigin111@gmx.net');
+  (2, '2023-09-01 09:12:45.293', 'jakob.bopp', 1, 'email', 'die-hubers@t-online.de'),
+  (1, '2023-09-02 10:37:11.628', 'fabian.urner', 2, 'mobil', '+49 (0) 152 / 089782451'),
+  (3, '2023-09-05 08:21:58.144', 'magdalena.wiesinger', 3, 'email', 'krieger-koenigin111@gmx.net');
 
 INSERT INTO program (name, shorthand)
 VALUES
