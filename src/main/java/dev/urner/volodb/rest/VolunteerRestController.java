@@ -7,28 +7,29 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.service.VolunteerService;
+import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class VolunteerRestController {
 
-    private VolunteerService volunteerService;
+    private final VolunteerService volunteerService;
 
-    @Autowired
-    public VolunteerRestController(VolunteerService theVolunteerService) {
-        volunteerService = theVolunteerService;
+    @GetMapping("/")
+    public String getTest() {
+        return "hello now!";
     }
 
-
+    
 
     // expose "/volunteers" and return a list of volunteers
     @GetMapping("/volunteers")

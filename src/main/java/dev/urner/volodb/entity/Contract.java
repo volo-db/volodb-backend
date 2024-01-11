@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import converter.HashMapConverter;
+import dev.urner.volodb.converter.HashMapConverter;
 import jakarta.persistence.*;
 
 
@@ -165,27 +165,6 @@ public class Contract {
     this.metadata = metadata;
   }
 
-
-
-
-
-
-
-
-
-
-
-  
-
-
-  // //JSON Serializer & Desirializer
-  // public void serializeMetadata() throws JsonProcessingException {
-  //   this.metadataJSON = new ObjectMapper().writeValueAsString(this.metadata);
-  // }
-
-  // public void deserializeMetadata() throws IOException {
-  //   this.metadata = new ObjectMapper().readValue(this.metadataJSON, new TypeReference<Map<String, Object>>() {});
-  // }
 
 
 

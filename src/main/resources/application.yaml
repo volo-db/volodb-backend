@@ -10,7 +10,15 @@ spring:
   jpa:
     hibernate:
       naming-strategy: "org.hibernate.cfg.EJB3NamingStrategy"
-
+#
+# SEECURITY
+#
 security:
   jwt:
-    secret-key: dasisteinsehrlangerabersinnlosersecretkeydenmannichterratensoll
+    secret-key: "dasisteinsehrlangerabersinnlosersecretkeydenmannichterratensoll"
+    token-duration: 1D
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
