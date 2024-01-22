@@ -15,11 +15,9 @@ import lombok.Getter;
 public class UserPrincipal implements UserDetails {
 
   private final String username;
-  
+
   @JsonIgnore
   private final String secret;
-
-
   private final Collection<? extends GrantedAuthority> authorities;
 
 

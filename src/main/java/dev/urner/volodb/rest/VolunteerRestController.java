@@ -1,6 +1,5 @@
 package dev.urner.volodb.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +23,6 @@ public class VolunteerRestController {
 
     private final VolunteerService volunteerService;
 
-    @GetMapping("/")
-    public String getTest() {
-        return "hello now!";
-    }
-
-    
-
     // expose "/volunteers" and return a list of volunteers
     @GetMapping("/volunteers")
     public List<Volunteer> findAll() {
@@ -38,7 +30,6 @@ public class VolunteerRestController {
     }
 
     // add mapping for GET /volunteers/{volunteerId}
-
     @GetMapping("/volunteers/{volunteerId}")
     public Volunteer getVolunteer(@PathVariable int volunteerId) throws JsonMappingException, JsonProcessingException {
 
@@ -47,7 +38,6 @@ public class VolunteerRestController {
         if (theVolunteer == null) {
             throw new VolunteerNotFoundException("Volunteer id not found - " + volunteerId);
         }
-
         
         return theVolunteer;
     }
@@ -68,7 +58,6 @@ public class VolunteerRestController {
     }
 
     // add mapping for PUT /volunteers - update existing volunteer
-
     @PutMapping("/volunteers")
     public Volunteer updateVolunteer(@RequestBody Volunteer theVolunteer) {
 
@@ -100,6 +89,7 @@ public class VolunteerRestController {
     public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerNotFoundException exc){
       VolunteerErrorResponse error = new VolunteerErrorResponse();
 
+      
       error.setStatus(HttpStatus.NOT_FOUND.value());
       error.setMessage(exc.getMessage());
       error.setTimeStamp(System.currentTimeMillis());
@@ -111,6 +101,7 @@ public class VolunteerRestController {
     public ResponseEntity<VolunteerErrorResponse> handleException(RuntimeException exc){
       VolunteerErrorResponse error = new VolunteerErrorResponse();
 
+      
       error.setStatus(HttpStatus.BAD_REQUEST.value());
       error.setMessage(exc.getMessage());
       error.setTimeStamp(System.currentTimeMillis());

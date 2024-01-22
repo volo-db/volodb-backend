@@ -15,8 +15,8 @@ spring:
 #
 security:
   jwt:
-    secret-key: "dasisteinsehrlangerabersinnlosersecretkeydenmannichterratensoll"
-    token-duration: 1D
+    secret-key: "dasisteinsehrlangerabersinnlosersecretkeydenmanichterratensoll"
+    token-duration: 1H
 logging:
   level:
     org:

@@ -13,7 +13,7 @@
   <!-- GENEREAL -->
   <groupId>dev.urner</groupId>
 	<artifactId>volodb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>volodb</name>
 	<description>Database Application for german volunteer-services</description>
 	<properties>

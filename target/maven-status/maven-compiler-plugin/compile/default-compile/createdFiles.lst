@@ -1,5 +1,6 @@
 dev/urner/volodb/service/UserServiceImpl.class
 dev/urner/volodb/entity/VocationalEdu.class
+dev/urner/volodb/rest/AuthErrorResponse.class
 dev/urner/volodb/entity/Program.class
 dev/urner/volodb/dao/UserDAOJpaImpl.class
 dev/urner/volodb/dao/UserDAO.class
@@ -17,9 +18,9 @@ dev/urner/volodb/security/JwtAuthenticationFilter.class
 dev/urner/volodb/security/JwtProperties.class
 dev/urner/volodb/rest/AuthRestController.class
 dev/urner/volodb/entity/VolunteerNotFoundException.class
-dev/urner/volodb/rest/UserRestController.class
 dev/urner/volodb/converter/HashMapConverter$1.class
 dev/urner/volodb/model/LoginRequest.class
+dev/urner/volodb/entity/UserNotFoundException.class
 dev/urner/volodb/security/WebSecurityConfig.class
 META-INF/spring-configuration-metadata.json
 dev/urner/volodb/rest/VolunteerRestController.class

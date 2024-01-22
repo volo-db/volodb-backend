@@ -3,7 +3,6 @@ package dev.urner.volodb.security;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
