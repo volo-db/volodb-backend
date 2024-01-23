@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "security.jwt",
+      "type": "dev.urner.volodb.security.JwtProperties",
+      "sourceType": "dev.urner.volodb.security.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "security.jwt.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret key used for issuing JWT",
+      "sourceType": "dev.urner.volodb.security.JwtProperties"
+    },
+    {
+      "name": "security.jwt.token-duration",
+      "type": "java.time.Duration",
+      "sourceType": "dev.urner.volodb.security.JwtProperties"
+    }
+  ],
+  "hints": []
+}
