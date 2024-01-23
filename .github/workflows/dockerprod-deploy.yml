@@ -12,3 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Deploy to Docker Compose
+        run: |
+          sudo docker compose down
+          sudo docker compose up
