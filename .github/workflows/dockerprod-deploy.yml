@@ -13,7 +13,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Deploy to Docker Compose
-        run: |
-          sudo docker compose down
-          sudo docker compose up
+      - name: Deploy
+        uses: isbang/compose-action@v1.5.1
