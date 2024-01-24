@@ -40,7 +40,7 @@ public class AuthRestController {
   private final UserService userService;
 
 
-  @GetMapping("devInfo")
+  @GetMapping("/devInfo")
   public User devInfo(@AuthenticationPrincipal UserPrincipal principal) {
     User theUser = userService.findByUsername(principal.getUsername());
     
