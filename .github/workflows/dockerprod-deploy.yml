@@ -13,5 +13,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Deploy
+      - name: Deploy with Docker
         uses: isbang/compose-action@v1.5.1
