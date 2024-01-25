@@ -1,5 +1,6 @@
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/security/JwtIssuer.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/service/VolunteerServiceImpl.java
+/Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/rest/TrailingSlashRedirectFilter.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/security/CustomUserDetailService.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/security/JwtToPrincipalConverter.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/model/LoginResponse.java
@@ -20,6 +21,7 @@
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/dao/VolunteerDAOJpaImpl.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/entity/SchoolEdu.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/security/JwtProperties.java
+/Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/rest/WebConfig.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/dao/UserDAOJpaImpl.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/entity/Person.java
 /Users/fabian/Library/CloudStorage/GoogleDrive-fabian.urner@gmail.com/Meine Ablage/coding/volodb/src/main/java/dev/urner/volodb/rest/VolunteerRestController.java
