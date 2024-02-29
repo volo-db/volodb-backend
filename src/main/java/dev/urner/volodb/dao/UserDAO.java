@@ -8,9 +8,9 @@ public interface UserDAO {
     
   List<User> findAll();
 
-    User findByUsername(String theUsername);
+  User findByUsername(String theUsername);
 
-    User save(User theUser);
+  User save(User theUser);
 
-    void deleteById(int theId);
+  void deleteById(int theId);
 }

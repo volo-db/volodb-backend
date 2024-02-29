@@ -7,13 +7,13 @@ import dev.urner.volodb.entity.Volunteer;
 
 public interface VolunteerDAO {
 
-    List<Volunteer> findAll();
+  List<Volunteer> findAll();
 
-    Volunteer findById(int theId);
+  Volunteer findById(int theId);
 
-    Volunteer save(Volunteer theVolunteer);
+  Volunteer save(Volunteer theVolunteer);
 
-    void deleteById(int theId);
+  void deleteById(int theId);
 }
 
 
