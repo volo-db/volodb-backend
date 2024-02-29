@@ -36,4 +36,31 @@ public class Gender {
   public void setName(String name) {
     this.name = name;
   }
+
+  public Gender() {
+  }
+
+  public Gender(String name) {
+    this.name = name;
+    
+    switch (name.toLowerCase()) {
+      case "male":
+        this.id = 1;
+        break;
+    
+      case "female":
+        this.id = 2;
+        break;
+    
+      case "diverse":
+        this.id = 3;
+        break;
+    
+      default:
+        this.id = 4;
+        break;
+    }
+  }
+
+  
 }

@@ -50,7 +50,7 @@ public class VolunteerRestController {
         // also just in case they pass an id in JSON ... set id to 0
         // this is to force a save of new item ... instead of update
 
-        theVolunteer.setId(0);
+        // theVolunteer.setId(0);
 
         Volunteer dbVolunteer = volunteerService.save(theVolunteer);
 

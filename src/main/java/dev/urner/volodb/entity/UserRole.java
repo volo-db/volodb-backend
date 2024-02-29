@@ -1,7 +1,5 @@
 package dev.urner.volodb.entity;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 
 import lombok.Getter;

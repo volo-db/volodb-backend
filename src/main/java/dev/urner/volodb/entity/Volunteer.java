@@ -4,11 +4,12 @@ import java.util.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,19 +19,21 @@ import lombok.Setter;
 @Table(name="volunteer")
 @Getter
 @Setter
+@JsonDeserialize(using = VolunteerDeserializer.class)
 public class Volunteer {
 
     // define fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Long id;
 
     @Column(name="organisationalId")
     private String organisationalId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="person") //FK
+    @JsonUnwrapped 
     private Person person;
 
     @Column(name="created")
@@ -38,6 +41,8 @@ public class Volunteer {
     
     @ManyToOne
     @JoinColumn(name="status") //FK
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private VolunteerStatus status;
 
     @Column(name="birthday")
@@ -57,6 +62,8 @@ public class Volunteer {
     
     @ManyToOne
     @JoinColumn(name="healthInsurance") //FK
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private HealthInsurance healthInsurance;
     
     @Column(name="taxNumber")
@@ -64,6 +71,8 @@ public class Volunteer {
     
     @ManyToOne
     @JoinColumn(name="religion") //FK
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private Religion religion;
     
     @Column(name="bankName")
@@ -80,10 +89,14 @@ public class Volunteer {
     
     @ManyToOne
     @JoinColumn(name="levelOfSchoolEdu") //FK
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private SchoolEdu levelOfSchoolEdu;
     
     @ManyToOne
     @JoinColumn(name="levelOfVocationalEdu") //FK
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private VocationalEdu levelOfVocationalEdu;
     
     @Column(name="ongoingLegalProceedings")
@@ -98,6 +111,7 @@ public class Volunteer {
     public Volunteer() {
 
     }
+    
 
     // public Volunteer(String firstName, String lastName, String email) {
     //     this.firstName = firstName;
@@ -107,11 +121,9 @@ public class Volunteer {
 
     // define getter/setter
 
-    public void setId(int id) {
-      this.id = id;
-    }
+  
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
