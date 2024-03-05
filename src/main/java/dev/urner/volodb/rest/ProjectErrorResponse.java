@@ -7,10 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class VolunteerErrorResponse {
-
+public class ProjectErrorResponse {
   private int status;
-  private String message;
-  private long timeStamp;
 
+  private String message;
+
+  private long timeStamp;
 }

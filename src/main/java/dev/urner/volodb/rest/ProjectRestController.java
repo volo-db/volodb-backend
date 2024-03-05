@@ -4,23 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import dev.urner.volodb.entity.Project;
-import dev.urner.volodb.entity.Volunteer;
-import dev.urner.volodb.entity.VolunteerNotFoundException;
+import dev.urner.volodb.entity.ProjectInvalidFormatException;
+import dev.urner.volodb.entity.ProjectNotFoundException;
 import dev.urner.volodb.service.ProjectService;
-import dev.urner.volodb.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -37,19 +27,29 @@ public class ProjectRestController {
 
   @GetMapping("/project/{projectId}")
   public Project getMethodName(@PathVariable int projectId) {
-    return projectService.findByProjectId(projectId);
+
+    Project theProject = projectService.findByProjectId(projectId);
+
+    if (theProject == null) {
+      throw new ProjectNotFoundException("Project id not found - " + projectId);
+    }
+
+    return theProject;
   }
 
   @PostMapping("/project")
   public Project postMethodName(@RequestBody Project newProject) {
+    newProject.setId(0);
+
     return projectService.save(newProject);
   }
 
   // ---> NOT WORKING... allways new Project
-  // @PutMapping("/project")
-  // public Project putMethodName(@RequestBody Project theProject) {
-  // return projectService.save(theProject);
-  // }
+  @PutMapping("/project/{projectId}")
+  public Project putMethodName(@RequestBody Project theProject, @PathVariable int projectId) {
+    theProject.setId(projectId);
+    return projectService.save(theProject);
+  }
 
   // PATCH-Mapping
 
@@ -63,6 +63,7 @@ public class ProjectRestController {
     projectService.deleteById(projectId);
     return "Deleted project id - " + projectId;
   }
+
   // @DeleteMapping("/project/{volunteerId}")
   // public String deleteVolunteer(@PathVariable int volunteerId) {
 
@@ -80,27 +81,42 @@ public class ProjectRestController {
   // return "Deleted volunteer id - " + volunteerId;
   // }
 
-  // @ExceptionHandler
-  // public ResponseEntity<VolunteerErrorResponse>
-  // handleException(VolunteerNotFoundException exc){
-  // VolunteerErrorResponse error = new VolunteerErrorResponse();
+  @ExceptionHandler
+  public ResponseEntity<ProjectErrorResponse> handleException(ProjectNotFoundException exc) {
+    ProjectErrorResponse error = new ProjectErrorResponse();
 
-  // error.setStatus(HttpStatus.NOT_FOUND.value());
-  // error.setMessage(exc.getMessage());
-  // error.setTimeStamp(System.currentTimeMillis());
+    HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-  // return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-  // }
+    error.setStatus(httpStatus.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-  // @ExceptionHandler
-  // public ResponseEntity<VolunteerErrorResponse>
-  // handleException(RuntimeException exc){
-  // VolunteerErrorResponse error = new VolunteerErrorResponse();
+    return new ResponseEntity<>(error, httpStatus);
+  }
 
-  // error.setStatus(HttpStatus.BAD_REQUEST.value());
-  // error.setMessage(exc.getMessage());
-  // error.setTimeStamp(System.currentTimeMillis());
+  @ExceptionHandler
+  public ResponseEntity<ProjectErrorResponse> handleException(ProjectInvalidFormatException exc) {
+    ProjectErrorResponse error = new ProjectErrorResponse();
 
-  // return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-  // }
+    HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+    error.setStatus(httpStatus.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
+
+    return new ResponseEntity<>(error, httpStatus);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ProjectErrorResponse> handleException(RuntimeException exc) {
+    ProjectErrorResponse error = new ProjectErrorResponse();
+
+    HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+    error.setStatus(httpStatus.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
+
+    return new ResponseEntity<>(error, httpStatus);
+  }
 }

@@ -18,7 +18,7 @@ public class CountryDAOJpaImpl implements CountryDAO {
   @Override
   public Country findByName(String countryName) {
     TypedQuery<Country> query = entityManager
-        .createQuery("SELECT c FROM Country c WHERE c.localName = :cName", Country.class)
+        .createQuery("SELECT c FROM Country c WHERE c.name = :cName", Country.class)
         .setParameter("cName", countryName);
 
     List<Country> countrys = query.getResultList();

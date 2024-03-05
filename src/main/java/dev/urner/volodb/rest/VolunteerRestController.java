@@ -15,111 +15,94 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class VolunteerRestController {
 
-    private final VolunteerService volunteerService;
+  private final VolunteerService volunteerService;
 
-    // expose "/volunteers" and return a list of volunteers
-    @GetMapping("/volunteers")
-    public List<Volunteer> findAll() {
-        return volunteerService.findAll();
+  // expose "/volunteers" and return a list of volunteers
+  @GetMapping("/volunteers")
+  public List<Volunteer> findAll() {
+    return volunteerService.findAll();
+  }
+
+  // add mapping for GET /volunteers/{volunteerId}
+  @GetMapping("/volunteers/{volunteerId}")
+  public Volunteer getVolunteer(@PathVariable int volunteerId) throws JsonMappingException, JsonProcessingException {
+
+    Volunteer theVolunteer = volunteerService.findById(volunteerId);
+
+    if (theVolunteer == null) {
+      throw new VolunteerNotFoundException("Volunteer id not found - " + volunteerId);
     }
 
-    // add mapping for GET /volunteers/{volunteerId}
-    @GetMapping("/volunteers/{volunteerId}")
-    public Volunteer getVolunteer(@PathVariable int volunteerId) throws JsonMappingException, JsonProcessingException {
+    return theVolunteer;
+  }
 
-        Volunteer theVolunteer = volunteerService.findById(volunteerId);
+  // add mapping for POST /volunteers - add new volunteer
 
-        if (theVolunteer == null) {
-            throw new VolunteerNotFoundException("Volunteer id not found - " + volunteerId);
-        }
-        
-        return theVolunteer;
+  @PostMapping("/volunteers")
+  public Volunteer addVolunteer(@RequestBody Volunteer theVolunteer) {
+
+    // also just in case they pass an id in JSON ... set id to 0
+    // this is to force a save of new item ... instead of update
+
+    theVolunteer.setId(0);
+
+    Volunteer dbVolunteer = volunteerService.save(theVolunteer);
+
+    return dbVolunteer;
+  }
+
+  // add mapping for PUT /volunteers - update existing volunteer
+  @PutMapping("/volunteers")
+  public Volunteer updateVolunteer(@RequestBody Volunteer theVolunteer) {
+    theVolunteer.setId(0);
+
+    Volunteer dbVolunteer = volunteerService.save(theVolunteer);
+
+    return dbVolunteer;
+  }
+
+  // add mapping for DELETE /volunteers/{volunteerId} - delete volunteer
+
+  @DeleteMapping("/volunteers/{volunteerId}")
+  public String deleteVolunteer(@PathVariable int volunteerId) {
+
+    Volunteer tempVolunteer = volunteerService.findById(volunteerId);
+
+    // throw exception if null
+
+    if (tempVolunteer == null) {
+      throw new VolunteerNotFoundException("Volunteer id not found - " + volunteerId);
     }
 
-    // add mapping for POST /volunteers - add new volunteer
+    volunteerService.deleteById(volunteerId);
 
-    @PostMapping("/volunteers")
-    public Volunteer addVolunteer(@RequestBody Volunteer theVolunteer) {
+    return "Deleted volunteer id - " + volunteerId;
+  }
 
-        // also just in case they pass an id in JSON ... set id to 0
-        // this is to force a save of new item ... instead of update
+  @ExceptionHandler
+  public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerNotFoundException exc) {
+    VolunteerErrorResponse error = new VolunteerErrorResponse();
 
-        // theVolunteer.setId(0);
+    error.setStatus(HttpStatus.NOT_FOUND.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        Volunteer dbVolunteer = volunteerService.save(theVolunteer);
+    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+  }
 
-        return dbVolunteer;
-    }
+  @ExceptionHandler
+  public ResponseEntity<VolunteerErrorResponse> handleException(RuntimeException exc) {
+    VolunteerErrorResponse error = new VolunteerErrorResponse();
 
-    // add mapping for PUT /volunteers - update existing volunteer
-    @PutMapping("/volunteers")
-    public Volunteer updateVolunteer(@RequestBody Volunteer theVolunteer) {
+    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        Volunteer dbVolunteer = volunteerService.save(theVolunteer);
-
-        return dbVolunteer;
-    }
-
-    // add mapping for DELETE /volunteers/{volunteerId} - delete volunteer
-
-    @DeleteMapping("/volunteers/{volunteerId}")
-    public String deleteVolunteer(@PathVariable int volunteerId) {
-
-        Volunteer tempVolunteer = volunteerService.findById(volunteerId);
-
-        // throw exception if null
-
-        if (tempVolunteer == null) {
-            throw new VolunteerNotFoundException("Volunteer id not found - " + volunteerId);
-        }
-        
-        volunteerService.deleteById(volunteerId);
-        
-
-        return "Deleted volunteer id - " + volunteerId;
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerNotFoundException exc){
-      VolunteerErrorResponse error = new VolunteerErrorResponse();
-
-      
-      error.setStatus(HttpStatus.NOT_FOUND.value());
-      error.setMessage(exc.getMessage());
-      error.setTimeStamp(System.currentTimeMillis());
-
-      return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<VolunteerErrorResponse> handleException(RuntimeException exc){
-      VolunteerErrorResponse error = new VolunteerErrorResponse();
-
-      
-      error.setStatus(HttpStatus.BAD_REQUEST.value());
-      error.setMessage(exc.getMessage());
-      error.setTimeStamp(System.currentTimeMillis());
-
-      return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
+    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
