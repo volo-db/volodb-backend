@@ -11,6 +11,7 @@ import dev.urner.volodb.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +27,7 @@ public class ProjectRestController {
   }
 
   @GetMapping("/project/{projectId}")
-  public Project getMethodName(@PathVariable int projectId) {
+  public Project getProjectById(@PathVariable int projectId) {
 
     Project theProject = projectService.findByProjectId(projectId);
 
@@ -38,7 +39,7 @@ public class ProjectRestController {
   }
 
   @PostMapping("/project")
-  public Project postMethodName(@RequestBody Project newProject) {
+  public Project postProject(@RequestBody Project newProject) {
     newProject.setId(0);
 
     return projectService.save(newProject);
@@ -46,15 +47,19 @@ public class ProjectRestController {
 
   // ---> NOT WORKING... allways new Project
   @PutMapping("/project/{projectId}")
-  public Project putMethodName(@RequestBody Project theProject, @PathVariable int projectId) {
+  public Project putProjectById(@RequestBody Project theProject, @PathVariable int projectId) {
     theProject.setId(projectId);
     return projectService.save(theProject);
   }
 
   // PATCH-Mapping
+  @PatchMapping("/project/{projectId}")
+  public Project patchProjectById(@RequestBody Map<String, Object> fields, @PathVariable int projectId) {
+    return projectService.update(projectId, fields);
+  }
 
   @DeleteMapping("/project/{projectId}")
-  public String deleteProject(@PathVariable int projectId) {
+  public String deleteProjectById(@PathVariable int projectId) {
     Project tempProject = projectService.findByProjectId(projectId);
     if (tempProject == null) {
       // THROW NEW PROJECT NOT FOUND EXCEPTION
