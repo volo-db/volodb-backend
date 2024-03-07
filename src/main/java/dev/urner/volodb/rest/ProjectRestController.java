@@ -68,7 +68,7 @@ public class ProjectRestController {
     }
 
     projectService.deleteById(projectId);
-    return "Deleted project id - " + projectId;
+    return "✅ Deleted project id - " + projectId;
   }
 
   // Exception-Hanlder:

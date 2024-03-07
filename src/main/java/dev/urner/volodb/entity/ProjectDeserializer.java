@@ -59,10 +59,6 @@ public class ProjectDeserializer extends StdDeserializer {
     // necessary
     List<String> errorMessages = new ArrayList<String>();
 
-    if (node.has("name")) {
-      System.out.println("name hats");
-    }
-
     if ((!node.has("name")) || node.get("name").asText() == "") {
       errorMessages.add("field 'name' is emty but has to be set");
     }

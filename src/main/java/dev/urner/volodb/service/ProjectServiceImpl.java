@@ -11,6 +11,7 @@ import dev.urner.volodb.dao.ProjectDAO;
 import dev.urner.volodb.entity.Country;
 import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
+import dev.urner.volodb.entity.ProjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,6 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public List<Project> findAll() {
-
     return projectDAO.findAll();
   }
 
@@ -36,6 +36,8 @@ public class ProjectServiceImpl implements ProjectService {
   @Transactional
   @Override
   public Project save(Project theProject) {
+    System.out.println("👨‍🔧 Service");
+
     return projectDAO.save(theProject);
   }
 
@@ -50,9 +52,22 @@ public class ProjectServiceImpl implements ProjectService {
   public Project update(int theProjectId, Map<String, Object> fields) {
     Project dbProject = projectDAO.findByProjectId(theProjectId);
 
+    if (dbProject == null)
+      throw new ProjectNotFoundException("ProjectId " + theProjectId + " not found.");
+
     fields.forEach((key, value) -> {
+
       Field field = ReflectionUtils.findField(Project.class, key);
+
+      // if fieldname does not exist in Object
+      if (field == null)
+        return;
+
       field.setAccessible(true);
+
+      // if field "id" is set -> ignore
+      if (field.getName() == "id")
+        return;
 
       // In Case of Field "country", use Country-Service to get a valid Country-Object
       if (field.getName() == "country") {
