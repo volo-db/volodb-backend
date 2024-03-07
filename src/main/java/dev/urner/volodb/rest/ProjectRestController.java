@@ -64,28 +64,14 @@ public class ProjectRestController {
     Project tempProject = projectService.findByProjectId(projectId);
     if (tempProject == null) {
       // THROW NEW PROJECT NOT FOUND EXCEPTION
+      throw new ProjectNotFoundException("Project-Id " + projectId + " not found.");
     }
 
     projectService.deleteById(projectId);
     return "Deleted project id - " + projectId;
   }
 
-  // @DeleteMapping("/project/{volunteerId}")
-  // public String deleteVolunteer(@PathVariable int volunteerId) {
-
-  // Volunteer tempVolunteer = volunteerService.findById(volunteerId);
-
-  // // throw exception if null
-
-  // if (tempVolunteer == null) {
-  // throw new VolunteerNotFoundException("Volunteer id not found - " +
-  // volunteerId);
-  // }
-
-  // volunteerService.deleteById(volunteerId);
-
-  // return "Deleted volunteer id - " + volunteerId;
-  // }
+  // Exception-Hanlder:
 
   @ExceptionHandler
   public ResponseEntity<ProjectErrorResponse> handleException(ProjectNotFoundException exc) {
