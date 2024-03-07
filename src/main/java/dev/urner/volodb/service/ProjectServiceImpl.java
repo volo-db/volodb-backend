@@ -9,6 +9,7 @@ import org.springframework.util.ReflectionUtils;
 
 import dev.urner.volodb.dao.ProjectDAO;
 import dev.urner.volodb.entity.Country;
+import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,15 @@ public class ProjectServiceImpl implements ProjectService {
 
       // In Case of Field "country", use Country-Service to get a valid Country-Object
       if (field.getName() == "country") {
-        Country projectCountry = countryService.findByName(value.toString());
+        Country projectCountry;
+
+        try {
+          projectCountry = countryService.findByName(value.toString());
+        } catch (Exception e) {
+          throw new CountryNotFoundException("Country '" + value.toString()
+              + "' not found. Countryname has to be given in the international english form e.g. 'Germany'");
+        }
+
         ReflectionUtils.setField(field, dbProject, projectCountry);
         return;
       }

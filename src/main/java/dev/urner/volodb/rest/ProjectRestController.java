@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
 import dev.urner.volodb.entity.ProjectInvalidFormatException;
 import dev.urner.volodb.entity.ProjectNotFoundException;
@@ -104,6 +105,19 @@ public class ProjectRestController {
     ProjectErrorResponse error = new ProjectErrorResponse();
 
     HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+    error.setStatus(httpStatus.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
+
+    return new ResponseEntity<>(error, httpStatus);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ProjectErrorResponse> handleException(CountryNotFoundException exc) {
+    ProjectErrorResponse error = new ProjectErrorResponse();
+
+    HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
     error.setStatus(httpStatus.value());
     error.setMessage(exc.getMessage());
