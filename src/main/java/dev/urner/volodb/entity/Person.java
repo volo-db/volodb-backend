@@ -8,25 +8,25 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class Person {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="id")
+  @Column(name = "id")
   @JsonIgnore
   private int id;
 
+  @Column(name = "lastname")
+  private String lastname;
+
+  @Column(name = "firstname")
+  private String firstname;
+
   @ManyToOne
-  @JoinColumn(name="gender")
+  @JoinColumn(name = "gender")
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
   @JsonIdentityReference(alwaysAsId = true)
   private Gender gender;
-  
-  @Column(name="surname")
-  private String surname;
-  
-  @Column(name="firstname")
-  private String firstname;
 
   // define getter/setter
   public int getId() {
@@ -45,12 +45,12 @@ public class Person {
     this.gender = gender;
   }
 
-  public String getSurname() {
-    return surname;
+  public String getLastname() {
+    return lastname;
   }
 
-  public void setSurname(String surname) {
-    this.surname = surname;
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
   public String getFirstname() {
@@ -60,6 +60,5 @@ public class Person {
   public void setFirstname(String firstname) {
     this.firstname = firstname;
   }
-
 
 }

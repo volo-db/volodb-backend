@@ -30,6 +30,9 @@ public class Volunteer {
   @Column(name = "id")
   private int id;
 
+  @Column(name = "created")
+  private LocalDateTime created;
+
   @Column(name = "organisationalId")
   private String organisationalId;
 
@@ -37,9 +40,6 @@ public class Volunteer {
   @JoinColumn(name = "person") // FK
   @JsonUnwrapped
   private Person person;
-
-  @Column(name = "created")
-  private LocalDateTime created;
 
   @ManyToOne
   @JoinColumn(name = "status") // FK

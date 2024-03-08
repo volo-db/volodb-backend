@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `gender` INT NOT NULL,
-  `surname` VARCHAR(50) NOT NULL,
+  `lastname` VARCHAR(50) NOT NULL,
   `firstname` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

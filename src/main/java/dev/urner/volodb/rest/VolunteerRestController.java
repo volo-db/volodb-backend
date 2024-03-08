@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import dev.urner.volodb.entity.Volunteer;
+import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
@@ -88,21 +89,38 @@ public class VolunteerRestController {
   public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerNotFoundException exc) {
     VolunteerErrorResponse error = new VolunteerErrorResponse();
 
-    error.setStatus(HttpStatus.NOT_FOUND.value());
+    HttpStatus status = HttpStatus.NOT_FOUND;
+
+    error.setStatus(status.value());
     error.setMessage(exc.getMessage());
     error.setTimeStamp(System.currentTimeMillis());
 
-    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(error, status);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerInvalidFormatException exc) {
+    VolunteerErrorResponse error = new VolunteerErrorResponse();
+
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+
+    error.setStatus(status.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
+
+    return new ResponseEntity<>(error, status);
   }
 
   @ExceptionHandler
   public ResponseEntity<VolunteerErrorResponse> handleException(RuntimeException exc) {
     VolunteerErrorResponse error = new VolunteerErrorResponse();
 
-    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+
+    error.setStatus(status.value());
     error.setMessage(exc.getMessage());
     error.setTimeStamp(System.currentTimeMillis());
 
-    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(error, status);
   }
 }

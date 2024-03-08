@@ -40,7 +40,7 @@ public class Project {
 
   @ManyToOne
   @JoinColumn(name = "country") // FK
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "localName")
   @JsonIdentityReference(alwaysAsId = true)
   private Country country;
 

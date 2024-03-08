@@ -36,8 +36,6 @@ public class ProjectServiceImpl implements ProjectService {
   @Transactional
   @Override
   public Project save(Project theProject) {
-    System.out.println("👨‍🔧 Service");
-
     return projectDAO.save(theProject);
   }
 
