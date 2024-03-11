@@ -12,7 +12,6 @@ import jakarta.persistence.TypedQuery;
 @Repository
 public class VolunteerStatusDAOJpaImpl implements VolunteerStatusDAO {
 
-  // define field for entitymanager
   private EntityManager entityManager;
 
   // set up constructor injection
