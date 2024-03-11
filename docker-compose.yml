@@ -16,19 +16,19 @@ services:
     networks:
       - spring-mysql-network
 
-  # api:
-  #   build: .
-  #   ports:
-  #     - 40102:8080
-  #   container_name: spring_boot_api
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/volo_db
-  #   #   SPRING_DATASOURCE_USERNAME: your_database_user
-  #   #   SPRING_DATASOURCE_PASSWORD: your_database_password
-  #   depends_on:
-  #     - mysql_db
-  #   networks:
-  #     - spring-mysql-network
+  api:
+    build: .
+    ports:
+      - 40102:8080
+    container_name: spring_boot_api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/volo_db
+    #   SPRING_DATASOURCE_USERNAME: your_database_user
+    #   SPRING_DATASOURCE_PASSWORD: your_database_password
+    depends_on:
+      - mysql_db
+    networks:
+      - spring-mysql-network
 
 networks:
   spring-mysql-network:
