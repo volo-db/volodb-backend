@@ -14,23 +14,23 @@ import dev.urner.volodb.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/volunteers")
 @RequiredArgsConstructor
 public class VolunteerRestController {
 
   private final VolunteerService volunteerService;
 
   // expose "/volunteers" and return a list of volunteers
-  @GetMapping("/volunteers")
+  @GetMapping("")
   public List<Volunteer> findAll() {
     return volunteerService.findAll();
   }
 
   // add mapping for GET /volunteers/{volunteerId}
-  @GetMapping("/volunteers/{volunteerId}")
+  @GetMapping("/{volunteerId}")
   public Volunteer getVolunteer(@PathVariable int volunteerId) throws JsonMappingException, JsonProcessingException {
 
     Volunteer theVolunteer = volunteerService.findById(volunteerId);
@@ -44,7 +44,7 @@ public class VolunteerRestController {
 
   // add mapping for POST /volunteers - add new volunteer
 
-  @PostMapping("/volunteers")
+  @PostMapping("")
   public Volunteer addVolunteer(@RequestBody Volunteer theVolunteer) {
 
     // also just in case they pass an id in JSON ... set id to 0
@@ -58,7 +58,7 @@ public class VolunteerRestController {
   }
 
   // add mapping for PUT /volunteers - update existing volunteer
-  @PutMapping("/volunteers")
+  @PutMapping("")
   public Volunteer updateVolunteer(@RequestBody Volunteer theVolunteer) {
     theVolunteer.setId(0);
 
@@ -67,9 +67,12 @@ public class VolunteerRestController {
     return dbVolunteer;
   }
 
-  // add mapping for DELETE /volunteers/{volunteerId} - delete volunteer
+  @PatchMapping("/{volunteerId}")
+  public Volunteer patchVolunteer(@RequestBody Map<String, Object> fields, @PathVariable int volunteerId) {
+    return volunteerService.update(volunteerId, fields);
+  }
 
-  @DeleteMapping("/volunteers/{volunteerId}")
+  @DeleteMapping("/{volunteerId}")
   public String deleteVolunteer(@PathVariable int volunteerId) {
 
     Volunteer tempVolunteer = volunteerService.findById(volunteerId);

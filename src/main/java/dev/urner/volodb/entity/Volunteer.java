@@ -1,6 +1,5 @@
 package dev.urner.volodb.entity;
 
-import java.util.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -39,6 +38,7 @@ public class Volunteer {
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "person") // FK
   @JsonUnwrapped
+  @JsonIgnoreProperties("id")
   private Person person;
 
   @ManyToOne
@@ -103,9 +103,5 @@ public class Volunteer {
 
   @Column(name = "ongoingLegalProceedings")
   private boolean ongoingLegalProceedings;
-
-  @JsonIgnoreProperties("volunteer")
-  @OneToMany(mappedBy = "volunteer")
-  private List<Contract> contracts;
 
 }
