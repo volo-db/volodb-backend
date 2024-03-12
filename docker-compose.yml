@@ -19,7 +19,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
       args:
         - TAG_NAME=volodb_api
     ports:
