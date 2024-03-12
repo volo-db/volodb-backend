@@ -2,7 +2,6 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dev.urner.volodb.entity.VolunteerStatus;
@@ -15,7 +14,6 @@ public class VolunteerStatusDAOJpaImpl implements VolunteerStatusDAO {
   private EntityManager entityManager;
 
   // set up constructor injection
-  @Autowired
   public VolunteerStatusDAOJpaImpl(EntityManager entityManager) {
     this.entityManager = entityManager;
   }
