@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/project")
 @RequiredArgsConstructor
 public class ProjectRestController {
 
   private final ProjectService projectService;
 
   // expose "/project" and return a list of volunteers
-  @GetMapping("/project")
+  @GetMapping("")
   public List<Project> findAll() {
     return projectService.findAll();
   }
 
-  @GetMapping("/project/{projectId}")
+  @GetMapping("/{projectId}")
   public Project getProjectById(@PathVariable int projectId) {
 
     Project theProject = projectService.findByProjectId(projectId);
@@ -39,7 +39,7 @@ public class ProjectRestController {
     return theProject;
   }
 
-  @PostMapping("/project")
+  @PostMapping("")
   public Project postProject(@RequestBody Project newProject) {
     newProject.setId(0);
 
@@ -47,19 +47,19 @@ public class ProjectRestController {
   }
 
   // ---> NOT WORKING... allways new Project
-  @PutMapping("/project/{projectId}")
+  @PutMapping("/{projectId}")
   public Project putProjectById(@RequestBody Project theProject, @PathVariable int projectId) {
     theProject.setId(projectId);
     return projectService.save(theProject);
   }
 
   // PATCH-Mapping
-  @PatchMapping("/project/{projectId}")
+  @PatchMapping("/{projectId}")
   public Project patchProjectById(@RequestBody Map<String, Object> fields, @PathVariable int projectId) {
     return projectService.update(projectId, fields);
   }
 
-  @DeleteMapping("/project/{projectId}")
+  @DeleteMapping("/{projectId}")
   public String deleteProjectById(@PathVariable int projectId) {
     Project tempProject = projectService.findByProjectId(projectId);
     if (tempProject == null) {

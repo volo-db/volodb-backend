@@ -1,11 +1,15 @@
 package dev.urner.volodb.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "program")
+@Getter
+@Setter
 public class Program {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -17,29 +21,4 @@ public class Program {
   @Column(name = "shorthand")
   private String shorthand;
 
-
-  // define getter/setter
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getShorthand() {
-    return shorthand;
-  }
-
-  public void setShorthand(String shorthand) {
-    this.shorthand = shorthand;
-  }
 }

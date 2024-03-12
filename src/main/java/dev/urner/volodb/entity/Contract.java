@@ -4,36 +4,64 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import dev.urner.volodb.converter.HashMapConverter;
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name="contract")
-
+@Table(name = "contract")
+@Getter
+@Setter
+@RequiredArgsConstructor
+@JsonPropertyOrder({ "id", "created", "volunteerId", "projectId", "program", "start", "end", "visaNecessary",
+    "incomingVolunteer", "contactPerson", "holiday", "salary", "metadata" })
 public class Contract {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
   @Column(name = "timestamp")
+  @JsonProperty("created")
   private LocalDateTime dateOfCreation;
 
   @ManyToOne
-  @JoinColumn(name = "volunteer") //FK
+  @JoinColumn(name = "volunteer") // FK
+  @JsonProperty("volunteerId")
+  @JsonAlias({ "volunteerId", "volunteer" })
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
   private Volunteer volunteer;
 
   @ManyToOne
-  @JoinColumn(name = "program") //FK
+  @JoinColumn(name = "program") // FK
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "shorthand")
+  @JsonIdentityReference(alwaysAsId = true)
   private Program program;
 
-  @Column(name = "project") //FK
-  private int project;
+  @ManyToOne
+  @JsonProperty("projectId")
+  @JsonAlias({ "projectId", "project" })
+  @JoinColumn(name = "project") // FK
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
+  private Project project;
 
-  @Column(name = "contactPersonOfProject") //FK
-  private int contactPerson;
+  @ManyToOne
+  @JoinColumn(name = "contactPersonOfProject") // FK
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
+  private ContactPerson contactPerson;
 
   @Column(name = "start")
   private LocalDate start;
@@ -47,126 +75,14 @@ public class Contract {
   @Column(name = "incomingVolunteer")
   private boolean incomingVolunteer;
 
-  @Column(name = "salary") //FK
-  private int salary;
+  @ManyToOne
+  @JoinColumn(name = "salary") // FK
+  private Salary salary;
 
   @Column(name = "holiday")
   private int holiday;
 
   @Convert(converter = HashMapConverter.class)
-  @Column(name = "metadata") //ToDo: JSON-Abhängigkeit
+  @Column(name = "metadata") // ToDo: JSON-Abhängigkeit
   private Map<String, Object> metadata;
-
-
-
-  // define getter/setter
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public LocalDateTime getDateOfCreation() {
-    return dateOfCreation;
-  }
-
-  public void setDateOfCreation(LocalDateTime dateOfCreation) {
-    this.dateOfCreation = dateOfCreation;
-  }
-
-  public Volunteer getVolunteer() {
-    return volunteer;
-  }
-
-  public void setVolunteer(Volunteer volunteer) {
-    this.volunteer = volunteer;
-  }
-
-  public Program getProgram() {
-    return program;
-  }
-
-  public void setProgram(Program program) {
-    this.program = program;
-  }
-
-  public int getProject() {
-    return project;
-  }
-
-  public void setProject(int project) {
-    this.project = project;
-  }
-
-  public int getContactPerson() {
-    return contactPerson;
-  }
-
-  public void setContactPerson(int contactPerson) {
-    this.contactPerson = contactPerson;
-  }
-
-  public LocalDate getStart() {
-    return start;
-  }
-
-  public void setStart(LocalDate start) {
-    this.start = start;
-  }
-
-  public LocalDate getEnd() {
-    return end;
-  }
-
-  public void setEnd(LocalDate end) {
-    this.end = end;
-  }
-
-  public boolean isVisaNecessary() {
-    return visaNecessary;
-  }
-
-  public void setVisaNecessary(boolean visaNecessary) {
-    this.visaNecessary = visaNecessary;
-  }
-
-  public boolean isIncomingVolunteer() {
-    return incomingVolunteer;
-  }
-
-  public void setIncomingVolunteer(boolean incomingVolunteer) {
-    this.incomingVolunteer = incomingVolunteer;
-  }
-
-  public int getSalary() {
-    return salary;
-  }
-
-  public void setSalary(int salary) {
-    this.salary = salary;
-  }
-
-  public int getHoliday() {
-    return holiday;
-  }
-
-  public void setHoliday(int holiday) {
-    this.holiday = holiday;
-  }
-
-  public Map<String, Object> getMetadata() {
-    return metadata;
-  }
-
-  public void setMetadata(Map<String, Object> metadata) {
-    this.metadata = metadata;
-  }
-
-
-
-
-
 }

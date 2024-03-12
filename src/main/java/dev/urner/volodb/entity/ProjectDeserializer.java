@@ -152,7 +152,6 @@ public class ProjectDeserializer extends StdDeserializer {
     myProject.setEmail(node.get("email").asText());
 
     // Return Project
-
     return myProject;
 
   }
