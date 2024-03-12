@@ -17,10 +17,14 @@ services:
       - spring-mysql-network
 
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        - TAG_NAME=volodb_api
     ports:
       - 40102:8080
-    container_name: spring_boot_api
+    container_name: volodb_api
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/volo_db
     #   SPRING_DATASOURCE_USERNAME: your_database_user
