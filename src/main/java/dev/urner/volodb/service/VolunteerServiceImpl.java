@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,16 +70,25 @@ public class VolunteerServiceImpl implements VolunteerService {
         return;
 
       // Person
-      switch (key.toLowerCase()) {
-        case "lastname":
-          dbVolunteer.getPerson().setLastname(value.toString());
-          return;
-        case "firstname":
-          dbVolunteer.getPerson().setFirstname(value.toString());
-          return;
-        case "gender":
-          dbVolunteer.getPerson().setGender(new Gender(value.toString()));
-          return;
+      if (key.toLowerCase() == "person") {
+        Map<String, Object> personMap = (Map<String, Object>) value;
+        personMap.forEach((pKey, pValue) -> {
+          switch (pKey) {
+            case "lastname":
+              dbVolunteer.getPerson().setLastname(pValue.toString());
+              return;
+
+            case "firstname":
+              dbVolunteer.getPerson().setFirstname(pValue.toString());
+              return;
+
+            case "gender":
+              dbVolunteer.getPerson().setGender(new Gender(pValue.toString()));
+              return;
+          }
+        });
+        return;
+
       }
 
       // VolunteerStatus
