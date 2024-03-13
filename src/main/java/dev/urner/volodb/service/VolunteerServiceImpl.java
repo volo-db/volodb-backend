@@ -184,7 +184,8 @@ public class VolunteerServiceImpl implements VolunteerService {
             break;
 
           default:
-            throw new VolunteerInvalidFormatException("blaa");
+            throw new VolunteerInvalidFormatException(
+                "ongoingLegalProceedings has to be 'yes', 'true', 'no', 'false', 'not_set' or 'null'");
         }
 
         ReflectionUtils.setField(field, dbVolunteer, state);

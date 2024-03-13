@@ -96,12 +96,12 @@ public class VolunteerDeserializer extends StdDeserializer {
     }
 
     if (node.has("ongoingLegalProceedings")) {
-      if (!(node.get("ongoingLegalProceedings").asText().toLowerCase() == "true")
-          && !(node.get("ongoingLegalProceedings").asText().toLowerCase() == "yes")
-          && !(node.get("ongoingLegalProceedings").asText().toLowerCase() == "false")
-          && !(node.get("ongoingLegalProceedings").asText().toLowerCase() == "no")
-          && !(node.get("ongoingLegalProceedings").asText().toLowerCase() == "null")
-          && !(node.get("ongoingLegalProceedings").asText().toLowerCase() == "not_set"))
+      if (!(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("true"))
+          && !(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("yes"))
+          && !(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("false"))
+          && !(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("no"))
+          && !(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("null"))
+          && !(node.get("ongoingLegalProceedings").asText().toLowerCase().equals("not_set")))
         errorMessages.add("ongoingLegalProceedings has to be 'yes', 'true', 'no', 'false', 'not_set' or 'null'");
     }
 
