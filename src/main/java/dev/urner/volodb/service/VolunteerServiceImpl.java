@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import dev.urner.volodb.converter.OngoingLegalProceedingsConverter;
 import dev.urner.volodb.dao.VolunteerDAO;
 import dev.urner.volodb.entity.Gender;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
+import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Field;
@@ -150,6 +152,42 @@ public class VolunteerServiceImpl implements VolunteerService {
 
       if (field.getName().toLowerCase().equals("birthday")) {
         ReflectionUtils.setField(field, dbVolunteer, LocalDate.parse(value.toString()));
+        return;
+      }
+
+      if (field.getName().toLowerCase().equals("ongoinglegalproceedings")) {
+        OngoingLegalProceedingsState state;
+
+        if (value == null) {
+          ReflectionUtils.setField(field, dbVolunteer, OngoingLegalProceedingsState.NOT_SET);
+          return;
+        }
+
+        switch (value.toString().toLowerCase()) {
+          case "yes":
+            state = OngoingLegalProceedingsState.YES;
+            break;
+          case "true":
+            state = OngoingLegalProceedingsState.YES;
+            break;
+          case "no":
+            state = OngoingLegalProceedingsState.NO;
+            break;
+          case "false":
+            state = OngoingLegalProceedingsState.NO;
+            break;
+          case "not_set":
+            state = OngoingLegalProceedingsState.NOT_SET;
+            break;
+          case "null":
+            state = OngoingLegalProceedingsState.NOT_SET;
+            break;
+
+          default:
+            throw new VolunteerInvalidFormatException("blaa");
+        }
+
+        ReflectionUtils.setField(field, dbVolunteer, state);
         return;
       }
 

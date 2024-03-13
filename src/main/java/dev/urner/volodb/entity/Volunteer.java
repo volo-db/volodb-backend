@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import dev.urner.volodb.converter.OngoingLegalProceedingsConverter;
+import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +37,6 @@ public class Volunteer {
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "person") // FK
-  @JsonUnwrapped
-  @JsonIgnoreProperties("id")
   private Person person;
 
   @ManyToOne
@@ -102,6 +100,7 @@ public class Volunteer {
   private VocationalEdu levelOfVocationalEdu;
 
   @Column(name = "ongoingLegalProceedings")
-  private boolean ongoingLegalProceedings;
+  @Convert(converter = OngoingLegalProceedingsConverter.class)
+  private OngoingLegalProceedingsState ongoingLegalProceedings;
 
 }
