@@ -14,7 +14,8 @@ public class CorsConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOriginPatterns("*") // Add your allowed originPatterns here
+            // .allowedOriginPatterns("*") // Add your allowed originPatterns here
+            .allowedOrigins("http://localhost:5500") // Add your allowed originPatterns here
             .allowedMethods("*") // Add your allowed methods
             .allowedHeaders("*") // Add your allowed headers
             .allowCredentials(true)
