@@ -30,6 +30,8 @@ logging:
     org:
       springframework:
         security: DEBUG
+        web:
+          cors: DEBUG
 #
 # BANNER
 #
