@@ -99,6 +99,7 @@ CREATE TABLE `volunteer` (
   `level_of_school_edu` INT,
   `level_of_vocational_edu` INT,
   `ongoing_legal_proceedings` BOOLEAN,
+  `avatar` TEXT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

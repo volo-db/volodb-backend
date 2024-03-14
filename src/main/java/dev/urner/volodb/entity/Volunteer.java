@@ -103,4 +103,7 @@ public class Volunteer {
   @Convert(converter = OngoingLegalProceedingsConverter.class)
   private OngoingLegalProceedingsState ongoingLegalProceedings;
 
+  @Column(name = "avatar")
+  private String avatar;
+
 }

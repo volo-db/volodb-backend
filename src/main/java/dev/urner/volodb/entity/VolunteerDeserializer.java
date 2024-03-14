@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -211,6 +212,13 @@ public class VolunteerDeserializer extends StdDeserializer {
 
       if (value.toLowerCase() == "no" || value.toLowerCase() == "false")
         myVolunteer.setOngoingLegalProceedings(OngoingLegalProceedingsState.NO);
+    }
+
+    if (node.has("avatar") && node.get("avatar").asText() != "") {
+      myVolunteer.setAvatar(node.get("avatar").asText());
+    } else {
+      // https://i.pravatar.cc/300?u=volodb
+      myVolunteer.setAvatar("https://i.pravatar.cc/300?u=volodb_" + UUID.randomUUID().toString());
     }
 
     return myVolunteer;
