@@ -284,8 +284,19 @@ DROP TABLE IF EXISTS `project_role_mapping`;
 CREATE TABLE `project_role_mapping` (
   `contact_person` INT NOT NULL,
   `project_role` INT NOT NULL
+) ENGINE=InnoDB;
 
-);
+DROP TABLE IF EXISTS `volunteer_note`;
+CREATE TABLE `volunteer_note` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `type` VARCHAR(50) NOT NULL,
+  `note` TEXT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
@@ -350,3 +361,7 @@ ALTER TABLE `project_role_mapping` ADD FOREIGN KEY (`project_role`) REFERENCES `
 ALTER TABLE `project` ADD FOREIGN KEY (`country`) REFERENCES `country` (`id`);
 
 ALTER TABLE `contract_modification` ADD FOREIGN KEY (`status`) REFERENCES `contract_modification_status` (`id`);
+
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
+
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);

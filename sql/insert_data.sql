@@ -160,8 +160,8 @@ CREATE TABLE `vocational_edu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `contract`;
-CREATE TABLE `contract` (
+DROP TABLE IF EXISTS `Contract`;
+CREATE TABLE `Contract` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
   `volunteer` INT NOT NULL,
@@ -286,8 +286,19 @@ DROP TABLE IF EXISTS `project_role_mapping`;
 CREATE TABLE `project_role_mapping` (
   `contact_person` INT NOT NULL,
   `project_role` INT NOT NULL
+) ENGINE=InnoDB;
 
-);
+DROP TABLE IF EXISTS `volunteer_note`;
+CREATE TABLE `volunteer_note` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `type` VARCHAR(50) NOT NULL,
+  `note` TEXT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
@@ -353,6 +364,9 @@ ALTER TABLE `project` ADD FOREIGN KEY (`country`) REFERENCES `country` (`id`);
 
 ALTER TABLE `contract_modification` ADD FOREIGN KEY (`status`) REFERENCES `contract_modification_status` (`id`);
 
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
+
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
 
 
 /* ########################## */
@@ -969,3 +983,36 @@ INSERT INTO contract_modification (timestamp, status, contract, type, into_force
 VALUES
   ('2023-09-08 12:34:56.789', 2, 1, 2, '2023-09-08', '{ "end": "2024-02-29"}'),
   ('2023-09-09 11:16:39.312', 1, 4, 1, '2023-10-01', '{ "salary": 3 }');
+
+INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
+VALUES
+  ('2024-01-10 14:51:39.123', 1, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
+  ('2024-01-11 14:51:39.123', 1, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
+  ('2024-02-13 14:51:39.123', 1, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
+  ('2024-02-13 14:51:39.123', 1, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+  ('2024-01-10 14:51:39.123', 2, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
+  ('2024-01-11 14:51:39.123', 2, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
+  ('2024-02-13 14:51:39.123', 2, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
+  ('2024-02-13 14:51:39.123', 2, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+  ('2024-01-10 14:51:39.123', 3, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
+  ('2024-01-11 14:51:39.123', 3, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
+  ('2024-02-13 14:51:39.123', 3, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
+  ('2024-02-13 14:51:39.123', 3, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+  ('2024-01-10 14:51:39.123', 4, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
+  ('2024-01-11 14:51:39.123', 4, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
+  ('2024-02-13 14:51:39.123', 4, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
+  ('2024-02-13 14:51:39.123', 4, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+  ('2024-01-10 14:51:39.123', 5, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
+  ('2024-01-11 14:51:39.123', 5, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
+  ('2024-02-13 14:51:39.123', 5, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
+  ('2024-02-13 14:51:39.123', 5, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp');
