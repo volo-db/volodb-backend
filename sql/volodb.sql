@@ -297,6 +297,25 @@ CREATE TABLE `volunteer_note` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `volunteer_document`;
+CREATE TABLE `volunteer_document` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `type` INT NOT NULL,
+  `size` INT NOT NULL,
+  `path` TEXT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `volunteer_document_type`;
+CREATE TABLE `volunteer_document_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` TEXT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
@@ -365,3 +384,9 @@ ALTER TABLE `contract_modification` ADD FOREIGN KEY (`status`) REFERENCES `contr
 ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
 ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
+
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`type`) REFERENCES `volunteer_document_type` (`id`);
+
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);

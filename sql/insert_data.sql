@@ -299,6 +299,25 @@ CREATE TABLE `volunteer_note` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `volunteer_document`;
+CREATE TABLE `volunteer_document` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `type` INT NOT NULL,
+  `size` INT NOT NULL,
+  `path` TEXT NOT NULL,
+  `user` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `volunteer_document_type`;
+CREATE TABLE `volunteer_document_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` TEXT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
@@ -368,6 +387,11 @@ ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer
 
 ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
 
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
+
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`type`) REFERENCES `volunteer_document_type` (`id`);
+
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
 
 /* ########################## */
 /*      INSERT NEW DATA       */
@@ -1016,3 +1040,45 @@ FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles
   ('2024-01-11 14:51:39.123', 5, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
   ('2024-02-13 14:51:39.123', 5, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
   ('2024-02-13 14:51:39.123', 5, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp');
+
+  INSERT INTO volunteer_document_type (name, description)
+  VALUES
+  ('Bewerbungsunterlagen', 'Lebenslauf, Anschreiben, Schulzeugnise und Co.'),
+  ('Personalbogen', 'Ausgefüllter Personalbogen.'),
+  ('Masernschutz', 'Verbpflichtender Nachweis über bestehenden Masernschut durch Imunität, Impfung oder ärztl. Befreieiung.'),
+  ('Erweitertes Führungszeugnis', 'Erweitertes polizeiliches Führungszeugnis welches nicht älter als 12 Monate sein darf'),
+  ('Einwillingung Foto- und Videoaufnahmen', 'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.'),
+  ('Bewertungsbogen', 'Bewertungsbogen von EST.');
+  
+  INSERT INTO volunteer_document (timestamp, volunteer, type, size, path, user)
+  VALUES
+  ('2024-03-18 13:39:22.321', 1, 1, 232002, 'docs/folder/file1.pdf', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 1, 1, 436022, 'docs/folder/file2.pdf', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 1, 1, 1946542, 'docs/folder/file3.jpg', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 1, 5, 202002, 'docs/folder/file4.pdf', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 1, 2, 332002, 'docs/folder/file5.pdf', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 1, 4, 2123002, 'docs/folder/file6.jpg', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 2, 1, 232002, 'docs/folder/file1.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 2, 1, 436022, 'docs/folder/file2.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 2, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 2, 5, 202002, 'docs/folder/file4.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 2, 2, 332002, 'docs/folder/file5.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 2, 4, 2123002, 'docs/folder/file6.jpg', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 3, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 3, 1, 436022, 'docs/folder/file2.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 3, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 3, 5, 202002, 'docs/folder/file4.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 3, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 3, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 4, 1, 232002, 'docs/folder/file1.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 4, 1, 436022, 'docs/folder/file2.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 4, 1, 1946542, 'docs/folder/file3.jpg', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 4, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 4, 2, 332002, 'docs/folder/file5.pdf', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 4, 4, 2123002, 'docs/folder/file6.jpg', 'magdalena.wiesinger'),
+  ('2024-03-18 13:39:22.321', 5, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 5, 1, 436022, 'docs/folder/file2.pdf', 'fabian.urner'),
+  ('2024-03-18 13:39:22.321', 5, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 5, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 5, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp'),
+  ('2024-03-18 13:39:22.321', 5, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp');
