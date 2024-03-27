@@ -1,7 +1,19 @@
 package dev.urner.volodb.service;
 
-import dev.urner.volodb.entity.HealthInsurance;
+import org.springframework.stereotype.Service;
 
-public interface HealthInsuranceService {
-  HealthInsurance findByName(String insuranceName);
+import dev.urner.volodb.dao.HealthInsuranceDAO;
+import dev.urner.volodb.entity.HealthInsurance;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class HealthInsuranceService {
+
+  private final HealthInsuranceDAO healthInsuranceDAO;
+
+  public HealthInsurance findByName(String insuranceName) {
+    return healthInsuranceDAO.findByName(insuranceName);
+  }
+
 }

@@ -2,12 +2,28 @@ package dev.urner.volodb.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import dev.urner.volodb.dao.ContractDAO;
 import dev.urner.volodb.entity.Contract;
+import lombok.RequiredArgsConstructor;
 
-public interface ContractService {
-  List<Contract> findAll();
+@Service
+@RequiredArgsConstructor
+public class ContractService {
 
-  Contract findById(int contractId);
+  private final ContractDAO contractDAO;
 
-  List<Contract> findByVolunteerId(int volunteerId);
+  public List<Contract> findAll() {
+    return contractDAO.findAll();
+  }
+
+  public Contract findById(int contractId) {
+    return contractDAO.findById(contractId);
+  }
+
+  public List<Contract> findByVolunteerId(int volunteerId) {
+    return contractDAO.findAllByVolunteerId(volunteerId);
+  }
+
 }

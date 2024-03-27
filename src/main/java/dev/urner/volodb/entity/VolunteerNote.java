@@ -30,7 +30,7 @@ public class VolunteerNote {
   private LocalDateTime timestamp;
 
   @Column(name = "volunteer")
-  private int volunteer;
+  private int volunteerId;
 
   @Column(name = "type")
   private String type;

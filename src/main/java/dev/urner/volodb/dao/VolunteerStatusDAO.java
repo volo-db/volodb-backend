@@ -1,18 +1,13 @@
 package dev.urner.volodb.dao;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.VolunteerStatus;
 
-public interface VolunteerStatusDAO {
+@Repository
+public interface VolunteerStatusDAO extends ListCrudRepository<VolunteerStatus, Integer> {
 
-  VolunteerStatus findByName(String theName);
+  public VolunteerStatus findByName(String name);
+
 }
-
-
-
-
-
-
-
-
-
-

@@ -2,12 +2,18 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.Religion;
 
-public interface ReligionDAO {
-  List<Religion> findAll();
+@Repository
+public interface ReligionDAO extends ListCrudRepository<Religion, Integer> {
 
-  Religion findByName(String religionName);
+  public List<Religion> findAll();
 
-  Religion findByShorthand(String religionShorthand);
+  public Religion findByName(String name);
+
+  public Religion findByShorthand(String shorthand);
+
 }

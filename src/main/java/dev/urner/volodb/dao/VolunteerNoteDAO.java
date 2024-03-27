@@ -2,15 +2,20 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.VolunteerNote;
 
-public interface VolunteerNoteDAO {
+@Repository
+public interface VolunteerNoteDAO extends ListCrudRepository<VolunteerNote, Integer> {
 
-  List<VolunteerNote> findAllByVolunteerId(int volunteerId);
+  public List<VolunteerNote> findByVolunteerId(int volunteerId);
 
-  VolunteerNote findById(int noteId);
+  public VolunteerNote save(VolunteerNote note);
 
-  VolunteerNote save(VolunteerNote note);
+  public void deleteById(int id);
 
-  void deleteById(int noteId);
+  public VolunteerNote findById(int id);
+
 }

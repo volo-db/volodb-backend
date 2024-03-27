@@ -1,9 +1,34 @@
 package dev.urner.volodb.service;
 
+import org.springframework.stereotype.Service;
+
+import dev.urner.volodb.dao.CountryDAO;
 import dev.urner.volodb.entity.Country;
+import dev.urner.volodb.entity.CountryNotFoundException;
+import lombok.RequiredArgsConstructor;
 
-public interface CountryService {
-  Country findByName(String countryName);
+@Service
+@RequiredArgsConstructor
+public class CountryService {
 
-  Country findByNationalityName(String natianalityName);
+  private final CountryDAO countryDao;
+
+  public Country findByName(String countryName) {
+    return countryDao.findByLocalName(countryName);
+  }
+
+  public Country findByNationalityName(String natianalityName) {
+    Country myCountry = null;
+    try {
+      myCountry = countryDao.findByNationality(natianalityName);
+    } catch (Exception e1) {
+      try {
+        myCountry = countryDao.findByLocalName(natianalityName);
+      } catch (Exception e2) {
+        throw new CountryNotFoundException("Country of nationality '" + natianalityName + "' not found.");
+      }
+    }
+
+    return myCountry;
+  }
 }

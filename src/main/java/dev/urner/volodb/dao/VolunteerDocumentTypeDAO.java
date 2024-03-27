@@ -2,17 +2,22 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.VolunteerDocumentType;
 
-public interface VolunteerDocumentTypeDAO {
+@Repository
+public interface VolunteerDocumentTypeDAO extends ListCrudRepository<VolunteerDocumentType, Integer> {
 
-  List<VolunteerDocumentType> findAll();
+  public List<VolunteerDocumentType> findAll();
 
-  VolunteerDocumentType findById(int documentId);
+  public VolunteerDocumentType findById(int id);
 
-  VolunteerDocumentType findByName(String documentName);
+  public VolunteerDocumentType save(VolunteerDocumentType documentType);
 
-  VolunteerDocumentType save(VolunteerDocumentType documentType);
+  public void deleteById(int id);
 
-  void deleteById(int documentId);
+  public VolunteerDocumentType findByName(String name);
+
 }

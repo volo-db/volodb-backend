@@ -3,20 +3,54 @@ package dev.urner.volodb.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+import dev.urner.volodb.dao.VolunteerDocumentDAO;
 import dev.urner.volodb.entity.VolunteerDocument;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
-public interface VolunteerDocumentService {
+@Service
+@RequiredArgsConstructor
+public class VolunteerDocumentService {
 
-  List<VolunteerDocument> findAll();
+  private final VolunteerDocumentDAO volunteerDocumentDAO;
+  private final VolunteerDocumentTypeService documentTypeService;
 
-  VolunteerDocument findById(int documentId);
+  public List<VolunteerDocument> findAll() {
+    return volunteerDocumentDAO.findAll();
+  }
 
-  List<VolunteerDocument> findByVolunteerId(int volunteerId);
+  public VolunteerDocument findById(int documentId) {
+    return volunteerDocumentDAO.findById(documentId);
+  }
 
-  VolunteerDocument save(VolunteerDocument document);
+  @Transactional
+  public VolunteerDocument save(VolunteerDocument document) {
+    return volunteerDocumentDAO.save(document);
+  }
 
-  VolunteerDocument update(int documentId, Map<String, Object> fields);
+  @Transactional
+  public VolunteerDocument update(int documentId, Map<String, Object> fields) {
+    VolunteerDocument dbDocument = volunteerDocumentDAO.findById(documentId);
 
-  void deleteById(int documentId);
+    fields.forEach((key, value) -> {
+      if (key.toLowerCase().equals("type")) {
+        dbDocument.setDocumentType(documentTypeService.findByName(value.toString()));
+        return;
+      }
+    });
+
+    return dbDocument;
+  }
+
+  @Transactional
+  public void deleteById(int documentId) {
+    documentTypeService.deleteById(documentId);
+  }
+
+  public List<VolunteerDocument> findByVolunteerId(int volunteerId) {
+    return volunteerDocumentDAO.findByVolunteerId(volunteerId);
+  }
 
 }

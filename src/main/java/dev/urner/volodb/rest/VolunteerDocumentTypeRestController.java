@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.urner.volodb.entity.VolunteerDocumentType;
 import dev.urner.volodb.service.VolunteerDocumentTypeService;
-import lombok.Delegate;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;

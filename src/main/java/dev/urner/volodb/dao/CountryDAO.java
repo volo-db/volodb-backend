@@ -1,9 +1,15 @@
 package dev.urner.volodb.dao;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.Country;
 
-public interface CountryDAO {
-  Country findByName(String countryName);
+@Repository
+public interface CountryDAO extends ListCrudRepository<Country, Integer> {
 
-  Country findByNationalityName(String nationalityName);
+  public Country findByLocalName(String name);
+
+  public Country findByNationality(String nationality);
+
 }

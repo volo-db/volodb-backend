@@ -1,27 +1,20 @@
 package dev.urner.volodb.dao;
 
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.ListCrudRepository;
 
 import dev.urner.volodb.entity.Volunteer;
 
-public interface VolunteerDAO {
+import java.util.List;
+
+@Repository
+public interface VolunteerDAO extends ListCrudRepository<Volunteer, Integer> {
 
   List<Volunteer> findAll();
 
-  Volunteer findById(int theId);
+  Volunteer findById(int id);
 
-  Volunteer save(Volunteer theVolunteer);
+  Volunteer save(Volunteer volunteer);
 
-  void deleteById(int theId);
+  void deleteById(int id);
 }
-
-
-
-
-
-
-
-
-
-

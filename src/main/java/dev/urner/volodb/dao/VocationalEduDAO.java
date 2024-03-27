@@ -2,12 +2,18 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.VocationalEdu;
 
-public interface VocationalEduDAO {
-  List<VocationalEdu> findAll();
+@Repository
+public interface VocationalEduDAO extends ListCrudRepository<VocationalEdu, Integer> {
 
-  VocationalEdu findById(int vocationalEduId);
+  public List<VocationalEdu> findAll();
 
-  VocationalEdu findByName(String vocationalEduName);
+  public VocationalEdu findById(int id);
+
+  public VocationalEdu findByName(String vocationalEduName);
+
 }

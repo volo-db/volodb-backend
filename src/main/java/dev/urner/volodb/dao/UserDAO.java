@@ -2,15 +2,20 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.User;
 
-public interface UserDAO {
-    
-  List<User> findAll();
+@Repository
+public interface UserDAO extends ListCrudRepository<User, String> {
 
-  User findByUsername(String theUsername);
+  public List<User> findAll();
 
-  User save(User theUser);
+  public User findByUsername(String username);
 
-  void deleteById(int theId);
+  public User save(User user);
+
+  public void deleteByUsername(String username);
+
 }

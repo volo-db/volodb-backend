@@ -3,19 +3,57 @@ package dev.urner.volodb.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+import dev.urner.volodb.dao.VolunteerDocumentTypeDAO;
 import dev.urner.volodb.entity.VolunteerDocumentType;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
-public interface VolunteerDocumentTypeService {
+@Service
+@RequiredArgsConstructor
+public class VolunteerDocumentTypeService {
 
-  List<VolunteerDocumentType> findAll();
+  private final VolunteerDocumentTypeDAO volunteerDocumentTypeDAO;
 
-  VolunteerDocumentType findById(int documentTypeId);
+  public List<VolunteerDocumentType> findAll() {
+    return volunteerDocumentTypeDAO.findAll();
+  }
 
-  VolunteerDocumentType findByName(String documentTypeName);
+  public VolunteerDocumentType findById(int documentTypeId) {
+    return volunteerDocumentTypeDAO.findById(documentTypeId);
+  }
 
-  VolunteerDocumentType save(VolunteerDocumentType documentType);
+  @Transactional
+  public VolunteerDocumentType save(VolunteerDocumentType documentType) {
+    return volunteerDocumentTypeDAO.save(documentType);
+  }
 
-  VolunteerDocumentType update(int documentTypeId, Map<String, Object> fields);
+  @Transactional
+  public void deleteById(int documentTypeId) {
+    volunteerDocumentTypeDAO.deleteById(documentTypeId);
+  }
 
-  void deleteById(int documentTypeId);
+  @Transactional
+  public VolunteerDocumentType update(int documentTypeId, Map<String, Object> fields) {
+    VolunteerDocumentType dbDocumentType = volunteerDocumentTypeDAO.findById(documentTypeId);
+
+    fields.forEach((key, value) -> {
+      if (key.toLowerCase().equals("name")) {
+        dbDocumentType.setName(value.toString());
+        return;
+      }
+      if (key.toLowerCase().equals("description")) {
+        dbDocumentType.setDescription(value.toString());
+        return;
+      }
+    });
+
+    return volunteerDocumentTypeDAO.save(dbDocumentType);
+  }
+
+  public VolunteerDocumentType findByName(String documentTypeName) {
+    return volunteerDocumentTypeDAO.findByName(documentTypeName);
+  }
+
 }

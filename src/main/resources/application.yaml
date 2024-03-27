@@ -1,5 +1,5 @@
 application:
-  formatted-version: "0.0.1"
+  formatted-version: @project.version@
   title: "VoloDB"
 
 #

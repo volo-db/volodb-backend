@@ -2,14 +2,16 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.HealthInsurance;
 
-public interface HealthInsuranceDAO {
-  List<HealthInsurance> findAll();
+@Repository
+public interface HealthInsuranceDAO extends ListCrudRepository<HealthInsurance, Integer> {
 
-  HealthInsurance findByName(String insuranceName);
+  public List<HealthInsurance> findAll();
 
-  // HealthInsurance save(HealthInsurance insurance);
+  public HealthInsurance findByName(String insuranceName);
 
-  // HealthInsurance deleteById(int insuranceId);
 }

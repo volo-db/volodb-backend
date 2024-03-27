@@ -2,12 +2,18 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.SchoolEdu;
 
-public interface SchoolEduDAO {
-  List<SchoolEdu> findAll();
+@Repository
+public interface SchoolEduDAO extends ListCrudRepository<SchoolEdu, Integer> {
 
-  SchoolEdu findById(int schoolEduId);
+  public List<SchoolEdu> findAll();
 
-  SchoolEdu findByName(String schoolEduName);
+  public SchoolEdu findById(int id);
+
+  public SchoolEdu findByName(String name);
+
 }

@@ -2,15 +2,19 @@ package dev.urner.volodb.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.stereotype.Repository;
+
 import dev.urner.volodb.entity.Project;
 
-public interface ProjectDAO {
-    
-  List<Project> findAll();
+@Repository
+public interface ProjectDAO extends ListCrudRepository<Project, Integer> {
 
-  Project findByProjectId(int projectId);
+  public List<Project> findAll();
 
-  Project save(Project theProject);
+  public Project findById(int projectId);
 
-  void deleteById(int theId);
+  public Project save(Project theProject);
+
+  public void deleteById(int theId);
 }
