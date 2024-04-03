@@ -1,30 +1,38 @@
 application:
   formatted-version: @project.version@
-  title: "VoloDB"
+  title: @project.name@
 
-#
-# JDBC properties
-#
+volodb:
+  minio:
+    url: http://localhost:9000
+    access-key: hnvDi0J0TkJzIveMpUx7
+    secret-key: GKgCXqOE7Y7E9TpeT3BCdrfFEHNhrQrXdVyHJNZu
+
 spring:
-  main:
-    banner-mode: "log"
+  application:
+    name: "VoloDB"
   banner:
     location: "banner.txt"
+  main:
+    banner-mode: "log"
   datasource:
     url: "jdbc:mysql://localhost:3306/volo_db"
     username: root
     password: test1234
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
 
   jpa:
     hibernate:
       naming-strategy: "org.hibernate.cfg.EJB3NamingStrategy"
-#
-# SEECURITY
-#
+
 security:
   jwt:
-    secret-key: "dasisteinsehrlangerabersinnlosersecretkeydenmanichterratensoll"
-    token-duration: 1H
+    secret-key: "37fe5eb93cfbf3b1189cce4baf73f0c3bf882dc9b9f2ea8006546801e0b6a66a"
+    token-duration: 12H
+
 logging:
   level:
     org:
@@ -32,6 +40,3 @@ logging:
         security: DEBUG
         web:
           cors: DEBUG
-#
-# BANNER
-#

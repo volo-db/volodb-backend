@@ -214,13 +214,7 @@ public class VolunteerDeserializer extends StdDeserializer {
         myVolunteer.setOngoingLegalProceedings(OngoingLegalProceedingsState.NO);
     }
 
-    if (node.has("avatar") && node.get("avatar").asText() != "") {
-      myVolunteer.setAvatar(node.get("avatar").asText());
-    } else {
-      // https://i.pravatar.cc/300?u=volodb
-      myVolunteer.setAvatar("https://i.pravatar.cc/300?u=volodb_" + UUID.randomUUID().toString());
-    }
-
+    myVolunteer.setAvatar("volodb/default-files/default-avatar.png");
     return myVolunteer;
 
   }

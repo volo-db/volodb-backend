@@ -3,6 +3,7 @@ package dev.urner.volodb.rest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -86,6 +87,11 @@ public class VolunteerRestController {
     volunteerService.deleteById(volunteerId);
 
     return "Deleted volunteer id - " + volunteerId;
+  }
+
+  @PatchMapping("/{volunteerId}/avatar")
+  public String setVolunteerAvatar(@PathVariable int volunteerId, @RequestParam MultipartFile avatar) {
+    return volunteerService.SetAvatar(avatar, volunteerId);
   }
 
   @ExceptionHandler
