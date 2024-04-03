@@ -1,8 +1,11 @@
 package dev.urner.volodb.service;
 
 import dev.urner.volodb.dao.VolunteerDAO;
+import dev.urner.volodb.dao.VolunteerDocumentDAO;
 import dev.urner.volodb.entity.Gender;
 import dev.urner.volodb.entity.Volunteer;
+import dev.urner.volodb.entity.VolunteerDocument;
+import dev.urner.volodb.entity.VolunteerDocumentType;
 import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
@@ -12,29 +15,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.minio.BucketExistsArgs;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.http.Method;
-
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.io.FilenameUtils;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class VolunteerService {
 
   private final VolunteerDAO volunteerDAO;
+  private final VolunteerDocumentService volunteerDocumentService;
+  private final VolunteerDocumentTypeService volunteerDocumentTypeService;
 
   // private final PersonService ps;
   private final VolunteerStatusService vss;
@@ -43,7 +41,7 @@ public class VolunteerService {
   private final ReligionService rs;
   private final SchoolEduService ses;
   private final VocationalEduService ves;
-  private final MinioClient minioClient;
+  private final FileService fileService;
 
   public List<Volunteer> findAll() {
     return volunteerDAO.findAll();
@@ -229,25 +227,7 @@ public class VolunteerService {
     String bucketName = "volunteer-" + volunteerId;
     String objectName = "avatar/avatar-" + volunteerId + "." + fileExtension;
 
-    try {
-      // If Bucket doesn't exist: Create it!
-      if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
-        minioClient.makeBucket(
-            MakeBucketArgs.builder()
-                .bucket(bucketName)
-                .build());
-      }
-
-      // Store Avatar in Bucket
-      minioClient.putObject(PutObjectArgs.builder()
-          .bucket(bucketName)
-          .object(objectName)
-          .stream(avatar.getInputStream(), avatar.getSize(), -1)
-          .build());
-
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage());
-    }
+    fileService.saveFile(avatar, bucketName, objectName);
 
     dbVolunteer.setAvatar(bucketName + "/" + objectName);
     dbVolunteer = volunteerDAO.save(dbVolunteer);
@@ -255,35 +235,21 @@ public class VolunteerService {
     return dbVolunteer.getAvatar();
   }
 
-  // public String GetAvatarLink(int volunteerId) {
-  // Volunteer dbVolunteer = volunteerDAO.findById(volunteerId);
-  // if (dbVolunteer == null) {
-  // throw new VolunteerNotFoundException("Volunteer with Id: '" + volunteerId +
-  // "' not found.");
-  // }
+  public VolunteerDocument saveDocument(MultipartFile file, int documentTypeId, int volunteerId, String username) {
+    String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+    String bucket = "volunteer-" + volunteerId;
+    String object = "documents/document-" + UUID.randomUUID().toString() + "." + fileExtension;
 
-  // // Set the Avatar-Field in Volunteer-Entity @JsonIgnore
-  // // -> then provide over Getter-Method the Bucket- and ObjectName
-  // // String bucketName = getBucketNameByVoloId(volunteerId);
-  // // String objectName = "avatar/avatar-" + volunteerId + "." + fileExtension;
+    VolunteerDocument voloDoc = new VolunteerDocument();
+    voloDoc.setVolunteerId(volunteerId);
+    voloDoc.setTimestamp(LocalDateTime.now());
+    voloDoc.setDocumentType(volunteerDocumentTypeService.findById(documentTypeId));
+    voloDoc.setSize(file.getSize());
+    voloDoc.setUsername(username);
+    voloDoc.setPath(bucket + "/" + object);
 
-  // try {
-  // // Get sharable Link
-  // String avatarLink =
-  // minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-  // .method(Method.GET)
-  // .bucket(bucketName)
-  // .object(objectName)
-  // .expiry(1, TimeUnit.DAYS)
-  // .build());
-
-  // dbVolunteer.setAvatar(avatarLink);
-
-  // } catch (Exception e) {
-  // throw new RuntimeException(e.getMessage());
-  // }
-
-  // return "";
-  // }
+    fileService.saveFile(file, bucket, object);
+    return volunteerDocumentService.save(voloDoc);
+  }
 
 }

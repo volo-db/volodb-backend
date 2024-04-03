@@ -28,6 +28,17 @@ spring:
     hibernate:
       naming-strategy: "org.hibernate.cfg.EJB3NamingStrategy"
 
+server:
+  servlet:
+    contextPath: "/api/v1"
+
+springdoc:
+  api-docs:
+    path: "/docs"
+
+  swagger-ui:
+    path: "/docs/swagger"
+
 security:
   jwt:
     secret-key: "37fe5eb93cfbf3b1189cce4baf73f0c3bf882dc9b9f2ea8006546801e0b6a66a"

@@ -41,7 +41,7 @@ public class VolunteerDocument {
   private VolunteerDocumentType documentType;
 
   @Column(name = "size")
-  private int size;
+  private Long size;
 
   @Column(name = "path")
   private String path;

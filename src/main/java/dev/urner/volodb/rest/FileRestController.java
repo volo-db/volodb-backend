@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("api/v1/files")
+@RequestMapping("/files")
 @RequiredArgsConstructor
 public class FileRestController {
 

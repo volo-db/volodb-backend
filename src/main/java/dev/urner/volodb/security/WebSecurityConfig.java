@@ -50,7 +50,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(registry -> registry
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers("/error").permitAll()
-            .requestMatchers("/api/v1/files/**").permitAll()
+            .requestMatchers("/docs/**").permitAll()
             .anyRequest()
             .authenticated());
 

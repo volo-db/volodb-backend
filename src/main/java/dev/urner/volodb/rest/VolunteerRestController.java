@@ -2,6 +2,7 @@ package dev.urner.volodb.rest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,23 +10,31 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import dev.urner.volodb.entity.Volunteer;
+import dev.urner.volodb.entity.VolunteerDocument;
 import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
+import dev.urner.volodb.entity.VolunteerNote;
+import dev.urner.volodb.security.UserPrincipal;
+import dev.urner.volodb.service.VolunteerNoteService;
 import dev.urner.volodb.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/v1/volunteers")
+@RequestMapping("/volunteers")
 @RequiredArgsConstructor
 public class VolunteerRestController {
 
   private final VolunteerService volunteerService;
+  private final VolunteerNoteService volunteerNoteService;
 
   // expose "/volunteers" and return a list of volunteers
-  @GetMapping("")
+  @GetMapping
   public List<Volunteer> findAll() {
     return volunteerService.findAll();
   }
@@ -45,7 +54,7 @@ public class VolunteerRestController {
 
   // add mapping for POST /volunteers - add new volunteer
 
-  @PostMapping("")
+  @PostMapping
   public Volunteer addVolunteer(@RequestBody Volunteer theVolunteer) {
 
     // also just in case they pass an id in JSON ... set id to 0
@@ -59,7 +68,7 @@ public class VolunteerRestController {
   }
 
   // add mapping for PUT /volunteers - update existing volunteer
-  @PutMapping("")
+  @PutMapping
   public Volunteer updateVolunteer(@RequestBody Volunteer theVolunteer) {
     theVolunteer.setId(0);
 
@@ -89,10 +98,55 @@ public class VolunteerRestController {
     return "Deleted volunteer id - " + volunteerId;
   }
 
+  // Avatar
+
   @PatchMapping("/{volunteerId}/avatar")
   public String setVolunteerAvatar(@PathVariable int volunteerId, @RequestParam MultipartFile avatar) {
     return volunteerService.SetAvatar(avatar, volunteerId);
   }
+
+  // Volunteer-Notes:
+
+  // GET all notes BY VoloID
+  @GetMapping("/{volunteerId}/notes")
+  public List<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId) {
+    return volunteerNoteService.findAllByVolunteerId(volunteerId);
+  }
+
+  // POST note BY VoloID
+  @PostMapping("/{volunteerId}/notes")
+  public VolunteerNote postNewNote(@PathVariable int volunteerId, @RequestBody VolunteerNote note,
+      @AuthenticationPrincipal UserPrincipal principal) {
+    note.setVolunteerId(volunteerId);
+    note.setTimestamp(LocalDateTime.now());
+    note.setUsername(principal.getUsername());
+    return volunteerNoteService.save(note, principal.getUsername());
+  }
+
+  // PATCH
+  @PatchMapping("/{volunteerId}/notes/{noteId}")
+  public VolunteerNote updateVolunteerNote(@RequestBody Map<String, Object> fields, @PathVariable int volunteerId,
+      @PathVariable int noteId) {
+    return volunteerNoteService.update(noteId, fields);
+  }
+
+  // DELTE BY NoteID
+  @DeleteMapping("/{volunteerId}/notes/{noteId}")
+  public String deleteByNoteId(@PathVariable int volunteerId, @PathVariable int noteId,
+      @AuthenticationPrincipal UserPrincipal principal) {
+    volunteerNoteService.deleteById(noteId, principal.getUsername());
+    return "Volunteer-Note with Id '" + noteId + "' deleted.";
+  }
+
+  @PostMapping("/{volunteerId}/documents")
+  public VolunteerDocument postNewDocument(@PathVariable int volunteerId, @RequestParam MultipartFile document,
+      @RequestParam int documentTypeId, @AuthenticationPrincipal UserPrincipal principal) {
+    return volunteerService.saveDocument(document, documentTypeId, volunteerId, principal.getUsername());
+  }
+
+  // **********************************
+  // Exceptionhandler:
+  // **********************************
 
   @ExceptionHandler
   public ResponseEntity<VolunteerErrorResponse> handleException(VolunteerNotFoundException exc) {

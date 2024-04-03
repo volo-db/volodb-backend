@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
-import dev.urner.volodb.configuration.MinioConfig;
 import dev.urner.volodb.entity.User;
 import dev.urner.volodb.entity.UserNotFoundException;
 import dev.urner.volodb.model.LoginRequest;
@@ -12,7 +11,6 @@ import dev.urner.volodb.model.LoginResponse;
 import dev.urner.volodb.security.JwtIssuer;
 import dev.urner.volodb.security.UserPrincipal;
 import dev.urner.volodb.service.UserService;
-import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor

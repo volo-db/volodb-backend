@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/projects")
 @RequiredArgsConstructor
 public class ProjectRestController {
 
   private final ProjectService projectService;
 
   // expose "/project" and return a list of volunteers
-  @GetMapping("")
+  @GetMapping
   public List<Project> findAll() {
     return projectService.findAll();
   }
@@ -39,7 +39,7 @@ public class ProjectRestController {
     return theProject;
   }
 
-  @PostMapping("")
+  @PostMapping
   public Project postProject(@RequestBody Project newProject) {
     newProject.setId(0);
 

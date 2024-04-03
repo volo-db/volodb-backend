@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/api/v1/documents")
+@RequestMapping("/documents")
 @RequiredArgsConstructor
 public class VolunteerDocumentRestController {
 

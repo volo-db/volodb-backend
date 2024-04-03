@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/v1/documents/types")
+@RequestMapping("/documents/types")
 @RequiredArgsConstructor
 public class VolunteerDocumentTypeRestController {
 
   private final VolunteerDocumentTypeService volunteerDocumentTypeService;
 
-  @GetMapping("")
+  @GetMapping
   public List<VolunteerDocumentType> getAll() {
     return volunteerDocumentTypeService.findAll();
   }
@@ -34,7 +34,7 @@ public class VolunteerDocumentTypeRestController {
     return volunteerDocumentTypeService.findById(documentTypeId);
   }
 
-  @PostMapping("")
+  @PostMapping
   public VolunteerDocumentType postNewVolunteerDocumentType(@RequestBody VolunteerDocumentType documentType) {
     return volunteerDocumentTypeService.save(documentType);
   }
