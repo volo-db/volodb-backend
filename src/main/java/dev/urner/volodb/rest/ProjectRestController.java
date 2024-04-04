@@ -1,5 +1,6 @@
 package dev.urner.volodb.rest;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,10 @@ public class ProjectRestController {
 
   // expose "/project" and return a list of volunteers
   @GetMapping
-  public List<Project> findAll() {
-    return projectService.findAll();
+  public Page<Project> findAll(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+    return projectService.findAll(page, pageSize);
   }
 
   @GetMapping("/{projectId}")

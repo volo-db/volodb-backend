@@ -1,16 +1,14 @@
 package dev.urner.volodb.dao;
 
-import java.util.List;
-
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import dev.urner.volodb.entity.VolunteerDocument;
 
 @Repository
-public interface VolunteerDocumentDAO extends ListCrudRepository<VolunteerDocument, Integer> {
-
-  public List<VolunteerDocument> findAll();
+public interface VolunteerDocumentDAO extends PagingAndSortingRepository<VolunteerDocument, Integer> {
 
   public VolunteerDocument findById(int id);
 
@@ -18,6 +16,6 @@ public interface VolunteerDocumentDAO extends ListCrudRepository<VolunteerDocume
 
   public void deleteById(int id);
 
-  public List<VolunteerDocument> findByVolunteerId(int volunteerId);
+  public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, Pageable pageable);
 
 }

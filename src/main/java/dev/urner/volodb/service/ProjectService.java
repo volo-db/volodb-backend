@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -22,8 +24,8 @@ public class ProjectService {
   private final ProjectDAO projectDAO;
   private final CountryService countryService;
 
-  public List<Project> findAll() {
-    return projectDAO.findAll();
+  public Page<Project> findAll(int page, int pageSize) {
+    return projectDAO.findAll(PageRequest.of(page, pageSize));
   }
 
   public Project findByProjectId(int theProjectId) {

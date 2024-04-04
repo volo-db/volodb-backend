@@ -1,5 +1,6 @@
 package dev.urner.volodb.rest;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,11 +16,11 @@ import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.VolunteerNote;
 import dev.urner.volodb.security.UserPrincipal;
+import dev.urner.volodb.service.VolunteerDocumentService;
 import dev.urner.volodb.service.VolunteerNoteService;
 import dev.urner.volodb.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Map;
 import java.time.LocalDateTime;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,11 +33,27 @@ public class VolunteerRestController {
 
   private final VolunteerService volunteerService;
   private final VolunteerNoteService volunteerNoteService;
+  private final VolunteerDocumentService volunteerDocumentService;
 
   // expose "/volunteers" and return a list of volunteers
   @GetMapping
-  public List<Volunteer> findAll() {
-    return volunteerService.findAll();
+  public Page<Volunteer> findAll(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
+
+    // unsorted
+    if (sortField.equals(""))
+      return volunteerService.findAll(page, pageSize);
+
+    // sorted
+    if (sortOrder.equals("asc"))
+      return volunteerService.findAll(page, pageSize, sortField, false);
+    if (sortOrder.equals("desc"))
+      return volunteerService.findAll(page, pageSize, sortField, true);
+
+    throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
   }
 
   // add mapping for GET /volunteers/{volunteerId}
@@ -105,12 +122,16 @@ public class VolunteerRestController {
     return volunteerService.SetAvatar(avatar, volunteerId);
   }
 
-  // Volunteer-Notes:
+  // **********************************
+  // Notes
+  // **********************************
 
   // GET all notes BY VoloID
   @GetMapping("/{volunteerId}/notes")
-  public List<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId) {
-    return volunteerNoteService.findAllByVolunteerId(volunteerId);
+  public Page<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+    return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize);
   }
 
   // POST note BY VoloID
@@ -138,6 +159,17 @@ public class VolunteerRestController {
     return "Volunteer-Note with Id '" + noteId + "' deleted.";
   }
 
+  // **********************************
+  // Documents
+  // **********************************
+
+  @GetMapping("/{volunteerId}/documents")
+  public Page<VolunteerDocument> getAllDocuments(@PathVariable int volunteerId,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+    return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize);
+  }
+
   @PostMapping("/{volunteerId}/documents")
   public VolunteerDocument postNewDocument(@PathVariable int volunteerId, @RequestParam MultipartFile document,
       @RequestParam int documentTypeId, @AuthenticationPrincipal UserPrincipal principal) {
@@ -145,7 +177,7 @@ public class VolunteerRestController {
   }
 
   // **********************************
-  // Exceptionhandler:
+  // Exceptionhandling:
   // **********************************
 
   @ExceptionHandler

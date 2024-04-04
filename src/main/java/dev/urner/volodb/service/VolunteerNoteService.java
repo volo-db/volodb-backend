@@ -3,6 +3,8 @@ package dev.urner.volodb.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerNoteDAO;
@@ -18,9 +20,9 @@ public class VolunteerNoteService {
 
   private final VolunteerNoteDAO volunteerNoteDAO;
 
-  public List<VolunteerNote> findAllByVolunteerId(int volunteerId) {
+  public Page<VolunteerNote> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
 
-    List<VolunteerNote> notes = volunteerNoteDAO.findByVolunteerId(volunteerId);
+    Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
 
     if (notes == null)
       throw new VolunteerNoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);

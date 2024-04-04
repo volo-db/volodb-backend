@@ -3,6 +3,8 @@ package dev.urner.volodb.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerDocumentDAO;
@@ -17,8 +19,8 @@ public class VolunteerDocumentService {
   private final VolunteerDocumentDAO volunteerDocumentDAO;
   private final VolunteerDocumentTypeService documentTypeService;
 
-  public List<VolunteerDocument> findAll() {
-    return volunteerDocumentDAO.findAll();
+  public Page<VolunteerDocument> findAll(int page, int pageSize) {
+    return volunteerDocumentDAO.findAll(PageRequest.of(page, pageSize));
   }
 
   public VolunteerDocument findById(int documentId) {
@@ -49,8 +51,8 @@ public class VolunteerDocumentService {
     documentTypeService.deleteById(documentId);
   }
 
-  public List<VolunteerDocument> findByVolunteerId(int volunteerId) {
-    return volunteerDocumentDAO.findByVolunteerId(volunteerId);
+  public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
+    return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
   }
 
 }

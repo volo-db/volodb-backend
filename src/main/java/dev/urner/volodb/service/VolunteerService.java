@@ -10,6 +10,9 @@ import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
@@ -43,8 +46,17 @@ public class VolunteerService {
   private final VocationalEduService ves;
   private final FileService fileService;
 
-  public List<Volunteer> findAll() {
-    return volunteerDAO.findAll();
+  public Page<Volunteer> findAll(int page, int pageSize) {
+    return volunteerDAO.findAll(PageRequest.of(page, pageSize, Sort.by("person.firstname").descending()));
+  }
+
+  public Page<Volunteer> findAll(int page, int pageSize, String sortField, boolean descending) {
+    Sort sort = Sort.by(sortField);
+
+    if (descending)
+      sort = sort.descending();
+
+    return volunteerDAO.findAll(PageRequest.of(page, pageSize, sort));
   }
 
   public Volunteer findById(int theId) {
