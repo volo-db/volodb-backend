@@ -130,8 +130,19 @@ public class VolunteerRestController {
   @GetMapping("/{volunteerId}/notes")
   public Page<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-    return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize);
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
+    if (sortField.equals(""))
+      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize);
+
+    if (sortOrder.equals("asc"))
+      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, false);
+    if (sortOrder.equals("desc"))
+      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, true);
+
+    throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
+
   }
 
   // POST note BY VoloID
@@ -166,13 +177,28 @@ public class VolunteerRestController {
   @GetMapping("/{volunteerId}/documents")
   public Page<VolunteerDocument> getAllDocuments(@PathVariable int volunteerId,
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-    return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize);
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
+
+    if (sortField.equals(""))
+      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize);
+
+    if (sortOrder.equals("asc"))
+      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, false);
+    if (sortOrder.equals("desc"))
+      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, true);
+
+    throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
+
   }
 
   @PostMapping("/{volunteerId}/documents")
-  public VolunteerDocument postNewDocument(@PathVariable int volunteerId, @RequestParam MultipartFile document,
-      @RequestParam int documentTypeId, @AuthenticationPrincipal UserPrincipal principal) {
+  public VolunteerDocument postNewDocument(
+      @PathVariable int volunteerId,
+      @RequestParam MultipartFile document,
+      @RequestParam int documentTypeId,
+      @AuthenticationPrincipal UserPrincipal principal) {
     return volunteerService.saveDocument(document, documentTypeId, volunteerId, principal.getUsername());
   }
 

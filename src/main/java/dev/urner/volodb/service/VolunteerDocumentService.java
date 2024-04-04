@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerDocumentDAO;
@@ -53,6 +54,17 @@ public class VolunteerDocumentService {
 
   public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
     return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
+  }
+
+  public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, int page, int pageSize, String sortField,
+      boolean descending) {
+
+    Sort sort = Sort.by(sortField);
+
+    if (descending)
+      sort = sort.descending();
+
+    return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize, sort));
   }
 
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerNoteDAO;
@@ -23,6 +24,25 @@ public class VolunteerNoteService {
   public Page<VolunteerNote> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
 
     Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
+
+    if (notes == null)
+      throw new VolunteerNoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
+
+    return notes;
+  }
+
+  // (page, pageSize, sortField, true);
+
+  public Page<VolunteerNote> findAllByVolunteerId(int volunteerId, int page, int pageSize, String sortField,
+      boolean descending) {
+
+    Sort sort = Sort.by(sortField);
+
+    if (descending)
+      sort = sort.descending();
+
+    Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId,
+        PageRequest.of(page, pageSize, sort));
 
     if (notes == null)
       throw new VolunteerNoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
