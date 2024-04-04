@@ -38,6 +38,9 @@ public class VolunteerDocumentTypeService {
   public VolunteerDocumentType update(int documentTypeId, Map<String, Object> fields) {
     VolunteerDocumentType dbDocumentType = volunteerDocumentTypeDAO.findById(documentTypeId);
 
+    if (dbDocumentType == null)
+      throw new RuntimeException("DocumentType with id '" + documentTypeId + "' not found.");
+
     fields.forEach((key, value) -> {
       if (key.toLowerCase().equals("name")) {
         dbDocumentType.setName(value.toString());

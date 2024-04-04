@@ -9,6 +9,7 @@ import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
 import dev.urner.volodb.entity.ProjectInvalidFormatException;
 import dev.urner.volodb.entity.ProjectNotFoundException;
+import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +27,19 @@ public class ProjectRestController {
   @GetMapping
   public Page<Project> findAll(
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-    return projectService.findAll(page, pageSize);
+      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
+
+    if (sortField.equals(""))
+      return projectService.findAll(page, pageSize);
+
+    if (sortOrder.equals("asc"))
+      return projectService.findAll(page, pageSize, sortField, false);
+    if (sortOrder.equals("desc"))
+      return projectService.findAll(page, pageSize, sortField, true);
+
+    throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
   }
 
   @GetMapping("/{projectId}")

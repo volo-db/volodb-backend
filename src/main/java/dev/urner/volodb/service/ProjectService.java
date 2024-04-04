@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -26,6 +27,15 @@ public class ProjectService {
 
   public Page<Project> findAll(int page, int pageSize) {
     return projectDAO.findAll(PageRequest.of(page, pageSize));
+  }
+
+  public Page<Project> findAll(int page, int pageSize, String sortField, boolean descending) {
+    Sort sort = Sort.by(sortField);
+
+    if (descending)
+      sort = sort.descending();
+
+    return projectDAO.findAll(PageRequest.of(page, pageSize, sort));
   }
 
   public Project findByProjectId(int theProjectId) {
