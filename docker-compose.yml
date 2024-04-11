@@ -14,7 +14,7 @@ services:
     ports:
       - "40101:3306"
     networks:
-      - spring-mysql-network
+      - volodb-network
 
   minio_obj_store:
     image: quay.io/minio/minio
@@ -28,6 +28,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     command: server /data --console-address ":9001"
+    networks:
+      - volodb-network
 
   api:
     build:
@@ -45,8 +47,8 @@ services:
     depends_on:
       - mysql_db
     networks:
-      - spring-mysql-network
+      - volodb-network
 
 networks:
-  spring-mysql-network:
+  volodb-network:
     driver: bridge
