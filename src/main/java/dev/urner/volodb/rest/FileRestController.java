@@ -44,16 +44,16 @@ public class FileRestController {
   }
 
   @ExceptionHandler
-  public ResponseEntity<VolunteerErrorResponse> handleException(RuntimeException exc) {
-    VolunteerErrorResponse error = new VolunteerErrorResponse();
+  public ResponseEntity<VolodbErrorResponse> handleException(RuntimeException exc) {
 
-    HttpStatus status = HttpStatus.BAD_REQUEST;
+    HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-    error.setStatus(status.value());
-    error.setMessage(exc.getMessage());
-    error.setTimeStamp(System.currentTimeMillis());
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
+        exc.getMessage(),
+        System.currentTimeMillis());
 
-    return new ResponseEntity<>(error, status);
+    return new ResponseEntity<>(error, httpStatus);
   }
 
 }

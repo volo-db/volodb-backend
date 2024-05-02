@@ -13,7 +13,7 @@ import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import java.lang.System;
 import java.util.Map;
 
 @RestController
@@ -89,53 +89,49 @@ public class ProjectRestController {
   // Exception-Hanlder:
 
   @ExceptionHandler
-  public ResponseEntity<ProjectErrorResponse> handleException(ProjectNotFoundException exc) {
-    ProjectErrorResponse error = new ProjectErrorResponse();
-
+  public ResponseEntity<VolodbErrorResponse> handleException(ProjectNotFoundException exc) {
     HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-    error.setStatus(httpStatus.value());
-    error.setMessage(exc.getMessage());
-    error.setTimeStamp(System.currentTimeMillis());
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
+        exc.getMessage(),
+        System.currentTimeMillis());
 
     return new ResponseEntity<>(error, httpStatus);
   }
 
   @ExceptionHandler
-  public ResponseEntity<ProjectErrorResponse> handleException(ProjectInvalidFormatException exc) {
-    ProjectErrorResponse error = new ProjectErrorResponse();
-
+  public ResponseEntity<VolodbErrorResponse> handleException(ProjectInvalidFormatException exc) {
     HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-    error.setStatus(httpStatus.value());
-    error.setMessage(exc.getMessage());
-    error.setTimeStamp(System.currentTimeMillis());
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
+        exc.getMessage(),
+        System.currentTimeMillis());
 
     return new ResponseEntity<>(error, httpStatus);
   }
 
   @ExceptionHandler
-  public ResponseEntity<ProjectErrorResponse> handleException(CountryNotFoundException exc) {
-    ProjectErrorResponse error = new ProjectErrorResponse();
-
+  public ResponseEntity<VolodbErrorResponse> handleException(CountryNotFoundException exc) {
     HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-    error.setStatus(httpStatus.value());
-    error.setMessage(exc.getMessage());
-    error.setTimeStamp(System.currentTimeMillis());
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
+        exc.getMessage(),
+        System.currentTimeMillis());
 
     return new ResponseEntity<>(error, httpStatus);
   }
 
   @ExceptionHandler
-  public ResponseEntity<ProjectErrorResponse> handleException(RuntimeException exc) {
-    ProjectErrorResponse error = new ProjectErrorResponse();
-
+  public ResponseEntity<VolodbErrorResponse> handleException(RuntimeException exc) {
     HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-    error.setStatus(httpStatus.value());
-    error.setMessage(exc.getMessage());
-    error.setTimeStamp(System.currentTimeMillis());
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
+        exc.getMessage(),
+        System.currentTimeMillis());
 
     return new ResponseEntity<>(error, httpStatus);
   }
