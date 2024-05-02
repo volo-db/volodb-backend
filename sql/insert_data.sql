@@ -53,11 +53,12 @@ CREATE TABLE `contact_type` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
   `person` INT NOT NULL,
   `secret` VARCHAR(100) NOT NULL,
   `organisational_role` VARCHAR(50),
-  PRIMARY KEY (`username`)
+  `avatar` TEXT,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `user_role`;
@@ -160,8 +161,8 @@ CREATE TABLE `vocational_edu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `Contract`;
-CREATE TABLE `Contract` (
+DROP TABLE IF EXISTS `contract`;
+CREATE TABLE `contract` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
   `volunteer` INT NOT NULL,
@@ -321,7 +322,7 @@ CREATE TABLE `volunteer_document_type` (
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
-ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user_role`) REFERENCES `user_role` (`id`);
 
@@ -353,7 +354,7 @@ ALTER TABLE `volunteer` ADD FOREIGN KEY (`religion`) REFERENCES `religion` (`id`
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
-ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`editing_type`) REFERENCES `editing_type` (`id`);
 
@@ -385,13 +386,13 @@ ALTER TABLE `contract_modification` ADD FOREIGN KEY (`status`) REFERENCES `contr
 
 ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
-ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
 ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`type`) REFERENCES `volunteer_document_type` (`id`);
 
-ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 /* ########################## */
 /*      INSERT NEW DATA       */
@@ -718,11 +719,11 @@ VALUES
   (5, 1, 'goldsmits@donbosco.de'),
   (5, 1, 'mohring@manege-berlin.de');
 
-INSERT INTO user (person, username, secret, organisational_role)
+INSERT INTO user (person, email, secret, organisational_role, avatar)
 VALUES
-  (6, 'magdalena.wiesinger', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferentin für Freiwilligendienste'),
-  (7, 'jakob.bopp', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste'),
-  (8, 'fabian.urner', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste');
+  (6, 'wiesinger@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferentin für Freiwilligendienste', 'volodb/default-files/default-avatar.png'),
+  (7, 'jakob.bopp@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste', 'volodb/default-files/default-avatar.png'),
+  (8, 'urner@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste', 'volodb/default-files/default-avatar.png');
 
 INSERT INTO user_role (name)
 VALUES
@@ -733,13 +734,13 @@ VALUES
 
 INSERT INTO user_role_mapping (user, user_role)
 VALUES
-  ('magdalena.wiesinger', 2),
-  ('magdalena.wiesinger', 4),
-  ('jakob.bopp', 2),
-  ('jakob.bopp', 3),
-  ('fabian.urner', 1),
-  ('fabian.urner', 2),
-  ('fabian.urner', 3);
+  ('wiesinger@donbosco.de', 2),
+  ('wiesinger@donbosco.de', 4),
+  ('jakob.bopp@donbosco.de', 2),
+  ('jakob.bopp@donbosco.de', 3),
+  ('urner@donbosco.de', 1),
+  ('urner@donbosco.de', 2),
+  ('urner@donbosco.de', 3);
 
 INSERT INTO legal_guardian (person)
 VALUES
@@ -907,13 +908,13 @@ VALUES
   ('Studium (abgeschlossen)'),
   ('keine Angaben');
 
-INSERT INTO volunteer (organisational_id, person, created, status, birthday, birthplace, nationality, social_insurance_number, health_insurance, tax_number, religion, bank_name, iban, bic, account_holder, level_of_school_edu, level_of_vocational_edu, ongoing_legal_proceedings)
+INSERT INTO volunteer (organisational_id, person, created, status, birthday, birthplace, nationality, social_insurance_number, health_insurance, tax_number, religion, bank_name, iban, bic, account_holder, level_of_school_edu, level_of_vocational_edu, ongoing_legal_proceedings, avatar)
 VALUES
-  ('FWDSDB2223_001', 1, '2022-02-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, NULL, NULL, 24, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Albert Huber', 4, 1, false),
-  ('FWDSDB2223_002', 2, '2022-03-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, NULL, NULL, 1, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Roswita Mayer', 3, 1, false),
-  ('FWDSDB2223_003', 3, '2022-04-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 2, NULL, 8, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Susanne Schmidt', 4, 1, false),
-  ('FWDSDB2223_004', 4, '2022-06-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 9, NULL, 22, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Kim Winkler', 4, 1, false),
-  ('FWDSDB2223_005', 5, '2022-07-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 29, NULL, 20, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Lian Schuster', 2, 1, false);
+  ('FWDSDB2223_001', 1, '2022-02-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, NULL, NULL, 24, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Albert Huber', 4, 1, false, 'volodb/default-files/default-avatar.png'),
+  ('FWDSDB2223_002', 2, '2022-03-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, NULL, NULL, 1, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Roswita Mayer', 3, 1, false, 'volodb/default-files/default-avatar.png'),
+  ('FWDSDB2223_003', 3, '2022-04-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 2, NULL, 8, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Susanne Schmidt', 4, 1, false, 'volodb/default-files/default-avatar.png'),
+  ('FWDSDB2223_004', 4, '2022-06-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 9, NULL, 22, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Kim Winkler', 4, 1, false, 'volodb/default-files/default-avatar.png'),
+  ('FWDSDB2223_005', 5, '2022-07-01 09:12:45.293', 5, '2002-03-18', 'Frankfurt', 90, NULL, 29, NULL, 20, 'Musterbank', 'DE89370400440532013000', 'COBADEFFXXX', 'Lian Schuster', 2, 1, false, 'volodb/default-files/default-avatar.png');
 
 INSERT INTO editing_type (name)
 VALUES
@@ -923,9 +924,9 @@ VALUES
 
 INSERT INTO editing_history (editing_type, timestamp, user, volunteer, field, former_value)
 VALUES
-  (2, '2023-09-01 09:12:45.293', 'jakob.bopp', 1, 'email', 'die-hubers@t-online.de'),
-  (1, '2023-09-02 10:37:11.628', 'fabian.urner', 2, 'mobil', '+49 (0) 152 / 089782451'),
-  (3, '2023-09-05 08:21:58.144', 'magdalena.wiesinger', 3, 'email', 'krieger-koenigin111@gmx.net');
+(2, '2023-09-01 09:12:45.293', 'jakob.bopp@donbosco.de', 1, 'email', 'die-hubers@t-online.de'),
+  (1, '2023-09-02 10:37:11.628', 'urner@donbosco.de', 2, 'mobil', '+49 (0) 152 / 089782451'),
+  (3, '2023-09-05 08:21:58.144', 'wiesinger@donbosco.de', 3, 'email', 'krieger-koenigin111@gmx.net');
 
 INSERT INTO program (name, shorthand)
 VALUES
@@ -1012,34 +1013,34 @@ INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
 VALUES
   ('2024-01-10 14:51:39.123', 1, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
-FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
-  ('2024-01-11 14:51:39.123', 1, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
-  ('2024-02-13 14:51:39.123', 1, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
-  ('2024-02-13 14:51:39.123', 1, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
+  ('2024-01-11 14:51:39.123', 1, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 1, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 1, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
   ('2024-01-10 14:51:39.123', 2, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
-FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
-  ('2024-01-11 14:51:39.123', 2, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
-  ('2024-02-13 14:51:39.123', 2, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
-  ('2024-02-13 14:51:39.123', 2, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
+  ('2024-01-11 14:51:39.123', 2, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 2, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 2, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
   ('2024-01-10 14:51:39.123', 3, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
-FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
-  ('2024-01-11 14:51:39.123', 3, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
-  ('2024-02-13 14:51:39.123', 3, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
-  ('2024-02-13 14:51:39.123', 3, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
+  ('2024-01-11 14:51:39.123', 3, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 3, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 3, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
   ('2024-01-10 14:51:39.123', 4, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
-FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
-  ('2024-01-11 14:51:39.123', 4, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
-  ('2024-02-13 14:51:39.123', 4, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
-  ('2024-02-13 14:51:39.123', 4, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp'),
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
+  ('2024-01-11 14:51:39.123', 4, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 4, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 4, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
   ('2024-01-10 14:51:39.123', 5, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
-FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'fabian.urner'),
-  ('2024-01-11 14:51:39.123', 5, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'magdalena.wiesinger'),
-  ('2024-02-13 14:51:39.123', 5, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp'),
-  ('2024-02-13 14:51:39.123', 5, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp');
+FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
+  ('2024-01-11 14:51:39.123', 5, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 5, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 5, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de');
 
   INSERT INTO volunteer_document_type (name, description)
   VALUES
@@ -1052,33 +1053,33 @@ FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles
   
   INSERT INTO volunteer_document (timestamp, volunteer, type, size, path, user)
   VALUES
-  ('2024-03-18 13:39:22.321', 1, 1, 232002, 'docs/folder/file1.pdf', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 1, 1, 436022, 'docs/folder/file2.pdf', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 1, 1, 1946542, 'docs/folder/file3.jpg', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 1, 5, 202002, 'docs/folder/file4.pdf', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 1, 2, 332002, 'docs/folder/file5.pdf', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 1, 4, 2123002, 'docs/folder/file6.jpg', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 2, 1, 232002, 'docs/folder/file1.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 2, 1, 436022, 'docs/folder/file2.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 2, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 2, 5, 202002, 'docs/folder/file4.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 2, 2, 332002, 'docs/folder/file5.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 2, 4, 2123002, 'docs/folder/file6.jpg', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 3, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 3, 1, 436022, 'docs/folder/file2.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 3, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 3, 5, 202002, 'docs/folder/file4.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 3, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 3, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 4, 1, 232002, 'docs/folder/file1.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 4, 1, 436022, 'docs/folder/file2.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 4, 1, 1946542, 'docs/folder/file3.jpg', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 4, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 4, 2, 332002, 'docs/folder/file5.pdf', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 4, 4, 2123002, 'docs/folder/file6.jpg', 'magdalena.wiesinger'),
-  ('2024-03-18 13:39:22.321', 5, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 5, 1, 436022, 'docs/folder/file2.pdf', 'fabian.urner'),
-  ('2024-03-18 13:39:22.321', 5, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 5, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 5, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp'),
-  ('2024-03-18 13:39:22.321', 5, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp');
+  ('2024-03-18 13:39:22.321', 1, 1, 232002, 'docs/folder/file1.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 1, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 1, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 1, 5, 202002, 'docs/folder/file4.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 1, 2, 332002, 'docs/folder/file5.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 1, 4, 2123002, 'docs/folder/file6.jpg', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 2, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 1, 436022, 'docs/folder/file2.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 3, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 4, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321', 5, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de');

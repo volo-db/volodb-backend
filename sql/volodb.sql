@@ -51,11 +51,12 @@ CREATE TABLE `contact_type` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
   `person` INT NOT NULL,
   `secret` VARCHAR(100) NOT NULL,
   `organisational_role` VARCHAR(50),
-  PRIMARY KEY (`username`)
+  `avatar` TEXT,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `user_role`;
@@ -319,7 +320,7 @@ CREATE TABLE `volunteer_document_type` (
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
-ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `user_role_mapping` ADD FOREIGN KEY (`user_role`) REFERENCES `user_role` (`id`);
 
@@ -351,7 +352,7 @@ ALTER TABLE `volunteer` ADD FOREIGN KEY (`religion`) REFERENCES `religion` (`id`
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
-ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `editing_history` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `editing_history` ADD FOREIGN KEY (`editing_type`) REFERENCES `editing_type` (`id`);
 
@@ -383,10 +384,10 @@ ALTER TABLE `contract_modification` ADD FOREIGN KEY (`status`) REFERENCES `contr
 
 ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
-ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `volunteer_note` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);
 
 ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`volunteer`) REFERENCES `volunteer` (`id`);
 
 ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`type`) REFERENCES `volunteer_document_type` (`id`);
 
-ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`username`);
+ALTER TABLE `volunteer_document` ADD FOREIGN KEY (`user`) REFERENCES `user` (`email`);

@@ -66,23 +66,25 @@ public class AuthRestController {
   }
 
   @ExceptionHandler
-  public ResponseEntity<AuthErrorResponse> handleException(UserNotFoundException exc) {
-    AuthErrorResponse error = new AuthErrorResponse(
-        HttpStatus.NOT_FOUND.value(),
+  public ResponseEntity<VolodbErrorResponse> handleException(UserNotFoundException exc) {
+    HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
         exc.getMessage(),
         System.currentTimeMillis());
 
-    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(error, httpStatus);
   }
 
   @ExceptionHandler
-  public ResponseEntity<AuthErrorResponse> handleException(TokenExpiredException exc) {
-    AuthErrorResponse error = new AuthErrorResponse(
-        HttpStatus.UNAUTHORIZED.value(),
+  public ResponseEntity<VolodbErrorResponse> handleException(TokenExpiredException exc) {
+    HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+    VolodbErrorResponse error = new VolodbErrorResponse(
+        httpStatus.value(),
         exc.getMessage(),
         System.currentTimeMillis());
 
-    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<>(error, httpStatus);
   }
 
 }
