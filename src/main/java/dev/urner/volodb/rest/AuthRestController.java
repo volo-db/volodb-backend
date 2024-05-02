@@ -50,7 +50,7 @@ public class AuthRestController {
   @PostMapping("/login")
   public LoginResponse login(@RequestBody @Validated LoginRequest request) {
     var authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     var principal = (UserPrincipal) authentication.getPrincipal();
