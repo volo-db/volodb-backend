@@ -19,14 +19,14 @@ public class UserService {
     return userDAO.findAll();
   }
 
-  public User findByUsername(String theUsername) {
-    return userDAO.findByUsername(theUsername);
+  public User findByUsername(String email) {
+    return userDAO.findByEmail(email);
 
   }
 
   @Transactional
-  public User save(User theUser) {
-    return userDAO.save(theUser);
+  public User save(User user) {
+    return userDAO.save(user);
   }
 
 }

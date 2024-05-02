@@ -12,10 +12,10 @@ public interface UserDAO extends ListCrudRepository<User, String> {
 
   public List<User> findAll();
 
-  public User findByUsername(String username);
+  public User findByEmail(String email);
 
   public User save(User user);
 
-  public void deleteByUsername(String username);
+  public void deleteByEmail(String email);
 
 }

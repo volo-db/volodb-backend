@@ -25,18 +25,16 @@ public class CustomUserDetailService implements UserDetailsService {
 
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-    authorities = user.getRoles().stream().map((role) -> { 
+    authorities = user.getRoles().stream().map((role) -> {
       return new SimpleGrantedAuthority(role.getName());
-     })
-     .collect(Collectors.toList());
-
-
+    })
+        .collect(Collectors.toList());
 
     return UserPrincipal.builder()
-      .username(user.getUsername())
-      .authorities(authorities)
-      .secret(user.getSecret())
-      .build();
+        .username(user.getEmail())
+        .authorities(authorities)
+        .secret(user.getSecret())
+        .build();
   }
-  
+
 }

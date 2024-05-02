@@ -18,7 +18,7 @@ public class User {
   // Username
   @Id
   @Column(name = "email")
-  private String username;
+  private String email;
 
   @OneToOne
   @JoinColumn(name = "person") // FK
