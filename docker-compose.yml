@@ -38,8 +38,6 @@ services:
     ports:
       - ${API_PORT}:8080
     container_name: volodb_api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/volo_db
     depends_on:
       - mysql
       - minio
