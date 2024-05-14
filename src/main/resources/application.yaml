@@ -16,7 +16,7 @@ spring:
   main:
     banner-mode: "log"
   datasource:
-    url: "jdbc:mysql://mysql:${MYSQL_PORT}/volo_db"
+    url: "jdbc:mysql://mysql:40101/volo_db"
     username: root
     password: ${MYSQL_ROOT_PASSWORD}
   servlet:
