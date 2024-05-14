@@ -5,12 +5,12 @@ services:
     image: mysql:latest
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: test1234
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: volo_db
     volumes:
       - ~/mysql/volodb:/var/lib/mysql
     ports:
-      - "40101:3306"
+      - "${MYSQL_PORT}:3306"
     networks:
       - volodb_network
 
@@ -18,13 +18,13 @@ services:
     image: quay.io/minio/minio
     container_name: minio
     environment:
-      MINIO_ROOT_USER: volodb
-      MINIO_ROOT_PASSWORD: test1234
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - ~/minio/volodb/data:/data
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
     command: server /data --console-address ":9001"
     networks:
       - volodb_network
@@ -36,10 +36,10 @@ services:
       args:
         - TAG_NAME=volodb_api
     ports:
-      - 40102:8080
+      - ${API_PORT}:8080
     container_name: volodb_api
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/volo_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:${MYSQL_PORT}/volo_db
     depends_on:
       - mysql
       - minio
@@ -49,3 +49,13 @@ services:
 networks:
   volodb_network:
     name: volodb_network
+
+
+
+${JWT_SECRETKEY}
+${MINIO_ACCESS_KEY}
+
+
+${MINIO_SECRET_KEY}
+${MYSQL_PORT}
+${MYSQL_ROOT_PASSWORD}

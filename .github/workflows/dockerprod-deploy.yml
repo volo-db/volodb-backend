@@ -6,8 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: "self-hosted"
+    environment:
+      name: staging
+    env:
+      API_PORT: ${{ secrets.API_PORT }}
+      JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY }}
+      MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+      MINIO_PORT: ${{ secrets.MINIO_PORT }}
+      MINIO_CONSOLE_PORT: ${{ secrets.MINIO_CONSOLE_PORT }}
+      MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
+      MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
+      MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
     steps:
       - name: Checkout
