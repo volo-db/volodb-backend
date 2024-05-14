@@ -23,6 +23,11 @@ jobs:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
     steps:
+      - name: Debug
+        run: |
+          echo "MYSQL_PORT: ${{ secrets.MYSQL_PORT }}"
+          printenv
+
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
