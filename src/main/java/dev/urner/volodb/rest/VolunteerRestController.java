@@ -10,12 +10,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import dev.urner.volodb.entity.Contact;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
 import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.VolunteerNote;
 import dev.urner.volodb.security.UserPrincipal;
+import dev.urner.volodb.service.ContactService;
 import dev.urner.volodb.service.VolunteerDocumentService;
 import dev.urner.volodb.service.VolunteerNoteService;
 import dev.urner.volodb.service.VolunteerService;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.lang.System;
 import java.util.Map;
+import java.util.List;
 import java.time.LocalDateTime;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +38,7 @@ public class VolunteerRestController {
   private final VolunteerService volunteerService;
   private final VolunteerNoteService volunteerNoteService;
   private final VolunteerDocumentService volunteerDocumentService;
+  private final ContactService contactService;
 
   // expose "/volunteers" and return a list of volunteers
   @GetMapping
@@ -242,4 +246,41 @@ public class VolunteerRestController {
 
     return new ResponseEntity<>(error, httpStatus);
   }
+
+  // **********************************
+  // Contacts
+  // **********************************
+
+  // GET all notes BY VoloID
+  @GetMapping("/{volunteerId}/contacts")
+  public List<Contact> getAllContactsFromVolo(@PathVariable int volunteerId) {
+
+    int personId = volunteerService.findById(volunteerId).getPerson().getId();
+    return contactService.findAllByPersonId(personId);
+  }
+
+  // POST note BY VoloID
+  @PostMapping("/{volunteerId}/contacts")
+  public Contact postNewContact(@PathVariable int volunteerId, @RequestBody Contact contact) {
+
+    int personId = volunteerService.findById(volunteerId).getPerson().getId();
+    contact.setPersonId(personId);
+    return contactService.save(contact);
+  }
+
+  // PATCH
+  // @PatchMapping("/{volunteerId}/contacts/{contactId}")
+  // public Contact updateVolunteerNote(@RequestBody Map<String, Object> fields,
+  // @PathVariable int volunteerId,
+  // @PathVariable int contactId) {
+  // return contactService.update(????)
+  // }
+
+  // DELTE BY NoteID
+  @DeleteMapping("/{volunteerId}/notes/{contactId}")
+  public String deleteByContactId(@PathVariable int volunteerId, @PathVariable int contactId) {
+    contactService.deleteById(contactId);
+    return "Contact with Id '" + contactId + "' deleted.";
+  }
+
 }

@@ -1,11 +1,9 @@
 package dev.urner.volodb.service;
 
 import dev.urner.volodb.dao.VolunteerDAO;
-import dev.urner.volodb.dao.VolunteerDocumentDAO;
 import dev.urner.volodb.entity.Gender;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
-import dev.urner.volodb.entity.VolunteerDocumentType;
 import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
@@ -25,7 +23,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
