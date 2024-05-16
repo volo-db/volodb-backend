@@ -23,6 +23,10 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: -1
+  security:
+    user:
+      name: admin
+      password: admin
 
   jpa:
     hibernate:
@@ -51,3 +55,12 @@ logging:
         security: DEBUG
         web:
           cors: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: env
+  endpoint:
+    env:
+      enabled: true
