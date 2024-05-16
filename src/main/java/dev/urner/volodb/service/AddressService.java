@@ -70,11 +70,11 @@ public class AddressService {
   // }
 
   @Transactional
-  public Address save(Map<String, Object> fields) {
+  public Address save(int volunteerId, Map<String, Object> fields) {
     Address newAddress = new Address();
+    newAddress.setPersonId(volunteerDAO.findById(volunteerId).getPerson().getId());
 
     Map<String, Boolean> flags = new HashMap<>();
-    flags.put("person", false);
     flags.put("status", false);
     flags.put("name", false);
     flags.put("country", false);
@@ -89,7 +89,7 @@ public class AddressService {
       }
     });
 
-    if (!(flags.get("person") && flags.get("status") && flags.get("name") && flags.get("country")
+    if (!(flags.get("status") && flags.get("name") && flags.get("country")
         && flags.get("street") && flags.get("postalcode") && flags.get("city"))) {
       throw new AddressInvalidFormatException("not all fields are set correctly!");
     }
@@ -100,9 +100,11 @@ public class AddressService {
         switch (value.toString().toLowerCase()) {
           case "active":
             newAddress.setStatus(AddressStatus.ACTIVE);
+            break;
 
           case "inactive":
             newAddress.setStatus(AddressStatus.INACTIVE);
+            break;
 
           default:
             throw new AddressStatusNotFoundException("AddressSatus \"" + value.toString() + "\" is not valid.");
@@ -113,14 +115,14 @@ public class AddressService {
       if (key.toLowerCase().equals("name")) {
         newAddress.setName(value.toString());
       }
-      if (key.toLowerCase().equals("careof")) {
+      if (key.toLowerCase().equals("careof") && value != null) {
         newAddress.setCareof(value.toString());
       }
       if (key.toLowerCase().equals("country")) {
         Country dbCountry = countryDAO.findByName(value.toString());
         newAddress.setCountry(dbCountry);
       }
-      if (key.toLowerCase().equals("state")) {
+      if (key.toLowerCase().equals("state") && value != null) {
         newAddress.setState(value.toString());
       }
       if (key.toLowerCase().equals("street")) {
@@ -150,8 +152,13 @@ public class AddressService {
   }
 
   @Transactional
-  public Address update(int addressId, Map<String, Object> fields) {
+  public Address update(int addressId, int volunteerId, Map<String, Object> fields) {
     Address dbAddress = addressDAO.findById(addressId);
+
+    if (dbAddress.getPersonId() != volunteerDAO.findById(volunteerId).getPerson().getId()) {
+      throw new AddressInvalidFormatException(
+          "Volunteer has no address with id: '" + addressId + "'");
+    }
 
     fields.forEach((key, value) -> {
       if (key.toLowerCase().equals("status")) {
@@ -204,7 +211,12 @@ public class AddressService {
   }
 
   @Transactional
-  public void deleteById(int addressId) {
+  public void deleteById(int addressId, int volunteerId) {
+    Address dbAddress = addressDAO.findById(addressId);
+    if (dbAddress.getPersonId() != volunteerDAO.findById(volunteerId).getPerson().getId()) {
+      throw new AddressInvalidFormatException(
+          "Volunteer has no address with id: '" + addressId + "'");
+    }
     addressDAO.deleteById(addressId);
   }
 

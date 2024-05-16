@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import dev.urner.volodb.entity.Address;
 import dev.urner.volodb.entity.Contact;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
@@ -17,6 +18,7 @@ import dev.urner.volodb.entity.VolunteerInvalidFormatException;
 import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.VolunteerNote;
 import dev.urner.volodb.security.UserPrincipal;
+import dev.urner.volodb.service.AddressService;
 import dev.urner.volodb.service.ContactService;
 import dev.urner.volodb.service.VolunteerDocumentService;
 import dev.urner.volodb.service.VolunteerNoteService;
@@ -39,6 +41,7 @@ public class VolunteerRestController {
   private final VolunteerNoteService volunteerNoteService;
   private final VolunteerDocumentService volunteerDocumentService;
   private final ContactService contactService;
+  private final AddressService addressService;
 
   // expose "/volunteers" and return a list of volunteers
   @GetMapping
@@ -282,6 +285,42 @@ public class VolunteerRestController {
   public String deleteByContactId(@PathVariable int volunteerId, @PathVariable int contactId) {
     contactService.deleteById(contactId);
     return "Contact with Id '" + contactId + "' deleted.";
+  }
+
+  // **********************************
+  // Addresses
+  // **********************************
+
+  // GET all contacts BY VoloID
+  @GetMapping("/{volunteerId}/addresses")
+  public List<Address> getAllAddressesFromVolo(@PathVariable int volunteerId) {
+    return addressService.findAllByVolunteerId(volunteerId);
+  }
+
+  @GetMapping("/{volunteerId}/addresses/{addressId}")
+  public Address getAddressById(@PathVariable int volunteerId, @PathVariable int addressId) {
+    return addressService.findById(addressId);
+  }
+
+  // POST contact BY VoloID
+  @PostMapping("/{volunteerId}/addresses")
+  public Address postNewAddress(@PathVariable int volunteerId, @RequestBody Map<String, Object> fields) {
+    return addressService.save(volunteerId, fields);
+  }
+
+  // PATCH contact BY AddressId
+  @PatchMapping("/{volunteerId}/addresses/{addressId}")
+  public Address updateVolunteerAddress(@RequestBody Map<String, Object> fields,
+      @PathVariable int volunteerId,
+      @PathVariable int addressId) {
+    return addressService.update(addressId, volunteerId, fields);
+  }
+
+  // DELTE BY AddressId
+  @DeleteMapping("/{volunteerId}/addresses/{addressId}")
+  public String deleteByAddressId(@PathVariable int volunteerId, @PathVariable int addressId) {
+    addressService.deleteById(addressId, volunteerId);
+    return "Address with Id '" + addressId + "' deleted.";
   }
 
 }
