@@ -29,23 +29,6 @@ services:
     networks:
       - volodb_network
 
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - TAG_NAME=volodb_api
-    ports:
-      - 40102:8080
-    container_name: volodb_api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/volo_db
-    depends_on:
-      - mysql
-      - minio
-    networks:
-      - volodb_network
-
 networks:
   volodb_network:
     name: volodb_network

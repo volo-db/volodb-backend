@@ -251,33 +251,34 @@ public class VolunteerRestController {
   // Contacts
   // **********************************
 
-  // GET all notes BY VoloID
+  // GET all contacts BY VoloID
   @GetMapping("/{volunteerId}/contacts")
   public List<Contact> getAllContactsFromVolo(@PathVariable int volunteerId) {
 
-    int personId = volunteerService.findById(volunteerId).getPerson().getId();
-    return contactService.findAllByPersonId(personId);
+    return contactService.findAllByVolunteerId(volunteerId);
   }
 
-  // POST note BY VoloID
+  @GetMapping("/{volunteerId}/contacts/{contactId}")
+  public Contact getContactById(@PathVariable int volunteerId, @PathVariable int contactId) {
+    return contactService.findById(contactId);
+  }
+
+  // POST contact BY VoloID
   @PostMapping("/{volunteerId}/contacts")
-  public Contact postNewContact(@PathVariable int volunteerId, @RequestBody Contact contact) {
-
-    int personId = volunteerService.findById(volunteerId).getPerson().getId();
-    contact.setPersonId(personId);
-    return contactService.save(contact);
+  public Contact postNewContact(@PathVariable int volunteerId, @RequestBody Map<String, Object> fields) {
+    return contactService.save(volunteerId, fields);
   }
 
-  // PATCH
-  // @PatchMapping("/{volunteerId}/contacts/{contactId}")
-  // public Contact updateVolunteerNote(@RequestBody Map<String, Object> fields,
-  // @PathVariable int volunteerId,
-  // @PathVariable int contactId) {
-  // return contactService.update(????)
-  // }
+  // PATCH contact BY ContactID
+  @PatchMapping("/{volunteerId}/contacts/{contactId}")
+  public Contact updateVolunteerContact(@RequestBody Map<String, Object> fields,
+      @PathVariable int volunteerId,
+      @PathVariable int contactId) {
+    return contactService.update(contactId, fields);
+  }
 
-  // DELTE BY NoteID
-  @DeleteMapping("/{volunteerId}/notes/{contactId}")
+  // DELTE BY ContactID
+  @DeleteMapping("/{volunteerId}/contacts/{contactId}")
   public String deleteByContactId(@PathVariable int volunteerId, @PathVariable int contactId) {
     contactService.deleteById(contactId);
     return "Contact with Id '" + contactId + "' deleted.";
