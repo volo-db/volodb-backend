@@ -18,7 +18,7 @@ spring:
   datasource:
     url: "jdbc:mysql://mysql:3306/volo_db"
     username: root
-    password: ${MYSQL_ROOT_PASSWORD}
+    password: test1234
   servlet:
     multipart:
       max-file-size: -1
@@ -41,7 +41,7 @@ springdoc:
 
 security:
   jwt:
-    secret-key: ${JWT_SECRETKEY}
+    secret-key: "37fe5eb93cfbf3b1189cce4baf73f0c3bf882dc9b9f2ea8006546801e0b6a66a"
     token-duration: 12H
 
 logging:
