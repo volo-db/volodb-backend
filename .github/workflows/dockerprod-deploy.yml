@@ -26,6 +26,10 @@ jobs:
       - name: Debug
         run: |
           echo "MYSQL_PORT: ${{ secrets.MYSQL_PORT }}"
+          echo "MINIO_PORT: ${{ secrets.MINIO_PORT }}"
+          echo "MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}"
+          echo "MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}"
+          echo "JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY }}"
           printenv
 
       - name: Checkout
