@@ -21,8 +21,8 @@ spring:
     password: ${MYSQL_ROOT_PASSWORD}
   servlet:
     multipart:
-      max-file-size: -1
-      max-request-size: -1
+      max-file-size: 15MB
+      max-request-size: 15MB
 
   jpa:
     hibernate:
