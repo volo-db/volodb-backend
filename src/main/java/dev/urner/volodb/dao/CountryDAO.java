@@ -8,7 +8,9 @@ import dev.urner.volodb.entity.Country;
 @Repository
 public interface CountryDAO extends ListCrudRepository<Country, Integer> {
 
-  public Country findByLocalName(String name);
+  public Country findByLocalName(String localName);
+
+  public Country findByName(String name);
 
   public Country findByNationality(String nationality);
 

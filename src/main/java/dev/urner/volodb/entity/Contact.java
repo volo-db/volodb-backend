@@ -1,7 +1,8 @@
 package dev.urner.volodb.entity;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -17,35 +18,28 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "VolunteerDocument")
+@Table(name = "contact")
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class VolunteerDocument {
+public class Contact {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @Column(name = "timestamp")
-  private LocalDateTime timestamp;
-
-  @Column(name = "volunteer")
-  private int volunteerId;
+  @Column(name = "person")
+  private int personId;
 
   @ManyToOne
   @JoinColumn(name = "type")
-  private VolunteerDocumentType documentType;
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+  @JsonIdentityReference(alwaysAsId = true)
+  private ContactType type;
 
-  @Column(name = "size")
-  private Long size;
-
-  @Column(name = "path")
-  private String path;
-
-  @Column(name = "user")
-  @JsonProperty("user")
-  private String username;
+  @Column(name = "val")
+  @JsonProperty("value")
+  private String value;
 
 }

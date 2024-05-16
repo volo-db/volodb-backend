@@ -1,6 +1,5 @@
 package dev.urner.volodb.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 import dev.urner.volodb.dao.VolunteerNoteDAO;
 import dev.urner.volodb.entity.VolunteerNote;
 import dev.urner.volodb.entity.VolunteerNoteInvalidFormatException;
-import dev.urner.volodb.entity.VolunteerNoteNotFoundException;
+import dev.urner.volodb.entity.ContactTypeNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +25,7 @@ public class VolunteerNoteService {
     Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
 
     if (notes == null)
-      throw new VolunteerNoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
+      throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
 
     return notes;
   }
@@ -45,7 +44,7 @@ public class VolunteerNoteService {
         PageRequest.of(page, pageSize, sort));
 
     if (notes == null)
-      throw new VolunteerNoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
+      throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
 
     return notes;
   }
@@ -63,7 +62,7 @@ public class VolunteerNoteService {
     VolunteerNote dbNote = volunteerNoteDAO.findById(noteId);
 
     if (dbNote == null)
-      throw new VolunteerNoteNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
+      throw new ContactTypeNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
 
     if (!dbNote.getUsername().equals(username))
       throw new VolunteerNoteInvalidFormatException("Not allowed to delete notes from other users.");
@@ -77,7 +76,7 @@ public class VolunteerNoteService {
     VolunteerNote dbNote = volunteerNoteDAO.findById(noteId);
 
     if (dbNote == null)
-      throw new VolunteerNoteNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
+      throw new ContactTypeNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
 
     fields.forEach((key, value) -> {
 

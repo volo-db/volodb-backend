@@ -7,4 +7,9 @@ public class Enums {
     NO,
     NOT_SET
   }
+
+  public enum AddressStatus {
+    ACTIVE,
+    INACTIVE
+  }
 }
