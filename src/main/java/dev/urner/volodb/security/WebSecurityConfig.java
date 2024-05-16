@@ -49,6 +49,7 @@ public class WebSecurityConfig {
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers("/error").permitAll()
             .requestMatchers("/files/**").permitAll()
+            .requestMatchers("/actuator/**").permitAll()
             .anyRequest()
             .authenticated());
 

@@ -5,12 +5,13 @@ services:
     image: mysql:latest
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: test1234
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: volo_db
+      TZ: Europe/Berlin
     volumes:
       - ~/mysql/volodb:/var/lib/mysql
     ports:
-      - "40101:3306"
+      - "${MYSQL_PORT}:3306"
     networks:
       - volodb_network
 
@@ -18,13 +19,14 @@ services:
     image: quay.io/minio/minio
     container_name: minio
     environment:
-      MINIO_ROOT_USER: volodb
-      MINIO_ROOT_PASSWORD: test1234
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      TZ: Europe/Berlin
     volumes:
       - ~/minio/volodb/data:/data
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
     command: server /data --console-address ":9001"
     networks:
       - volodb_network
@@ -35,11 +37,16 @@ services:
       dockerfile: Dockerfile
       args:
         - TAG_NAME=volodb_api
-    ports:
-      - 40102:8080
-    container_name: volodb_api
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/volo_db
+      TZ: "Europe/Berlin" # Set TZ for the API service
+      MINIO_PORT: ${MINIO_PORT}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      JWT_SECRETKEY: ${JWT_SECRETKEY}
+    ports:
+      - ${API_PORT}:8080
+    container_name: volodb_api
     depends_on:
       - mysql
       - minio
