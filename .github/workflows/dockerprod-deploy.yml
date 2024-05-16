@@ -33,6 +33,12 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+        env:
+          MINIO_PORT: ${{ secrets.MINIO_PORT }}
+          MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+          MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY }}
 
       - name: Deploy via Docker
         run: |
