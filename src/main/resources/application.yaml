@@ -4,9 +4,9 @@ application:
 
 volodb:
   minio:
-    url: http://minio:9000
-    access-key: hnvDi0J0TkJzIveMpUx7
-    secret-key: GKgCXqOE7Y7E9TpeT3BCdrfFEHNhrQrXdVyHJNZu
+    url: http://minio:${MINIO_PORT}
+    access-key: ${MINIO_ACCESS_KEY}
+    secret-key: ${MINIO_SECRET_KEY}
 
 spring:
   application:
@@ -18,15 +18,11 @@ spring:
   datasource:
     url: "jdbc:mysql://mysql:3306/volo_db"
     username: root
-    password: test1234
+    password: ${MYSQL_ROOT_PASSWORD}
   servlet:
     multipart:
       max-file-size: -1
       max-request-size: -1
-  security:
-    user:
-      name: admin
-      password: admin
 
   jpa:
     hibernate:
@@ -45,7 +41,7 @@ springdoc:
 
 security:
   jwt:
-    secret-key: "37fe5eb93cfbf3b1189cce4baf73f0c3bf882dc9b9f2ea8006546801e0b6a66a"
+    secret-key: ${JWT_SECRETKEY}
     token-duration: 12H
 
 logging:
