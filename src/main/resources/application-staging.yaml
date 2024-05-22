@@ -4,7 +4,7 @@ application:
 
 volodb:
   minio:
-    url: http://minio:${MINIO_PORT}
+    url: http://minio:9000
     access-key: ${MINIO_ACCESS_KEY}
     secret-key: ${MINIO_SECRET_KEY}
 
