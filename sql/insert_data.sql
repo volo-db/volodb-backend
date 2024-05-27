@@ -114,7 +114,7 @@ CREATE TABLE `editing_history` (
   `user` VARCHAR(50) NOT NULL,
   `volunteer` INT NOT NULL,
   `field` VARCHAR(50) NOT NULL,
-  `former_value` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -187,7 +187,7 @@ CREATE TABLE `contract_modification` (
   `contract` INT NOT NULL,
   `type` INT NOT NULL,
   `into_force_from` DATE NOT NULL,
-  `former_val` JSON NOT NULL,
+  `value` JSON NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -922,7 +922,7 @@ VALUES
   ('patch'),
   ('delete');
 
-INSERT INTO editing_history (editing_type, timestamp, user, volunteer, field, former_value)
+INSERT INTO editing_history (editing_type, timestamp, user, volunteer, field, value)
 VALUES
 (2, '2023-09-01 09:12:45.293', 'jakob.bopp@donbosco.de', 1, 'email', 'die-hubers@t-online.de'),
   (1, '2023-09-02 10:37:11.628', 'urner@donbosco.de', 2, 'mobil', '+49 (0) 152 / 089782451'),
@@ -1004,7 +1004,7 @@ VALUES
   ('genehmigt'),
   ('abgelehnt');
 
-INSERT INTO contract_modification (timestamp, status, contract, type, into_force_from, former_val)
+INSERT INTO contract_modification (timestamp, status, contract, type, into_force_from, value)
 VALUES
   ('2023-09-08 12:34:56.789', 2, 1, 2, '2023-09-08', '{ "end": "2024-02-29"}'),
   ('2023-09-09 11:16:39.312', 1, 4, 1, '2023-10-01', '{ "salary": 3 }');

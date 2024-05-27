@@ -112,7 +112,7 @@ CREATE TABLE `editing_history` (
   `user` VARCHAR(50) NOT NULL,
   `volunteer` INT NOT NULL,
   `field` VARCHAR(50) NOT NULL,
-  `former_value` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -185,7 +185,7 @@ CREATE TABLE `contract_modification` (
   `contract` INT NOT NULL,
   `type` INT NOT NULL,
   `into_force_from` DATE NOT NULL,
-  `former_val` JSON NOT NULL,
+  `value` JSON NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
