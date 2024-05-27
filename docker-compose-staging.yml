@@ -34,7 +34,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-staging
       args:
         - TAG_NAME=volodb_api
     environment:
