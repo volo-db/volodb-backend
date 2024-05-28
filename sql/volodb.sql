@@ -185,7 +185,7 @@ CREATE TABLE `contract_modification` (
   `contract` INT NOT NULL,
   `type` INT NOT NULL,
   `into_force_from` DATE NOT NULL,
-  `value` JSON NOT NULL,
+  `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

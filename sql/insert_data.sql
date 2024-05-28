@@ -161,8 +161,8 @@ CREATE TABLE `vocational_edu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `contract`;
-CREATE TABLE `contract` (
+DROP TABLE IF EXISTS `Contract`;
+CREATE TABLE `Contract` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
   `volunteer` INT NOT NULL,
@@ -187,7 +187,7 @@ CREATE TABLE `contract_modification` (
   `contract` INT NOT NULL,
   `type` INT NOT NULL,
   `into_force_from` DATE NOT NULL,
-  `value` JSON NOT NULL,
+  `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -1006,8 +1006,8 @@ VALUES
 
 INSERT INTO contract_modification (timestamp, status, contract, type, into_force_from, value)
 VALUES
-  ('2023-09-08 12:34:56.789', 2, 1, 2, '2023-09-08', '{ "end": "2024-02-29"}'),
-  ('2023-09-09 11:16:39.312', 1, 4, 1, '2023-10-01', '{ "salary": 3 }');
+  ('2023-09-08 12:34:56.789', 2, 1, 2, '2023-09-08', '2024-02-29'),
+  ('2023-09-09 11:16:39.312', 1, 4, 1, '2023-10-01', '3');
 
 INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
 VALUES
