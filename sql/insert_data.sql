@@ -161,8 +161,8 @@ CREATE TABLE `vocational_edu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `Contract`;
-CREATE TABLE `Contract` (
+DROP TABLE IF EXISTS `contract`;
+CREATE TABLE `contract` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
   `volunteer` INT NOT NULL,
