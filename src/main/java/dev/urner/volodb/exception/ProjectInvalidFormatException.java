@@ -1,4 +1,4 @@
-package dev.urner.volodb.entity;
+package dev.urner.volodb.exception;
 
 public class ProjectInvalidFormatException extends RuntimeException {
   public ProjectInvalidFormatException(String message) {

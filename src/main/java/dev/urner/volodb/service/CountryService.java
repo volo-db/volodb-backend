@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.CountryDAO;
 import dev.urner.volodb.entity.Country;
-import dev.urner.volodb.entity.CountryNotFoundException;
+import dev.urner.volodb.exception.CountryNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service

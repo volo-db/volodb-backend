@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerNoteDAO;
 import dev.urner.volodb.entity.VolunteerNote;
-import dev.urner.volodb.entity.VolunteerNoteInvalidFormatException;
-import dev.urner.volodb.entity.ContactTypeNotFoundException;
+import dev.urner.volodb.exception.ContactTypeNotFoundException;
+import dev.urner.volodb.exception.VolunteerNoteInvalidFormatException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

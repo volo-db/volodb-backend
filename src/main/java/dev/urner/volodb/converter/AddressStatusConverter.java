@@ -1,7 +1,7 @@
 package dev.urner.volodb.converter;
 
-import dev.urner.volodb.entity.AddressStatusNotFoundException;
 import dev.urner.volodb.entity.Enums.AddressStatus;
+import dev.urner.volodb.exception.AddressStatusNotFoundException;
 import jakarta.persistence.AttributeConverter;
 
 public class AddressStatusConverter implements AttributeConverter<AddressStatus, Integer> {

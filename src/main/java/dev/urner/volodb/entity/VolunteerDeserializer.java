@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
+import dev.urner.volodb.exception.VolunteerInvalidFormatException;
 import dev.urner.volodb.service.CountryService;
 import dev.urner.volodb.service.HealthInsuranceService;
 import dev.urner.volodb.service.ReligionService;

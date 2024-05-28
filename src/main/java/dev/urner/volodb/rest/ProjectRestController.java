@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
-import dev.urner.volodb.entity.ProjectInvalidFormatException;
-import dev.urner.volodb.entity.ProjectNotFoundException;
-import dev.urner.volodb.entity.VolunteerInvalidFormatException;
+import dev.urner.volodb.exception.CountryNotFoundException;
+import dev.urner.volodb.exception.ProjectInvalidFormatException;
+import dev.urner.volodb.exception.ProjectNotFoundException;
+import dev.urner.volodb.exception.VolunteerInvalidFormatException;
 import dev.urner.volodb.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 

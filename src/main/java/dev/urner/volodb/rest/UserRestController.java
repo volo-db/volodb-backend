@@ -3,7 +3,7 @@ package dev.urner.volodb.rest;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.urner.volodb.entity.User;
-import dev.urner.volodb.entity.UserNotFoundException;
+import dev.urner.volodb.exception.UserNotFoundException;
 import dev.urner.volodb.security.UserPrincipal;
 import dev.urner.volodb.service.UserService;
 import lombok.RequiredArgsConstructor;

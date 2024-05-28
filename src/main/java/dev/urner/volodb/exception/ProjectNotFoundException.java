@@ -1,4 +1,4 @@
-package dev.urner.volodb.entity;
+package dev.urner.volodb.exception;
 
 public class ProjectNotFoundException extends RuntimeException {
   public ProjectNotFoundException(String message) {

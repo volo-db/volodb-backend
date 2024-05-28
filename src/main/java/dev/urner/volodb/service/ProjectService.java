@@ -11,9 +11,9 @@ import org.springframework.util.ReflectionUtils;
 
 import dev.urner.volodb.dao.ProjectDAO;
 import dev.urner.volodb.entity.Country;
-import dev.urner.volodb.entity.CountryNotFoundException;
 import dev.urner.volodb.entity.Project;
-import dev.urner.volodb.entity.ProjectNotFoundException;
+import dev.urner.volodb.exception.CountryNotFoundException;
+import dev.urner.volodb.exception.ProjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

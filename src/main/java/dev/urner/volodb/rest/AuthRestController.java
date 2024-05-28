@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import dev.urner.volodb.entity.User;
-import dev.urner.volodb.entity.UserNotFoundException;
+import dev.urner.volodb.exception.UserNotFoundException;
 import dev.urner.volodb.model.LoginRequest;
 import dev.urner.volodb.model.LoginResponse;
 import dev.urner.volodb.security.JwtIssuer;

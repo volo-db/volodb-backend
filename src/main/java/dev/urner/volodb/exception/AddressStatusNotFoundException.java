@@ -1,4 +1,4 @@
-package dev.urner.volodb.entity;
+package dev.urner.volodb.exception;
 
 public class AddressStatusNotFoundException extends RuntimeException {
   public AddressStatusNotFoundException(String message) {

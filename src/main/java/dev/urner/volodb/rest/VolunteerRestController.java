@@ -12,14 +12,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import dev.urner.volodb.entity.Address;
 import dev.urner.volodb.entity.Contact;
+import dev.urner.volodb.entity.Contract;
+import dev.urner.volodb.entity.ContractModification;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
-import dev.urner.volodb.entity.VolunteerInvalidFormatException;
-import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.VolunteerNote;
+import dev.urner.volodb.exception.VolunteerInvalidFormatException;
+import dev.urner.volodb.exception.VolunteerNotFoundException;
 import dev.urner.volodb.security.UserPrincipal;
 import dev.urner.volodb.service.AddressService;
 import dev.urner.volodb.service.ContactService;
+import dev.urner.volodb.service.ContractService;
 import dev.urner.volodb.service.VolunteerDocumentService;
 import dev.urner.volodb.service.VolunteerNoteService;
 import dev.urner.volodb.service.VolunteerService;
@@ -29,8 +32,6 @@ import java.lang.System;
 import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/volunteers")
@@ -42,6 +43,7 @@ public class VolunteerRestController {
   private final VolunteerDocumentService volunteerDocumentService;
   private final ContactService contactService;
   private final AddressService addressService;
+  private final ContractService contractService;
 
   // expose "/volunteers" and return a list of volunteers
   @GetMapping
@@ -323,4 +325,24 @@ public class VolunteerRestController {
     return "Address with Id '" + addressId + "' deleted.";
   }
 
+  // **********************************
+  // Contracts
+  // **********************************
+
+  // GET all contacts BY VoloID
+  @GetMapping("/{volunteerId}/contracts")
+  public List<Contract> getAllContractsFromVolo(@PathVariable int volunteerId) {
+    return contractService.findAllByVolunteerId(volunteerId);
+  }
+
+  @GetMapping("/{volunteerId}/contracts/relevant")
+  public Contract getRelevantContractFromVolo(@PathVariable int volunteerId) {
+    return contractService.findRelevantContractByVolunteerId(volunteerId);
+  }
+
+  @GetMapping("/{volunteerId}/contracts/{contractId}/modifications")
+  public List<ContractModification> getAllContractModsFromVolo(@PathVariable int volunteerId,
+      @PathVariable int contractId) {
+    return contractService.findModifications(volunteerId, contractId);
+  }
 }

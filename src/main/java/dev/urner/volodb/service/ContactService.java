@@ -7,7 +7,7 @@ import dev.urner.volodb.dao.ContactTypeDAO;
 import dev.urner.volodb.dao.VolunteerDAO;
 import dev.urner.volodb.entity.Contact;
 import dev.urner.volodb.entity.ContactType;
-import dev.urner.volodb.entity.ContactTypeNotFoundException;
+import dev.urner.volodb.exception.ContactTypeNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

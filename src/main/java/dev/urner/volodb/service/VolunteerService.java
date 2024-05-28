@@ -4,9 +4,9 @@ import dev.urner.volodb.dao.VolunteerDAO;
 import dev.urner.volodb.entity.Gender;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
-import dev.urner.volodb.entity.VolunteerInvalidFormatException;
-import dev.urner.volodb.entity.VolunteerNotFoundException;
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
+import dev.urner.volodb.exception.VolunteerInvalidFormatException;
+import dev.urner.volodb.exception.VolunteerNotFoundException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
