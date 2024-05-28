@@ -3,21 +3,15 @@ package dev.urner.volodb.service;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.AddressDAO;
-import dev.urner.volodb.dao.ContactDAO;
-import dev.urner.volodb.dao.ContactTypeDAO;
 import dev.urner.volodb.dao.CountryDAO;
 import dev.urner.volodb.dao.VolunteerDAO;
 import dev.urner.volodb.entity.Address;
-import dev.urner.volodb.entity.Contact;
-import dev.urner.volodb.entity.ContactType;
 import dev.urner.volodb.entity.Country;
 import dev.urner.volodb.entity.Enums.AddressStatus;
 import dev.urner.volodb.exception.AddressInvalidFormatException;
 import dev.urner.volodb.exception.AddressStatusNotFoundException;
-import dev.urner.volodb.exception.ContactTypeNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +25,7 @@ public class AddressService {
   private final CountryDAO countryDAO;
 
   public List<Address> findAllByVolunteerId(int volunteerId) {
-    int personId = volunteerDAO.findById(volunteerId).getId();
+    int personId = volunteerDAO.findById(volunteerId).getPerson().getId();
     return addressDAO.findAllByPersonId(personId);
   }
 

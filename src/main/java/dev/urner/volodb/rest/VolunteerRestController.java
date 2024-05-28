@@ -293,7 +293,7 @@ public class VolunteerRestController {
   // Addresses
   // **********************************
 
-  // GET all contacts BY VoloID
+  // GET all addresses BY VoloID
   @GetMapping("/{volunteerId}/addresses")
   public List<Address> getAllAddressesFromVolo(@PathVariable int volunteerId) {
     return addressService.findAllByVolunteerId(volunteerId);
@@ -304,13 +304,13 @@ public class VolunteerRestController {
     return addressService.findById(addressId);
   }
 
-  // POST contact BY VoloID
+  // POST address BY VoloID
   @PostMapping("/{volunteerId}/addresses")
   public Address postNewAddress(@PathVariable int volunteerId, @RequestBody Map<String, Object> fields) {
     return addressService.save(volunteerId, fields);
   }
 
-  // PATCH contact BY AddressId
+  // PATCH address BY AddressId
   @PatchMapping("/{volunteerId}/addresses/{addressId}")
   public Address updateVolunteerAddress(@RequestBody Map<String, Object> fields,
       @PathVariable int volunteerId,
