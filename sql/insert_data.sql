@@ -1008,6 +1008,9 @@ INSERT INTO contract_modification (timestamp, status, contract, type, into_force
 VALUES
   ('2023-09-08 12:34:56.789', 2, 1, 2, '2023-09-08', '2024-02-29'),
   ('2023-09-09 11:16:39.312', 1, 4, 1, '2023-10-01', '3');
+  ('2023-09-08 12:34:56.789', 2, 1, 1, '2023-09-08', '2'),
+  ('2023-09-08 12:34:56.789', 2, 1, 1, '2023-09-08', '3'),
+  ('2023-09-09 11:16:39.312', 2, 3, 1, '2023-10-01', '4');
 
 INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
 VALUES
