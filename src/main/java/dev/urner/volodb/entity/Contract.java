@@ -50,11 +50,7 @@ public class Contract {
   private Program program;
 
   @ManyToOne
-  @JsonProperty("projectId")
-  @JsonAlias({ "projectId", "project" })
   @JoinColumn(name = "project") // FK
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
   private Project project;
 
   @ManyToOne
