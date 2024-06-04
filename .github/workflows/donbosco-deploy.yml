@@ -1,4 +1,4 @@
-name: DockerProd Deploy
+name: DonBosco Deploy
 
 on:
   workflow_dispatch:
