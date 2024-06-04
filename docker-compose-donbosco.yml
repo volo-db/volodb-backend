@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: volo_db
+      TZ: Europe/Berlin
+    volumes:
+      - ~/mysql/volodb:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - volodb_network
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      TZ: Europe/Berlin
+    volumes:
+      - ~/minio/volodb/data:/data
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
+    command: server /data --console-address ":9001"
+    networks:
+      - volodb_network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-donbosco
+      args:
+        - TAG_NAME=volodb_api
+    environment:
+      TZ: "Europe/Berlin" # Set TZ for the API service
+      MINIO_PORT: ${MINIO_PORT}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      JWT_SECRETKEY: ${JWT_SECRETKEY}
+    ports:
+      - ${API_PORT}:8080
+    container_name: volodb_api
+    depends_on:
+      - mysql
+      - minio
+    networks:
+      - volodb_network
+
+networks:
+  volodb_network:
+    name: volodb_network

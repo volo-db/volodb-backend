@@ -1,0 +1,62 @@
+application:
+  formatted-version: @project.version@
+  title: @project.name@
+
+volodb:
+  minio:
+    url: http://minio:9000
+    access-key: ${MINIO_ACCESS_KEY}
+    secret-key: ${MINIO_SECRET_KEY}
+
+spring:
+  application:
+    name: "VoloDB"
+  banner:
+    location: "banner.txt"
+  main:
+    banner-mode: "log"
+  datasource:
+    url: "jdbc:mysql://mysql:3306/volo_db"
+    username: root
+    password: ${MYSQL_ROOT_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+
+  jpa:
+    hibernate:
+      naming-strategy: "org.hibernate.cfg.EJB3NamingStrategy"
+
+server:
+  servlet:
+    contextPath: "/api/v1"
+
+springdoc:
+  api-docs:
+    path: "/docs"
+
+  swagger-ui:
+    path: "/docs/swagger"
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRETKEY}
+    token-duration: 12H
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web:
+          cors: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: env
+  endpoint:
+    env:
+      enabled: true
