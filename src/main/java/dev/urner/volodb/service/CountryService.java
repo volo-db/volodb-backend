@@ -1,5 +1,7 @@
 package dev.urner.volodb.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.CountryDAO;
@@ -12,6 +14,10 @@ import lombok.RequiredArgsConstructor;
 public class CountryService {
 
   private final CountryDAO countryDao;
+
+  public List<Country> findAll() {
+    return countryDao.findAll();
+  }
 
   public Country findByName(String countryName) {
     return countryDao.findByLocalName(countryName);
