@@ -56,6 +56,21 @@ public class VolunteerService {
     return volunteerDAO.findAll(PageRequest.of(page, pageSize, sort));
   }
 
+  public Page<Volunteer> findAllWhereSearchQueryFit(String searchQuery, int page, int pageSize) {
+    return volunteerDAO.findByNameContaining(searchQuery,
+        PageRequest.of(page, pageSize, Sort.by("person.firstname").descending()));
+  }
+
+  public Page<Volunteer> findAllWhereSearchQueryFit(String searchQuery, int page, int pageSize, String sortField,
+      boolean descending) {
+    Sort sort = Sort.by(sortField);
+
+    if (descending)
+      sort = sort.descending();
+
+    return volunteerDAO.findByNameContaining(searchQuery, PageRequest.of(page, pageSize, sort));
+  }
+
   public Volunteer findById(int theId) {
     return volunteerDAO.findById(theId);
   }

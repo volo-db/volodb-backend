@@ -51,17 +51,29 @@ public class VolunteerRestController {
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
       @RequestParam(name = "sortField", defaultValue = "") String sortField,
-      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
+      @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder,
+      @RequestParam(name = "search", defaultValue = "") String searchQuery) {
 
     // unsorted
+    if (searchQuery.equals("")) {
+      if (sortField.equals(""))
+        return volunteerService.findAll(page, pageSize);
+
+      // sorted
+      if (sortOrder.equals("asc"))
+        return volunteerService.findAll(page, pageSize, sortField, false);
+      if (sortOrder.equals("desc"))
+        return volunteerService.findAll(page, pageSize, sortField, true);
+    }
+
     if (sortField.equals(""))
-      return volunteerService.findAll(page, pageSize);
+      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize);
 
     // sorted
     if (sortOrder.equals("asc"))
-      return volunteerService.findAll(page, pageSize, sortField, false);
+      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortField, false);
     if (sortOrder.equals("desc"))
-      return volunteerService.findAll(page, pageSize, sortField, true);
+      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortField, true);
 
     throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
   }
