@@ -6,8 +6,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: [self-hosted, donbosco]
-    environment:
-      name: donbosco
+    # environment:
+    #   name: donbosco
     env:
       API_PORT: ${{ secrets.API_PORT }}
       JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY }}
