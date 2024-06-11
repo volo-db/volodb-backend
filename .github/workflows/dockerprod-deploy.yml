@@ -1,27 +1,24 @@
 name: DockerProd Deploy
 
 on:
-  workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
-    runs-on: "self-hosted"
-    environment:
-      name: staging
+    runs-on: ["self-hosted", "staging"]
     env:
-      API_PORT: ${{ secrets.API_PORT }}
-      JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY }}
-      MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
-      MINIO_PORT: ${{ secrets.MINIO_PORT }}
-      MINIO_CONSOLE_PORT: ${{ secrets.MINIO_CONSOLE_PORT }}
-      MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
-      MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
-      MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
-      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      API_PORT: ${{ secrets.API_PORT_STAGING }}
+      JWT_SECRETKEY: ${{ secrets.JWT_SECRETKEY_STAGING }}
+      MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY_STAGING }}
+      MINIO_PORT: ${{ secrets.MINIO_PORT_STAGING }}
+      MINIO_CONSOLE_PORT: ${{ secrets.MINIO_CONSOLE_PORT_STAGING }}
+      MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD_STAGING }}
+      MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER_STAGING }}
+      MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY_STAGING }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT_STAGING }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD_STAGING }}
 
     steps:
       - name: Checkout
