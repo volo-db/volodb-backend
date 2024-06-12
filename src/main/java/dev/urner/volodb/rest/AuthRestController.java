@@ -65,6 +65,19 @@ public class AuthRestController {
         .build();
   }
 
+  @GetMapping("/refresh")
+  public LoginResponse refresh(@AuthenticationPrincipal UserPrincipal principal) {
+    var roles = principal.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .toList();
+
+    var token = jwtIssuer.issue(principal.getUsername(), roles);
+
+    return LoginResponse.builder()
+        .accessToken(token)
+        .build();
+  }
+
   @ExceptionHandler
   public ResponseEntity<VolodbErrorResponse> handleException(UserNotFoundException exc) {
     HttpStatus httpStatus = HttpStatus.NOT_FOUND;

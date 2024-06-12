@@ -42,7 +42,7 @@ springdoc:
 security:
   jwt:
     secret-key: ${JWT_SECRETKEY}
-    token-duration: 12H
+    token-duration: 1H
 
 logging:
   level:
