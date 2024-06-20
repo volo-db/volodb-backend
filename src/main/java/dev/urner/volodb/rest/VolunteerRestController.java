@@ -150,18 +150,16 @@ public class VolunteerRestController {
 
   // GET all notes BY VoloID
   @GetMapping("/{volunteerId}/notes")
-  public Page<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
-      @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+  public List<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
       @RequestParam(name = "sortField", defaultValue = "") String sortField,
       @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
     if (sortField.equals(""))
-      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize);
+      return volunteerNoteService.findAllByVolunteerId(volunteerId);
 
     if (sortOrder.equals("asc"))
-      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, false);
+      return volunteerNoteService.findAllByVolunteerId(volunteerId, sortField, false);
     if (sortOrder.equals("desc"))
-      return volunteerNoteService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, true);
+      return volunteerNoteService.findAllByVolunteerId(volunteerId, sortField, true);
 
     throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
 
