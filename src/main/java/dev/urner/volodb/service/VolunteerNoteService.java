@@ -19,26 +19,13 @@ public class VolunteerNoteService {
 
   private final VolunteerNoteDAO volunteerNoteDAO;
 
-  // public List<VolunteerNote> findAllByVolunteerId(int volunteerId) {
-
-  // List<VolunteerNote> notes =
-  // volunteerNoteDAO.findAllByVolunteerId(volunteerId);
-
-  // if (notes == null)
-  // throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id:
-  // " + volunteerId);
-
-  // return notes;
-  // }
-
-  // (page, pageSize, sortField, true);
-
   public List<VolunteerNote> findAllByVolunteerId(int volunteerId, String sortField,
-      boolean descending) {
+      boolean descending, String searchQuery) {
 
     Sort sort = Sort.by(descending ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
 
-    List<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId, sort);
+    List<VolunteerNote> notes = volunteerNoteDAO.findByVolunteerIdAndNoteContentContaining(volunteerId, searchQuery,
+        sort);
 
     if (notes == null)
       throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
