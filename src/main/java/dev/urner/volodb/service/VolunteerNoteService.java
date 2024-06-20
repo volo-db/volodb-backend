@@ -1,5 +1,6 @@
 package dev.urner.volodb.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -20,9 +21,9 @@ public class VolunteerNoteService {
 
   private final VolunteerNoteDAO volunteerNoteDAO;
 
-  public Page<VolunteerNote> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
+  public List<VolunteerNote> findAllByVolunteerId(int volunteerId) {
 
-    Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
+    List<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId);
 
     if (notes == null)
       throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
@@ -32,7 +33,7 @@ public class VolunteerNoteService {
 
   // (page, pageSize, sortField, true);
 
-  public Page<VolunteerNote> findAllByVolunteerId(int volunteerId, int page, int pageSize, String sortField,
+  public List<VolunteerNote> findAllByVolunteerId(int volunteerId, String sortField,
       boolean descending) {
 
     Sort sort = Sort.by(sortField);
@@ -40,8 +41,7 @@ public class VolunteerNoteService {
     if (descending)
       sort = sort.descending();
 
-    Page<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId,
-        PageRequest.of(page, pageSize, sort));
+    List<VolunteerNote> notes = volunteerNoteDAO.findAllByVolunteerId(volunteerId);
 
     if (notes == null)
       throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
