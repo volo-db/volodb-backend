@@ -178,8 +178,8 @@ public class VolunteerRestController {
   // PATCH
   @PatchMapping("/{volunteerId}/notes/{noteId}")
   public VolunteerNote updateVolunteerNote(@RequestBody Map<String, Object> fields, @PathVariable int volunteerId,
-      @PathVariable int noteId) {
-    return volunteerNoteService.update(noteId, fields);
+      @PathVariable int noteId, @AuthenticationPrincipal UserPrincipal principal) {
+    return volunteerNoteService.update(noteId, fields, principal.getUsername());
   }
 
   // DELTE BY NoteID
