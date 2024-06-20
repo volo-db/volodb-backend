@@ -71,12 +71,15 @@ public class VolunteerNoteService {
   }
 
   @Transactional
-  public VolunteerNote update(int noteId, Map<String, Object> fields) {
+  public VolunteerNote update(int noteId, Map<String, Object> fields, String username) {
 
     VolunteerNote dbNote = volunteerNoteDAO.findById(noteId);
 
     if (dbNote == null)
       throw new ContactTypeNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
+
+    if (!dbNote.getUsername().equals(username))
+      throw new VolunteerNoteInvalidFormatException("Not allowed to edit notes from other users.");
 
     fields.forEach((key, value) -> {
 
