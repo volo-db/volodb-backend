@@ -13,6 +13,11 @@ public interface VolunteerNoteDAO extends ListCrudRepository<VolunteerNote, Inte
 
   public List<VolunteerNote> findAllByVolunteerId(int volunteerId, Sort sort);
 
+  public List<VolunteerNote> findByVolunteerIdAndNoteContentContaining(
+      int volunteerId,
+      String noteContent,
+      Sort sort);
+
   public VolunteerNote save(VolunteerNote note);
 
   public void deleteById(int id);

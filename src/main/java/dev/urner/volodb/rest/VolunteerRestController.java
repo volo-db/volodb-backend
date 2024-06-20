@@ -151,6 +151,7 @@ public class VolunteerRestController {
   // GET all notes BY VoloID
   @GetMapping("/{volunteerId}/notes")
   public List<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
+      @RequestParam(name = "search", defaultValue = "") String search,
       @RequestParam(name = "sortField", defaultValue = "timestamp") String sortField,
       @RequestParam(name = "sortOrder", defaultValue = "desc") String sortOrder) {
 
@@ -158,7 +159,7 @@ public class VolunteerRestController {
       throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
 
     return volunteerNoteService.findAllByVolunteerId(volunteerId, sortField,
-        sortOrder.toLowerCase().equals("asc") ? false : true);
+        sortOrder.toLowerCase().equals("asc") ? false : true, search);
 
   }
 
