@@ -28,16 +28,16 @@ public class ProjectRestController {
   public Page<Project> findAll(
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
       @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
 
-    if (sortField.equals(""))
+    if (sortBy.equals(""))
       return projectService.findAll(page, pageSize);
 
     if (sortOrder.equals("asc"))
-      return projectService.findAll(page, pageSize, sortField, false);
+      return projectService.findAll(page, pageSize, sortBy, false);
     if (sortOrder.equals("desc"))
-      return projectService.findAll(page, pageSize, sortField, true);
+      return projectService.findAll(page, pageSize, sortBy, true);
 
     throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
   }
