@@ -50,30 +50,30 @@ public class VolunteerRestController {
   public Page<Volunteer> findAll(
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
       @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder,
       @RequestParam(name = "search", defaultValue = "") String searchQuery) {
 
     // unsorted
     if (searchQuery.equals("")) {
-      if (sortField.equals(""))
+      if (sortBy.equals(""))
         return volunteerService.findAll(page, pageSize);
 
       // sorted
       if (sortOrder.equals("asc"))
-        return volunteerService.findAll(page, pageSize, sortField, false);
+        return volunteerService.findAll(page, pageSize, sortBy, false);
       if (sortOrder.equals("desc"))
-        return volunteerService.findAll(page, pageSize, sortField, true);
+        return volunteerService.findAll(page, pageSize, sortBy, true);
     }
 
-    if (sortField.equals(""))
+    if (sortBy.equals(""))
       return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize);
 
     // sorted
     if (sortOrder.equals("asc"))
-      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortField, false);
+      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortBy, false);
     if (sortOrder.equals("desc"))
-      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortField, true);
+      return volunteerService.findAllWhereSearchQueryFit(searchQuery, page, pageSize, sortBy, true);
 
     throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
   }
@@ -152,13 +152,13 @@ public class VolunteerRestController {
   @GetMapping("/{volunteerId}/notes")
   public List<VolunteerNote> getAllNotesFromVolo(@PathVariable int volunteerId,
       @RequestParam(name = "search", defaultValue = "") String search,
-      @RequestParam(name = "sortField", defaultValue = "timestamp") String sortField,
+      @RequestParam(name = "sortBy", defaultValue = "timestamp") String sortBy,
       @RequestParam(name = "sortOrder", defaultValue = "desc") String sortOrder) {
 
     if (!sortOrder.toLowerCase().equals("asc") && !sortOrder.toLowerCase().equals("desc"))
       throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
 
-    return volunteerNoteService.findAllByVolunteerId(volunteerId, sortField,
+    return volunteerNoteService.findAllByVolunteerId(volunteerId, sortBy,
         sortOrder.toLowerCase().equals("asc") ? false : true, search);
 
   }
@@ -196,16 +196,16 @@ public class VolunteerRestController {
   public Page<VolunteerDocument> getAllDocuments(@PathVariable int volunteerId,
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-      @RequestParam(name = "sortField", defaultValue = "") String sortField,
+      @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
       @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
 
-    if (sortField.equals(""))
+    if (sortBy.equals(""))
       return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize);
 
     if (sortOrder.equals("asc"))
-      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, false);
+      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortBy, false);
     if (sortOrder.equals("desc"))
-      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortField, true);
+      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortBy, true);
 
     throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
 
