@@ -31,6 +31,9 @@ public class VolunteerDocument {
   @Column(name = "timestamp")
   private LocalDateTime timestamp;
 
+  @Column(name = "name")
+  private String name;
+
   @Column(name = "volunteer")
   private int volunteerId;
 

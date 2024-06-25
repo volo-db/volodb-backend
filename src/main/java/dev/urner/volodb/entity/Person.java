@@ -29,5 +29,4 @@ public class Person {
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
   @JsonIdentityReference(alwaysAsId = true)
   private Gender gender;
-
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerNoteDAO;
 import dev.urner.volodb.entity.VolunteerNote;
-import dev.urner.volodb.exception.ContactTypeNotFoundException;
+import dev.urner.volodb.exception.NoteNotFoundException;
 import dev.urner.volodb.exception.VolunteerNoteInvalidFormatException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class VolunteerNoteService {
         sort);
 
     if (notes == null)
-      throw new ContactTypeNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
+      throw new NoteNotFoundException("There are no Notes for Volunteer-Id: " + volunteerId);
 
     return notes;
   }
@@ -46,7 +46,7 @@ public class VolunteerNoteService {
     VolunteerNote dbNote = volunteerNoteDAO.findById(noteId);
 
     if (dbNote == null)
-      throw new ContactTypeNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
+      throw new NoteNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
 
     if (!dbNote.getUsername().equals(username))
       throw new VolunteerNoteInvalidFormatException("Not allowed to delete notes from other users.");
@@ -60,7 +60,7 @@ public class VolunteerNoteService {
     VolunteerNote dbNote = volunteerNoteDAO.findById(noteId);
 
     if (dbNote == null)
-      throw new ContactTypeNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
+      throw new NoteNotFoundException("VolunteerNote with Id '" + noteId + "' not found.");
 
     if (!dbNote.getUsername().equals(username))
       throw new VolunteerNoteInvalidFormatException("Not allowed to edit notes from other users.");
