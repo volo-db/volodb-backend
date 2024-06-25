@@ -1,6 +1,7 @@
 package dev.urner.volodb.service;
 
 import java.util.Map;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerDocumentDAO;
 import dev.urner.volodb.entity.VolunteerDocument;
+import dev.urner.volodb.entity.VolunteerNote;
+import dev.urner.volodb.exception.ContactTypeNotFoundException;
+import dev.urner.volodb.exception.DocumentNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +23,8 @@ public class VolunteerDocumentService {
   private final VolunteerDocumentDAO volunteerDocumentDAO;
   private final VolunteerDocumentTypeService documentTypeService;
 
-  public Page<VolunteerDocument> findAll(int page, int pageSize) {
-    return volunteerDocumentDAO.findAll(PageRequest.of(page, pageSize));
+  public List<VolunteerDocument> findAll() {
+    return volunteerDocumentDAO.findAll();
   }
 
   public VolunteerDocument findById(int documentId) {
@@ -51,19 +55,28 @@ public class VolunteerDocumentService {
     documentTypeService.deleteById(documentId);
   }
 
-  public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, int page, int pageSize) {
-    return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize));
+  public List<VolunteerDocument> findAllByVolunteerId(int volunteerId, String sortField, boolean descending,
+      String searchQuery) {
+
+    Sort sort = Sort.by(descending ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
+    List<VolunteerDocument> documents = volunteerDocumentDAO.findByVolunteerIdAndNameContaining(volunteerId,
+        searchQuery, sort);
+
+    if (documents == null)
+      throw new DocumentNotFoundException(
+          "There are no Documents with this combination of volunteerId and searchQuery");
+    return documents;
   }
 
-  public Page<VolunteerDocument> findAllByVolunteerId(int volunteerId, int page, int pageSize, String sortField,
+  public List<VolunteerDocument> findAllByVolunteerId(int volunteerId, String sortBy,
       boolean descending) {
 
-    Sort sort = Sort.by(sortField);
+    Sort sort = Sort.by(sortBy);
 
     if (descending)
       sort = sort.descending();
 
-    return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, PageRequest.of(page, pageSize, sort));
+    return volunteerDocumentDAO.findAllByVolunteerId(volunteerId, sort);
   }
 
 }

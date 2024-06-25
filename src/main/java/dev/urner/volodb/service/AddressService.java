@@ -38,35 +38,10 @@ public class AddressService {
     return addressDAO.save(address);
   }
 
-  // @Transactional
-  // public Contact save(int volunteerId, Map<String, Object> fields) {
-  // Contact newContact = new Contact();
-  // newContact.setPersonId(volunteerDAO.findById(volunteerId).getPerson().getId());
-
-  // fields.forEach((key, value) -> {
-  // if (key.toLowerCase().equals("type")) {
-  // ContactType dbContactType =
-  // contactTypeDAO.findByName(value.toString().toLowerCase());
-  // if (dbContactType == null) {
-  // throw new ContactTypeNotFoundException("Contact with type: \"" +
-  // value.toString() + "\" not found.");
-  // }
-
-  // newContact.setType(dbContactType);
-  // }
-
-  // if (key.toLowerCase().equals("value")) {
-  // newContact.setValue(value.toString());
-  // }
-  // });
-
-  // return contactDAO.save(newContact);
-  // }
-
   @Transactional
   public Address save(int volunteerId, Map<String, Object> fields) {
     Address newAddress = new Address();
-    newAddress.setPersonId(volunteerDAO.findById(volunteerId).getPerson().getId());
+    newAddress.setPerson(volunteerDAO.findById(volunteerId).getPerson());
 
     Map<String, Boolean> flags = new HashMap<>();
     flags.put("status", false);
@@ -133,7 +108,7 @@ public class AddressService {
 
     // If Status is active -> deactivate all other active addresses in DB and set
     if (newAddress.getStatus().equals(AddressStatus.ACTIVE)) {
-      List<Address> allAddressesOfPerson = addressDAO.findAllByPersonId(newAddress.getPersonId());
+      List<Address> allAddressesOfPerson = addressDAO.findAllByPersonId(newAddress.getPerson().getId());
       allAddressesOfPerson.forEach((address) -> {
         if (address.getStatus().equals(AddressStatus.ACTIVE)) {
           address.setStatus(AddressStatus.INACTIVE);
@@ -149,7 +124,7 @@ public class AddressService {
   public Address update(int addressId, int volunteerId, Map<String, Object> fields) {
     Address dbAddress = addressDAO.findById(addressId);
 
-    if (dbAddress.getPersonId() != volunteerDAO.findById(volunteerId).getPerson().getId()) {
+    if (dbAddress.getPerson() != volunteerDAO.findById(volunteerId).getPerson()) {
       throw new AddressInvalidFormatException(
           "Volunteer has no address with id: '" + addressId + "'");
     }
@@ -160,7 +135,7 @@ public class AddressService {
         // If Status is active -> deactivate all other active addresses in DB and set
         // status to active
         if (value.toString().toLowerCase().equals("active")) {
-          List<Address> allAddressesOfPerson = addressDAO.findAllByPersonId(dbAddress.getPersonId());
+          List<Address> allAddressesOfPerson = addressDAO.findAllByPersonId(dbAddress.getPerson().getId());
           allAddressesOfPerson.forEach((address) -> {
             if (address.getStatus().equals(AddressStatus.ACTIVE)) {
               address.setStatus(AddressStatus.INACTIVE);
@@ -207,7 +182,7 @@ public class AddressService {
   @Transactional
   public void deleteById(int addressId, int volunteerId) {
     Address dbAddress = addressDAO.findById(addressId);
-    if (dbAddress.getPersonId() != volunteerDAO.findById(volunteerId).getPerson().getId()) {
+    if (dbAddress.getPerson().getId() != volunteerDAO.findById(volunteerId).getPerson().getId()) {
       throw new AddressInvalidFormatException(
           "Volunteer has no address with id: '" + addressId + "'");
     }

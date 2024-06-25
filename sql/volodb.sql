@@ -72,10 +72,30 @@ CREATE TABLE `user_role_mapping` (
   `user_role` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `contract`;
+CREATE TABLE `contract` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `program` INT NOT NULL,
+  `project` INT NOT NULL,
+  `contact_person_of_project` INT,
+  `start` DATE NOT NULL,
+  `end` DATE NOT NULL,
+  `visa_necessary` BOOLEAN NOT NULL,
+  `incoming_volunteer` BOOLEAN NOT NULL,
+  `salary` INT NOT NULL,
+  `holiday` INT NOT NULL,
+  `seminar_days` INT NOT NULL,
+  `metadata` JSON,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 DROP TABLE IF EXISTS `legal_guardian`;
 CREATE TABLE `legal_guardian` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `person` INT NOT NULL,
+  `contract` INT NOT NULL,
+  `address` INT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -156,24 +176,6 @@ DROP TABLE IF EXISTS `vocational_edu`;
 CREATE TABLE `vocational_edu` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `contract`;
-CREATE TABLE `contract` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `timestamp` DATETIME NOT NULL,
-  `volunteer` INT NOT NULL,
-  `program` INT NOT NULL,
-  `project` INT NOT NULL,
-  `contact_person_of_project` INT,
-  `start` DATE NOT NULL,
-  `end` DATE NOT NULL,
-  `visa_necessary` BOOLEAN NOT NULL,
-  `incoming_volunteer` BOOLEAN NOT NULL,
-  `salary` INT NOT NULL,
-  `holiday` INT NOT NULL,
-  `metadata` JSON,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -302,6 +304,7 @@ DROP TABLE IF EXISTS `volunteer_document`;
 CREATE TABLE `volunteer_document` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   `volunteer` INT NOT NULL,
   `type` INT NOT NULL,
   `size` INT NOT NULL,
@@ -334,7 +337,9 @@ ALTER TABLE `contact` ADD FOREIGN KEY (`type`) REFERENCES `contact_type` (`id`);
 
 ALTER TABLE `contact` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
-ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
+ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`contract`) REFERENCES `contract` (`id`);
+
+ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
 ALTER TABLE `volunteer` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 

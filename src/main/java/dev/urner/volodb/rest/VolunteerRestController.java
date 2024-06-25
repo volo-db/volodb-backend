@@ -193,21 +193,16 @@ public class VolunteerRestController {
   // **********************************
 
   @GetMapping("/{volunteerId}/documents")
-  public Page<VolunteerDocument> getAllDocuments(@PathVariable int volunteerId,
-      @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-      @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
+  public List<VolunteerDocument> getAllDocuments(@PathVariable int volunteerId,
+      @RequestParam(name = "search", defaultValue = "") String search,
+      @RequestParam(name = "sortBy", defaultValue = "timestamp") String sortBy,
       @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder) {
 
-    if (sortBy.equals(""))
-      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize);
+    if (!sortOrder.toLowerCase().equals("asc") && !sortOrder.toLowerCase().equals("desc"))
+      throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
 
-    if (sortOrder.equals("asc"))
-      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortBy, false);
-    if (sortOrder.equals("desc"))
-      return volunteerDocumentService.findAllByVolunteerId(volunteerId, page, pageSize, sortBy, true);
-
-    throw new VolunteerInvalidFormatException("SortOrder '" + sortOrder + "' not supported.");
+    return volunteerDocumentService.findAllByVolunteerId(volunteerId, sortBy,
+        sortOrder.toLowerCase().equals("asc") ? false : true, search);
 
   }
 

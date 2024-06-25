@@ -74,10 +74,30 @@ CREATE TABLE `user_role_mapping` (
   `user_role` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `contract`;
+CREATE TABLE `contract` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `volunteer` INT NOT NULL,
+  `program` INT NOT NULL,
+  `project` INT NOT NULL,
+  `contact_person_of_project` INT,
+  `start` DATE NOT NULL,
+  `end` DATE NOT NULL,
+  `visa_necessary` BOOLEAN NOT NULL,
+  `incoming_volunteer` BOOLEAN NOT NULL,
+  `salary` INT NOT NULL,
+  `holiday` INT NOT NULL,
+  `seminar_days` INT NOT NULL,
+  `metadata` JSON,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 DROP TABLE IF EXISTS `legal_guardian`;
 CREATE TABLE `legal_guardian` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `person` INT NOT NULL,
+  `contract` INT NOT NULL,
+  `address` INT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -158,24 +178,6 @@ DROP TABLE IF EXISTS `vocational_edu`;
 CREATE TABLE `vocational_edu` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `contract`;
-CREATE TABLE `contract` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `timestamp` DATETIME NOT NULL,
-  `volunteer` INT NOT NULL,
-  `program` INT NOT NULL,
-  `project` INT NOT NULL,
-  `contact_person_of_project` INT,
-  `start` DATE NOT NULL,
-  `end` DATE NOT NULL,
-  `visa_necessary` BOOLEAN NOT NULL,
-  `incoming_volunteer` BOOLEAN NOT NULL,
-  `salary` INT NOT NULL,
-  `holiday` INT NOT NULL,
-  `metadata` JSON,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -304,6 +306,7 @@ DROP TABLE IF EXISTS `volunteer_document`;
 CREATE TABLE `volunteer_document` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` DATETIME NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   `volunteer` INT NOT NULL,
   `type` INT NOT NULL,
   `size` INT NOT NULL,
@@ -336,7 +339,9 @@ ALTER TABLE `contact` ADD FOREIGN KEY (`type`) REFERENCES `contact_type` (`id`);
 
 ALTER TABLE `contact` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
-ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
+ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`contract`) REFERENCES `contract` (`id`);
+
+ALTER TABLE `legal_guardian` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
 ALTER TABLE `volunteer` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
@@ -742,11 +747,6 @@ VALUES
   ('urner@donbosco.de', 2),
   ('urner@donbosco.de', 3);
 
-INSERT INTO legal_guardian (person)
-VALUES
-  (9),
-  (10);
-
 INSERT INTO volunteer_status (name)
 VALUES
   ('BEWORBEN'),/*---------------1*/
@@ -981,14 +981,14 @@ VALUES
   ('Modell 3', 'Wohnt in eigener Wohnung und verpflegt sich selbst.', 210, 0, 265, 0, 200, 0, 270),
   ('Modell 4', 'Wohnt in EST verpflegt sich jedoch selbst.', 210, 0, 265, 0, 0, 225.25, 280.1);
   
-INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, metadata)
+INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, seminar_days, metadata)
 VALUES
-  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, '{ "bfd-nummer": "20020318AH1T3" }'),
-  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, '{ "bfd-nummer": "20020318RM411" }'),
-  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, '{ "bfd-nummer": "20020318SS7S2" }'),
-  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, '{ "bfd-nummer": "20020318SS7S2" }'),
-  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, '{ "bfd-nummer": "20020318KW32Q" }'),
-  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, '{ "bfd-nummer": "20020318LS91Z" }');
+  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318AH1T3", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{}'),
+  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318KW32Q", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318LS91Z", "politische-bildung": 5 }');
 
 INSERT INTO contract_modification_type (name)
 VALUES
@@ -1011,6 +1011,11 @@ VALUES
   ('2023-09-08 12:34:56.789', 2, 1, 1, '2023-09-08', '2'),
   ('2023-09-08 12:34:56.789', 2, 1, 1, '2023-09-08', '3'),
   ('2023-09-09 11:16:39.312', 2, 3, 1, '2023-10-01', '4');
+
+INSERT INTO legal_guardian (address, contract)
+VALUES
+  (8, 1),
+  (9, 3);
 
 INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
 VALUES
@@ -1054,35 +1059,35 @@ FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles
   ('Einwillingung Foto- und Videoaufnahmen', 'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.'),
   ('Bewertungsbogen', 'Bewertungsbogen von EST.');
   
-  INSERT INTO volunteer_document (timestamp, volunteer, type, size, path, user)
+  INSERT INTO volunteer_document (timestamp, name, volunteer, type, size, path, user)
   VALUES
-  ('2024-03-18 13:39:22.321', 1, 1, 232002, 'docs/folder/file1.pdf', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 1, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 1, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 1, 5, 202002, 'docs/folder/file4.pdf', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 1, 2, 332002, 'docs/folder/file5.pdf', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 1, 4, 2123002, 'docs/folder/file6.jpg', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 2, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 1, 436022, 'docs/folder/file2.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 3, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 4, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
-  ('2024-03-18 13:39:22.321', 5, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de');
+  ('2024-03-18 13:39:22.321','Datei Eins' , 1, 1, 232002, 'docs/folder/file1.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Zwei' , 1, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Drei' , 1, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Vier' , 1, 5, 202002, 'docs/folder/file4.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Fünf' , 1, 2, 332002, 'docs/folder/file5.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Sechs' , 1, 4, 2123002, 'docs/folder/file6.jpg', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Eins' , 2, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Zwei' , 2, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Drei' , 2, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Vier' , 2, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Fünf' , 2, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Sechs' , 2, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Eins' , 3, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Zwei' , 3, 1, 436022, 'docs/folder/file2.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Drei' , 3, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Vier' , 3, 5, 202002, 'docs/folder/file4.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Fünf' , 3, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Sechs' , 3, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Eins' , 4, 1, 232002, 'docs/folder/file1.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Zwei' , 4, 1, 436022, 'docs/folder/file2.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Drei' , 4, 1, 1946542, 'docs/folder/file3.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Vier' , 4, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Fünf' , 4, 2, 332002, 'docs/folder/file5.pdf', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Sechs' , 4, 4, 2123002, 'docs/folder/file6.jpg', 'wiesinger@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Eins' , 5, 1, 232002, 'docs/folder/file1.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Zwei' , 5, 1, 436022, 'docs/folder/file2.pdf', 'urner@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Drei' , 5, 1, 1946542, 'docs/folder/file3.jpg', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Vier' , 5, 5, 202002, 'docs/folder/file4.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Fünf' , 5, 2, 332002, 'docs/folder/file5.pdf', 'jakob.bopp@donbosco.de'),
+  ('2024-03-18 13:39:22.321','Datei Sechs' , 5, 4, 2123002, 'docs/folder/file6.jpg', 'jakob.bopp@donbosco.de');

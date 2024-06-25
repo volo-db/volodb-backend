@@ -78,7 +78,13 @@ public class Contract {
   @Column(name = "holiday")
   private int holiday;
 
+  @Column(name = "seminarDays")
+  private int seminarDays;
+
   @Convert(converter = HashMapConverter.class)
   @Column(name = "metadata") // ToDo: JSON-Abhängigkeit
   private Map<String, Object> metadata;
+
+  @OneToOne(mappedBy = "contract")
+  private LegalGuardian legalGuardian;
 }
