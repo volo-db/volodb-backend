@@ -705,7 +705,7 @@ VALUES
 
 INSERT INTO contact (person, type, val)
 VALUES
-  (1, 1, 'huber.alber@web.de'),
+  (1, 1, 'huber.albert@web.de'),
   (1, 2, '00491512345678'),
   (1, 3, '004989523498'),
   (1, 4, '00491512345678'),
@@ -981,14 +981,14 @@ VALUES
   ('Modell 3', 'Wohnt in eigener Wohnung und verpflegt sich selbst.', 210, 0, 265, 0, 200, 0, 270),
   ('Modell 4', 'Wohnt in EST verpflegt sich jedoch selbst.', 210, 0, 265, 0, 0, 225.25, 280.1);
   
-INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, seminar_days, metadata)
+INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, seminar_days, sick_days, metadata)
 VALUES
-  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318AH1T3", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{}'),
-  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318KW32Q", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318LS91Z", "politische-bildung": 5 }');
+  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318AH1T3", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{}'),
+  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318KW32Q", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318LS91Z", "politische-bildung": 5 }');
 
 INSERT INTO contract_modification_type (name)
 VALUES
