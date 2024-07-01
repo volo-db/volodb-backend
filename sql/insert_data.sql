@@ -89,6 +89,7 @@ CREATE TABLE `contract` (
   `salary` INT NOT NULL,
   `holiday` INT NOT NULL,
   `seminar_days` INT NOT NULL,
+  `sick_days` INT NOT NULL,
   `metadata` JSON,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
