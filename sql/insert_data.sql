@@ -89,6 +89,7 @@ CREATE TABLE `contract` (
   `salary` INT NOT NULL,
   `holiday` INT NOT NULL,
   `seminar_days` INT NOT NULL,
+  `sick_days` INT NOT NULL,
   `metadata` JSON,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -705,7 +706,7 @@ VALUES
 
 INSERT INTO contact (person, type, val)
 VALUES
-  (1, 1, 'huber.alber@web.de'),
+  (1, 1, 'huber.albert@web.de'),
   (1, 2, '00491512345678'),
   (1, 3, '004989523498'),
   (1, 4, '00491512345678'),
@@ -981,14 +982,14 @@ VALUES
   ('Modell 3', 'Wohnt in eigener Wohnung und verpflegt sich selbst.', 210, 0, 265, 0, 200, 0, 270),
   ('Modell 4', 'Wohnt in EST verpflegt sich jedoch selbst.', 210, 0, 265, 0, 0, 225.25, 280.1);
   
-INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, seminar_days, metadata)
+INSERT INTO contract (timestamp, volunteer, program, project, contact_person_of_project, start, end, visa_necessary, incoming_volunteer, salary, holiday, seminar_days, sick_days, metadata)
 VALUES
-  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318AH1T3", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{}'),
-  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318KW32Q", "politische-bildung": 5 }'),
-  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, '{ "bfd-nummer": "20020318LS91Z", "politische-bildung": 5 }');
+  ('2023-03-08 12:34:56.789', 1, 1, 1, 1, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318AH1T3", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 2, 2, 2, 2, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{}'),
+  ('2023-03-08 12:34:56.789', 3, 1, 3, 3, '2020-09-01', '2021-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 3, 1, 1, 1, '2022-09-01', '2023-02-28', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318SS7S2", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 4, 1, 4, 4, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318KW32Q", "politische-bildung": 5 }'),
+  ('2023-03-08 12:34:56.789', 5, 1, 5, 5, '2022-09-01', '2023-08-31', false, false, 1, 26, 25, 0, '{ "bfd-nummer": "20020318LS91Z", "politische-bildung": 5 }');
 
 INSERT INTO contract_modification_type (name)
 VALUES
@@ -1019,36 +1020,36 @@ VALUES
 
 INSERT INTO volunteer_note (timestamp, volunteer, type, note, user)
 VALUES
-  ('2024-01-10 14:51:39.123', 1, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+  ('2024-01-10 14:51:39.123', 1, 'Eingehender Anruf', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
 FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
-  ('2024-01-11 14:51:39.123', 1, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 1, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 1, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
-  ('2024-01-10 14:51:39.123', 2, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+  ('2024-01-11 14:51:39.123', 1, 'Notiz', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 1, 'E-Mail', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 1, 'Ausgehender Anruf', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
+  ('2024-01-10 14:51:39.123', 2, 'Eingehender Anruf', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
 FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
-  ('2024-01-11 14:51:39.123', 2, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 2, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 2, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
-  ('2024-01-10 14:51:39.123', 3, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+  ('2024-01-11 14:51:39.123', 2, 'Notiz', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 2, 'E-Mail', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 2, 'Ausgehender Anruf', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
+  ('2024-01-10 14:51:39.123', 3, 'Eingehender Anruf', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
 FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
-  ('2024-01-11 14:51:39.123', 3, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 3, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 3, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
-  ('2024-01-10 14:51:39.123', 4, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+  ('2024-01-11 14:51:39.123', 3, 'Notiz', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 3, 'E-Mail', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 3, 'Ausgehender Anruf', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
+  ('2024-01-10 14:51:39.123', 4, 'Eingehender Anruf', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
 FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
-  ('2024-01-11 14:51:39.123', 4, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 4, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 4, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
-  ('2024-01-10 14:51:39.123', 5, 'phone incoming', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
+  ('2024-01-11 14:51:39.123', 4, 'Notiz', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 4, 'E-Mail', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 4, 'Ausgehender Anruf', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de'),
+  ('2024-01-10 14:51:39.123', 5, 'Eingehender Anruf', 'FW hat angerufen und sich über einen FWD in Jünkerath informiert.
 Ich habe FW über unseren Träger aufgeklärt und die weiteren Einsatzmöglichkeiten in ganz Deutschland aufgezeigt.
 FW möchte nächste Woche zur Messe nach Regensburg kommen. Da klären wir alles weitere.', 'urner@donbosco.de'),
-  ('2024-01-11 14:51:39.123', 5, 'note', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 5, 'email', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
-  ('2024-02-13 14:51:39.123', 5, 'phone outgoing', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de');
+  ('2024-01-11 14:51:39.123', 5, 'Notiz', 'Hatte zielführendes Gespräch mit FW auf Messe. Hat noch einige Fragen. Hab vereinbart, dass Sie von Jakob angerufen wird.', 'wiesinger@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 5, 'E-Mail', 'Hab zum Telefonat vorab bereits Willkommensmail verschickt', 'jakob.bopp@donbosco.de'),
+  ('2024-02-13 14:51:39.123', 5, 'Ausgehender Anruf', 'Super gespräch mit FW. Letzte Fragen wurden aufgelöst. FW schickt alle Unterlage bis nächste Woche.', 'jakob.bopp@donbosco.de');
 
   INSERT INTO volunteer_document_type (name, description)
   VALUES
