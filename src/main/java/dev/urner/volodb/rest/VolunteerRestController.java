@@ -32,6 +32,8 @@ import java.lang.System;
 import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/volunteers")
@@ -290,6 +292,12 @@ public class VolunteerRestController {
   public String deleteByContactId(@PathVariable int volunteerId, @PathVariable int contactId) {
     contactService.deleteById(contactId);
     return "Contact with Id '" + contactId + "' deleted.";
+  }
+
+  //
+  @GetMapping("/contacts/types")
+  public String getMethodName(@RequestParam String param) {
+    return new String();
   }
 
   // **********************************
