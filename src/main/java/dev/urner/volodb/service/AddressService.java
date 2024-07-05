@@ -88,7 +88,7 @@ public class AddressService {
         newAddress.setCareof(value.toString());
       }
       if (key.toLowerCase().equals("country")) {
-        Country dbCountry = countryDAO.findByName(value.toString());
+        Country dbCountry = countryDAO.findByLocalName(value.toString());
         newAddress.setCountry(dbCountry);
       }
       if (key.toLowerCase().equals("state") && value != null) {
