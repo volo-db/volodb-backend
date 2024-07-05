@@ -154,7 +154,7 @@ public class AddressService {
       if (key.toLowerCase().equals("name")) {
         dbAddress.setName(value.toString());
       }
-      if (key.toLowerCase().equals("careof")) {
+      if (key.toLowerCase().equals("careof") && value != null) {
         dbAddress.setCareof(value.toString());
       }
       if (key.toLowerCase().equals("country")) {
