@@ -162,7 +162,7 @@ public class AddressService {
           dbAddress.setCareof(null);
       }
       if (key.toLowerCase().equals("country")) {
-        Country dbCountry = countryDAO.findByName(value.toString());
+        Country dbCountry = countryDAO.findByLocalName(value.toString());
         dbAddress.setCountry(dbCountry);
       }
       if (key.toLowerCase().equals("state")) {
