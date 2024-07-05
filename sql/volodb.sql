@@ -1,5 +1,5 @@
 DROP DATABASE  IF EXISTS `volo_db`;
-CREATE DATABASE `volo_db`;
+CREATE DATABASE `volo_db` CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 USE `volo_db`;
 
 DROP TABLE IF EXISTS `person`;
@@ -9,14 +9,14 @@ CREATE TABLE `person` (
   `lastname` VARCHAR(50) NOT NULL,
   `firstname` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `gender`;
 CREATE TABLE `gender` (
   `id` INT  NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
@@ -31,7 +31,7 @@ CREATE TABLE `address` (
   `postal_code` VARCHAR(10) NOT NULL,
   `city` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
@@ -40,14 +40,14 @@ CREATE TABLE `contact` (
   `type` INT NOT NULL,
   `val` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contact_type`;
 CREATE TABLE `contact_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -57,20 +57,20 @@ CREATE TABLE `user` (
   `organisational_role` VARCHAR(50),
   `avatar` TEXT,
   PRIMARY KEY (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `user_role_mapping`;
 CREATE TABLE `user_role_mapping` (
   `user` VARCHAR(50) NOT NULL,
   `user_role` INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contract`;
 CREATE TABLE `contract` (
@@ -90,7 +90,7 @@ CREATE TABLE `contract` (
   `sick_days` INT NOT NULL,
   `metadata` JSON,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `legal_guardian`;
 CREATE TABLE `legal_guardian` (
@@ -98,7 +98,7 @@ CREATE TABLE `legal_guardian` (
   `contract` INT NOT NULL,
   `address` INT NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE `volunteer` (
@@ -123,7 +123,7 @@ CREATE TABLE `volunteer` (
   `ongoing_legal_proceedings` BOOLEAN,
   `avatar` TEXT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `editing_history`;
 CREATE TABLE `editing_history` (
@@ -135,28 +135,28 @@ CREATE TABLE `editing_history` (
   `field` VARCHAR(50) NOT NULL,
   `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `editing_type`;
 CREATE TABLE `editing_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `volunteer_status`;
 CREATE TABLE `volunteer_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `healt_insurance`;
 CREATE TABLE `healt_insurance` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `religion`;
 CREATE TABLE `religion` (
@@ -164,21 +164,21 @@ CREATE TABLE `religion` (
   `name` VARCHAR(50) NOT NULL,
   `shorthand` VARCHAR(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `school_edu`;
 CREATE TABLE `school_edu` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `vocational_edu`;
 CREATE TABLE `vocational_edu` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contract_modification`;
 CREATE TABLE `contract_modification` (
@@ -190,21 +190,21 @@ CREATE TABLE `contract_modification` (
   `into_force_from` DATE NOT NULL,
   `value` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contract_modification_status`;
 CREATE TABLE `contract_modification_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contract_modification_type`;
 CREATE TABLE `contract_modification_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `salary`;
 CREATE TABLE `salary` (
@@ -219,7 +219,7 @@ CREATE TABLE `salary` (
   `free_of_charge_accommodation` DOUBLE NOT NULL,
   `insurance_contributions` DOUBLE NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `program`;
 CREATE TABLE `program` (
@@ -227,7 +227,7 @@ CREATE TABLE `program` (
   `name` VARCHAR(50) NOT NULL,
   `shorthand` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE country (
@@ -238,7 +238,7 @@ CREATE TABLE country (
   `local_name` VARCHAR(50) COMMENT 'Local variation of the name.',
   `continent` ENUM('Africa', 'Antarctica', 'Asia', 'Europe', 'Oceania', 'North America', 'South America'),
   `nationality` VARCHAR(50) COMMENT 'Nationality in german language.'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Full list of countries.';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT='Full list of countries.';
 
 DROP TABLE IF EXISTS `health_insurance`;
 CREATE TABLE health_insurance (
@@ -247,7 +247,7 @@ CREATE TABLE health_insurance (
   `web` VARCHAR(255) COMMENT 'Webside of Insurance.',
   `fee` DOUBLE NOT NULL COMMENT 'Zusatzbeitrag in Prozent',
   `additional_info` VARCHAR(512) COMMENT 'Geöffnet in'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Full list of german statutory health insurance companies.';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT='Full list of german statutory health insurance companies.';
 
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
@@ -266,7 +266,7 @@ CREATE TABLE `project` (
   `phone` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `contact_person`;
 CREATE TABLE `contact_person` (
@@ -274,14 +274,14 @@ CREATE TABLE `contact_person` (
   `person` INT NOT NULL,
   `project` INT NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `project_role`;
 CREATE TABLE `project_role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `project_role_mapping`;
@@ -299,7 +299,7 @@ CREATE TABLE `volunteer_note` (
   `note` TEXT NOT NULL,
   `user` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `volunteer_document`;
 CREATE TABLE `volunteer_document` (
@@ -312,7 +312,7 @@ CREATE TABLE `volunteer_document` (
   `path` TEXT NOT NULL,
   `user` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `volunteer_document_type`;
 CREATE TABLE `volunteer_document_type` (
@@ -320,7 +320,7 @@ CREATE TABLE `volunteer_document_type` (
   `name` VARCHAR(50) NOT NULL,
   `description` TEXT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ALTER TABLE `user` ADD FOREIGN KEY (`person`) REFERENCES `person` (`id`);
 
