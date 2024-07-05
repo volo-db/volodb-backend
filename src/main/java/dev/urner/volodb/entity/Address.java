@@ -49,7 +49,7 @@ public class Address {
 
   @ManyToOne
   @JoinColumn(name = "country")
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "localName")
   @JsonIdentityReference(alwaysAsId = true)
   private Country country;
 
