@@ -359,7 +359,7 @@ public class VolunteerRestController {
     return contractService.findModifications(volunteerId, contractId);
   }
 
-  @PatchMapping("/{volunteerId}/contracts/{contractId}/sickdays")
+  @PatchMapping("/{volunteerId}/contracts/{contractId}")
   public Contract patchContractSickDays(@PathVariable int volunteerId, @PathVariable int contractId,
       @RequestBody Map<String, Object> fields) {
     return contractService.setSickDays(volunteerId, contractId, fields);
