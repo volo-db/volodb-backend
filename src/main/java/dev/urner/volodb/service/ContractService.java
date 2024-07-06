@@ -2,17 +2,23 @@ package dev.urner.volodb.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.ContractDAO;
 import dev.urner.volodb.dao.ContractModificationDAO;
 import dev.urner.volodb.dao.ContractSalaryDAO;
+import dev.urner.volodb.entity.Address;
 import dev.urner.volodb.entity.Contract;
 import dev.urner.volodb.entity.ContractModification;
+import dev.urner.volodb.entity.Country;
+import dev.urner.volodb.entity.Enums.AddressStatus;
 import dev.urner.volodb.exception.ContractModificationNotFoundException;
 import dev.urner.volodb.exception.ContractNotFoundException;
+import dev.urner.volodb.exception.VolunteerInvalidFormatException;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @Service
 @RequiredArgsConstructor
@@ -117,6 +123,24 @@ public class ContractService {
       }
     }
     return contract;
+  }
+
+  public Contract setSickDays(int volunteerId, int contractId, Map<String, Object> fields) {
+    Contract dbContract = contractDAO.findById(contractId);
+
+    if (dbContract.equals(null) || dbContract.getVolunteer().getId() != volunteerId)
+      throw new VolunteerInvalidFormatException("No Contract with id " + contractId + " for Volunteer.");
+
+    fields.forEach((key, value) -> {
+
+      if (key.toLowerCase().equals("sickdays")) {
+        if (!value.equals(null) && !value.equals("") && Integer.parseInt(value.toString()) >= 0)
+          dbContract.setSickDays(Integer.parseInt(value.toString()));
+      }
+
+    });
+
+    return contractDAO.save(dbContract);
   }
 
 }

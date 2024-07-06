@@ -340,20 +340,28 @@ public class VolunteerRestController {
   // Contracts
   // **********************************
 
-  // GET all contacts BY VoloID
+  // GET all contracts BY VoloID
   @GetMapping("/{volunteerId}/contracts")
   public List<Contract> getAllContractsFromVolo(@PathVariable int volunteerId) {
     return contractService.findAllByVolunteerId(volunteerId);
   }
 
+  // GET relevant contract from volo BY VoloID
   @GetMapping("/{volunteerId}/contracts/relevant")
   public Contract getRelevantContractFromVolo(@PathVariable int volunteerId) {
     return contractService.findRelevantContractByVolunteerId(volunteerId);
   }
 
+  // GET all contract-modifications from BY VoloID and ContractID
   @GetMapping("/{volunteerId}/contracts/{contractId}/modifications")
   public List<ContractModification> getAllContractModsFromVolo(@PathVariable int volunteerId,
       @PathVariable int contractId) {
     return contractService.findModifications(volunteerId, contractId);
+  }
+
+  @PatchMapping("/{volunteerId}/contracts/{contractId}/sickdays")
+  public Contract patchContractSickDays(@PathVariable int volunteerId, @PathVariable int contractId,
+      @RequestBody Map<String, Object> fields) {
+    return contractService.setSickDays(volunteerId, contractId, fields);
   }
 }
