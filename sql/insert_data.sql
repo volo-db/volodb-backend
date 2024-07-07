@@ -428,6 +428,8 @@ VALUES
   (1, 'Edenhofer', 'Martina'),/*___13*/
   (1, 'Goldsmits', 'Mike'),/*______14*/
   (1, 'Mohring', 'Erik');/*________15*/
+  (4, 'Senger', 'Ari');/*__________16*/
+  (4, 'Schubert', 'Jessica');/*____17*/
 
 INSERT INTO country (name, iso2, iso3, local_name, continent, nationality)
 VALUES
@@ -730,6 +732,9 @@ VALUES
   (6, 'wiesinger@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferentin für Freiwilligendienste', 'volodb/default-files/default-avatar.png'),
   (7, 'jakob.bopp@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste', 'volodb/default-files/default-avatar.png'),
   (8, 'urner@donbosco.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'Fachreferent für Freiwilligendienste', 'volodb/default-files/default-avatar.png');
+  (8, 'fabi@volodb.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'VoloDB Entwickler:in', 'volodb/default-files/default-avatar.png');
+  (16, 'ari@volodb.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'VoloDB Entwickler:in', 'volodb/default-files/default-avatar.png');
+  (17, 'jessi@volodb.de', '$2a$12$bvG0ScICxF6gaF4cstczNub7PI79w/o0EIez9dlUoZe70eMP.eaL2', 'VoloDB Entwickler:in', 'volodb/default-files/default-avatar.png');
 
 INSERT INTO user_role (name)
 VALUES
