@@ -32,8 +32,6 @@ import java.lang.System;
 import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/volunteers")
@@ -213,8 +211,9 @@ public class VolunteerRestController {
       @PathVariable int volunteerId,
       @RequestParam MultipartFile document,
       @RequestParam int documentTypeId,
+      @RequestParam String documentName,
       @AuthenticationPrincipal UserPrincipal principal) {
-    return volunteerService.saveDocument(document, documentTypeId, volunteerId, principal.getUsername());
+    return volunteerService.saveDocument(document, documentTypeId, volunteerId, documentName, principal.getUsername());
   }
 
   // **********************************

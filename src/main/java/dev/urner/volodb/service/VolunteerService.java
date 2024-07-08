@@ -259,7 +259,8 @@ public class VolunteerService {
     return dbVolunteer.getAvatar();
   }
 
-  public VolunteerDocument saveDocument(MultipartFile file, int documentTypeId, int volunteerId, String username) {
+  public VolunteerDocument saveDocument(MultipartFile file, int documentTypeId, int volunteerId, String documentName,
+      String username) {
     String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
     String bucket = "volunteer-" + volunteerId;
     String object = "documents/document-" + UUID.randomUUID().toString() + "." + fileExtension;
@@ -271,6 +272,7 @@ public class VolunteerService {
     voloDoc.setSize(file.getSize());
     voloDoc.setUsername(username);
     voloDoc.setPath(bucket + "/" + object);
+    voloDoc.setName(documentName);
 
     fileService.saveFile(file, bucket, object);
     return volunteerDocumentService.save(voloDoc);
