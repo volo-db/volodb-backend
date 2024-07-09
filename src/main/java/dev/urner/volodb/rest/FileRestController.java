@@ -1,6 +1,7 @@
 package dev.urner.volodb.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.urner.volodb.service.FileService;
@@ -28,15 +29,18 @@ public class FileRestController {
 
   @GetMapping("/{bucket}/**")
   public void getTestMethod(@PathVariable("bucket") String bucket, HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
+      HttpServletResponse response, @RequestParam(name = "download", defaultValue = "true") Boolean download)
+      throws IOException {
 
     // Extract object-string from URL
     String object = request.getRequestURI().split(bucket)[1];
 
     InputStream inputStream = fileService.getFile(bucket, object);
 
-    // response.addHeader("Content-disposition", "attachment;filename=" + object);
-    // /* <- force the browser to download the file */
+    // force the browser to download the file
+    if (download)
+      response.addHeader("Content-disposition", "attachment;filename=" + object);
+
     response.setContentType(URLConnection.guessContentTypeFromName(object));
 
     IOUtils.copy(inputStream, response.getOutputStream());
