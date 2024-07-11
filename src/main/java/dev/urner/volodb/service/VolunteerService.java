@@ -4,7 +4,9 @@ import dev.urner.volodb.dao.VolunteerDAO;
 import dev.urner.volodb.entity.Gender;
 import dev.urner.volodb.entity.Volunteer;
 import dev.urner.volodb.entity.VolunteerDocument;
+import dev.urner.volodb.entity.VolunteerDocumentType;
 import dev.urner.volodb.entity.Enums.OngoingLegalProceedingsState;
+import dev.urner.volodb.exception.VolunteerDocumentNotFoundException;
 import dev.urner.volodb.exception.VolunteerInvalidFormatException;
 import dev.urner.volodb.exception.VolunteerNotFoundException;
 
@@ -276,6 +278,46 @@ public class VolunteerService {
 
     fileService.saveFile(file, bucket, object);
     return volunteerDocumentService.save(voloDoc);
+  }
+
+  public VolunteerDocument updateDocument(int documentId, int volunteerId, Map<String, Object> fields) {
+
+    VolunteerDocument dbDocument = volunteerDocumentService.findById(documentId);
+
+    if (dbDocument == null)
+      throw new VolunteerDocumentNotFoundException("Document with Id " + documentId + " not found.");
+
+    fields.forEach((key, value) -> {
+
+      // Name
+      if (key.toLowerCase() == "name") {
+        dbDocument.setName(value.toString());
+      }
+
+      // documentType
+      if (key.toLowerCase().equals("documenttype")) {
+        VolunteerDocumentType dbType = volunteerDocumentTypeService.findById(Integer.parseInt(value.toString()));
+        dbDocument.setDocumentType(dbType);
+      }
+
+    });
+
+    return volunteerDocumentService.save(dbDocument);
+  }
+
+  public String deleteDocument(int documentId, int volunteerId) {
+    VolunteerDocument dbDocument = volunteerDocumentService.findById(documentId);
+
+    if (dbDocument.getVolunteerId() != volunteerId)
+      throw new VolunteerInvalidFormatException("Volunteer do not have a document with this id.");
+
+    String bucket = dbDocument.getPath().split("/")[0];
+    String object = dbDocument.getPath().replace(bucket + "/", "");
+
+    volunteerDocumentService.deleteById(documentId);
+    fileService.deleteFile(bucket, object);
+
+    return "File with Id " + documentId + " deleted.";
   }
 
 }

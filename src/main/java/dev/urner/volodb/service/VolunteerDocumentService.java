@@ -3,15 +3,11 @@ package dev.urner.volodb.service;
 import java.util.Map;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.urner.volodb.dao.VolunteerDocumentDAO;
 import dev.urner.volodb.entity.VolunteerDocument;
-import dev.urner.volodb.entity.VolunteerNote;
-import dev.urner.volodb.exception.ContactTypeNotFoundException;
 import dev.urner.volodb.exception.DocumentNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +48,7 @@ public class VolunteerDocumentService {
 
   @Transactional
   public void deleteById(int documentId) {
-    documentTypeService.deleteById(documentId);
+    volunteerDocumentDAO.deleteById(documentId);
   }
 
   public List<VolunteerDocument> findAllByVolunteerId(int volunteerId, String sortField, boolean descending,
