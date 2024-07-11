@@ -10,6 +10,7 @@ import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -43,6 +44,17 @@ public class FileService {
           .stream(file.getInputStream(), file.getSize(), -1)
           .build());
 
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+
+  public void deleteFile(String bucket, String object) {
+    try {
+      minioClient.removeObject(RemoveObjectArgs.builder()
+          .bucket(bucket)
+          .object(object)
+          .build());
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }

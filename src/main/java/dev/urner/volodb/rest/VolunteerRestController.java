@@ -216,6 +216,12 @@ public class VolunteerRestController {
     return volunteerService.saveDocument(document, documentTypeId, volunteerId, documentName, principal.getUsername());
   }
 
+  @DeleteMapping("/{volunteerId}/documents/{documentId}")
+  public String deleteDocument(@PathVariable int volunteerId, @PathVariable int documentId) {
+
+    return volunteerService.deleteDocument(documentId, volunteerId);
+  }
+
   // **********************************
   // Exceptionhandling:
   // **********************************

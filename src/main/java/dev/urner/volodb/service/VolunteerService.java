@@ -278,4 +278,19 @@ public class VolunteerService {
     return volunteerDocumentService.save(voloDoc);
   }
 
+  public String deleteDocument(int documentId, int volunteerId) {
+    VolunteerDocument dbDocument = volunteerDocumentService.findById(documentId);
+
+    if (dbDocument.getVolunteerId() != volunteerId)
+      throw new VolunteerInvalidFormatException("Volunteer do not have a document with this id.");
+
+    String bucket = dbDocument.getPath().split("/")[0];
+    String object = dbDocument.getPath().replace(bucket + "/", "");
+
+    volunteerDocumentService.deleteById(documentId);
+    fileService.deleteFile(bucket, object);
+
+    return "File with Id " + documentId + " deleted.";
+  }
+
 }
