@@ -48,7 +48,7 @@ public class VolunteerDocumentService {
 
   @Transactional
   public void deleteById(int documentId) {
-    documentTypeService.deleteById(documentId);
+    volunteerDocumentDAO.deleteById(documentId);
   }
 
   public List<VolunteerDocument> findAllByVolunteerId(int volunteerId, String sortField, boolean descending,

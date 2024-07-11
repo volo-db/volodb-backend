@@ -216,6 +216,13 @@ public class VolunteerRestController {
     return volunteerService.saveDocument(document, documentTypeId, volunteerId, documentName, principal.getUsername());
   }
 
+  @PatchMapping("/{volunteerId}/documents/{documentId}")
+  public VolunteerDocument deleteDocument(@PathVariable int volunteerId, @PathVariable int documentId,
+      @RequestBody Map<String, Object> fields) {
+
+    return volunteerService.updateDocument(documentId, volunteerId, fields);
+  }
+
   @DeleteMapping("/{volunteerId}/documents/{documentId}")
   public String deleteDocument(@PathVariable int volunteerId, @PathVariable int documentId) {
 
