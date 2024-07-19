@@ -56,8 +56,3 @@ services:
 networks:
   volodb_network:
     name: volodb_network
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 173.20.0.0/16
-          ip_range: 173.20.0.0/24
