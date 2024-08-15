@@ -61,6 +61,31 @@ public class DocumentRestController {
 
   }
 
+  @PostMapping("")
+  public ResponseEntity<String> createPdf(@RequestBody String htmlContent)
+      throws IOException {
+
+    byte[] pdfBytes = documentService.generatePdfFromHtml(htmlContent);
+
+    // Encode the PDF in Base64
+    String base64Pdf = Base64.getEncoder().encodeToString(pdfBytes);
+
+    // Create HTML with embedded PDF preview
+    String previewHtml = "<html><head>"
+        + "<style>"
+        + ":root { box-sizing: border-box; }"
+        + "body { margin: 0; }"
+        + "embed { width: 100vw; height: 100vh; }"
+        + "</style></head>"
+        + "<body>"
+        + "<embed src='data:application/pdf;base64," + base64Pdf + "'></embed>"
+        + "</body></html>";
+
+    // Return the HTML as a response
+    return new ResponseEntity<>(previewHtml, HttpStatus.OK);
+
+  }
+
   @ExceptionHandler
   public ResponseEntity<VolodbErrorResponse> handleException(RuntimeException exc) {
 
