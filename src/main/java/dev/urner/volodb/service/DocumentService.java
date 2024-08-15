@@ -27,6 +27,8 @@ public class DocumentService {
       browser.close();
 
       return pdfBytes;
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
     }
   }
 
