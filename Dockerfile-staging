@@ -1,4 +1,9 @@
-FROM amazoncorretto:21-alpine-jdk
+FROM mcr.microsoft.com/playwright/java:latest-amd64
+
+WORKDIR /opt
 
 COPY ./target/volodb-0.0.1.jar ./volodb-api.jar
+
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true
+
 CMD ["java","-jar","./volodb-api.jar", "--spring.config.additional-location=classpath:/application-staging.yaml"]
