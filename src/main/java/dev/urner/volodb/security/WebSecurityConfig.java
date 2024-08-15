@@ -49,6 +49,7 @@ public class WebSecurityConfig {
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers("/error").permitAll()
             .requestMatchers("/files/**").permitAll() // TODO: Restrict this route properly
+            .requestMatchers("/documents/**").permitAll() // TODO: Restrict this route properly
             .requestMatchers("/actuator/**").permitAll()
             .anyRequest()
             .authenticated());
