@@ -28,7 +28,7 @@ public class DocumentService {
 
       return pdfBytes;
     } catch (Exception e) {
-      System.err.println(e.getMessage());
+      System.out.println("HILFE: " + e.getMessage().toString());
       return null;
     }
   }
