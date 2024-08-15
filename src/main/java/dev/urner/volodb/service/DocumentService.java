@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 
 @Service
@@ -13,7 +14,7 @@ public class DocumentService {
 
   public byte[] generatePdfFromHtml(String htmlContent) {
     try (Playwright playwright = Playwright.create()) {
-      Browser browser = playwright.chromium().launch();
+      Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
       Page page = browser.newPage();
 
       // Setze den HTML-Inhalt der Seite
