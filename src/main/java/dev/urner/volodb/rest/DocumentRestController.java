@@ -9,13 +9,17 @@ import dev.urner.volodb.service.FileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.util.Base64;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/documents")
 @RequiredArgsConstructor
 public class DocumentRestController {
+
+  private static final Logger logger = LoggerFactory.getLogger(DocumentRestController.class);
 
   private final FileService fileService;
   private final DocumentService documentService;
@@ -62,8 +68,18 @@ public class DocumentRestController {
   }
 
   @PostMapping("")
-  public ResponseEntity<String> createPdf(@RequestBody String htmlContent)
+  public ResponseEntity<String> createPdf(@RequestBody Map<String, Object> data)
       throws IOException {
+
+    String htmlContent = "";
+
+    for (Map.Entry<String, Object> entry : data.entrySet()) {
+      System.out.println(entry.getKey() + ":" + entry.getValue());
+      if (entry.getKey().toLowerCase() == "html") {
+        htmlContent = entry.getValue().toString();
+        logger.info(htmlContent);
+      }
+    }
 
     byte[] pdfBytes = documentService.generatePdfFromHtml(htmlContent);
 
